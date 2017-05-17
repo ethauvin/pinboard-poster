@@ -1,3 +1,4 @@
+import com.beust.kobalt.buildScript
 import com.beust.kobalt.glob
 import com.beust.kobalt.plugin.application.application
 import com.beust.kobalt.plugin.packaging.assemble
@@ -5,12 +6,17 @@ import com.beust.kobalt.plugin.packaging.install
 import com.beust.kobalt.plugin.publish.autoGitTag
 import com.beust.kobalt.plugin.publish.bintray
 import com.beust.kobalt.project
+import net.thauvin.erik.kobalt.plugin.versioneye.versionEye
 import org.apache.maven.model.Developer
 import org.apache.maven.model.License
 import org.apache.maven.model.Model
 import org.apache.maven.model.Scm
 import java.io.FileInputStream
 import java.util.*
+
+val bs = buildScript {
+    plugins("net.thauvin.erik:kobalt-versioneye:")
+}
 
 val p = project {
     name = "pinboard-poster"
@@ -86,5 +92,11 @@ val p = project {
         issueTrackerUrl = "https://github.com/ethauvin/pinboard-poster/issues"
         vcsTag = version
         sign = true
+    }
+
+    versionEye {
+        org = "Thauvin"
+        team = "Owners"
+        pom = true
     }
 }
