@@ -20,5 +20,14 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Kobalt: kobalt-versioneye-0.4.5.jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.kobalt/cache/net/thauvin/erik/kobalt-versioneye/0.4.5/kobalt-versioneye-0.4.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
