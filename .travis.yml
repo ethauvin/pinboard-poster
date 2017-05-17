@@ -1,0 +1,19 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+before_install:
+  - chmod +x kobaltw
+
+install: true
+
+cache:
+  directories:
+    - $HOME/.m2
+    - $HOME/.kobalt
+
+before_cache:
+    - rm -rf .kobalt/*
+
+script: ./kobaltw clean assemble
