@@ -34,10 +34,13 @@ package net.thauvin.erik.pinboard
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.xml.sax.InputSource
+import java.io.StringReader
 import java.net.URL
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
+import javax.xml.parsers.DocumentBuilderFactory
 
 object Constants {
     const val API_ENDPOINT = "https://api.pinboard.in/v1/"
@@ -67,46 +70,17 @@ open class PinboardPoster(val apiToken: String) {
             } else if (description.isBlank()) {
                 logger.log(Level.SEVERE, "Please specify a valid description.")
             } else {
-                val apiUrl = HttpUrl.parse(cleanEndPoint("posts/add"))
-                if (apiUrl != null) {
-                    val httpUrl = apiUrl.newBuilder().apply {
-                        addQueryParameter("url", url)
-                        addQueryParameter("description", description)
-                        if (extended.isNotBlank()) {
-                            addQueryParameter("extended", extended)
-                        }
-                        if (tags.isNotBlank()) {
-                            addQueryParameter("tags", tags)
-                        }
-                        if (dt.isNotBlank()) {
-                            addQueryParameter("dt", dt)
-                        }
-                        if (!replace) {
-                            addQueryParameter("replace", "no")
-                        }
-                        if (!shared) {
-                            addQueryParameter("shared", "no")
-                        }
-                        if (toRead) {
-                            addQueryParameter("toread", "yes")
-                        }
-                        addQueryParameter(Constants.AUTH_TOKEN, apiToken)
-                    }.build()
-
-                    val request = Request.Builder().url(httpUrl).build()
-                    val result = client.newCall(request).execute()
-
-                    logger.log(Level.FINE, "HTTP Result: ${result.code()}")
-
-                    val response = result.body()?.string()
-
-                    if (response != null && response.contains(Constants.DONE)) {
-                        logger.log(Level.FINE, "HTTP Response:\n$response")
-                        return true
-                    }
-                } else {
-                    logger.log(Level.SEVERE, "Invalid API end point: $apiEndPoint")
-                }
+                val params = listOf(
+                        Pair("url", url),
+                        Pair("description", description),
+                        Pair("extended", extended),
+                        Pair("tags", tags),
+                        Pair("dt", dt),
+                        Pair("replace", yesNo(replace)),
+                        Pair("shared", yesNo(shared)),
+                        Pair("toread", yesNo(toRead))
+                )
+                return executeMethod("posts/add", params)
             }
         }
 
@@ -118,31 +92,84 @@ open class PinboardPoster(val apiToken: String) {
             if (!validateUrl(url)) {
                 logger.log(Level.SEVERE, "Please specify a valid URL to delete.")
             } else {
-                val apiUrl = HttpUrl.parse(cleanEndPoint("posts/delete"))
-                if (apiUrl != null) {
-                    val httpUrl = apiUrl.newBuilder().apply {
-                        addQueryParameter("url", url)
-                        addQueryParameter(Constants.AUTH_TOKEN, apiToken)
-                    }.build()
-
-                    val request = Request.Builder().url(httpUrl).build()
-                    val result = client.newCall(request).execute()
-
-                    logger.log(Level.FINE, "HTTP Result: ${result.code()}")
-
-                    val response = result.body()?.string()
-
-                    if (response != null && response.contains(Constants.DONE)) {
-                        logger.log(Level.FINE, "HTTP Response:\n$response")
-                        return true
-                    }
-                } else {
-                    logger.log(Level.SEVERE, "Invalid API end point: $apiEndPoint")
-                }
+                return executeMethod("posts/delete", listOf(Pair("url", url)))
             }
         }
 
         return false
+    }
+
+    private fun executeMethod(method: String, params: List<Pair<String, String>>): Boolean {
+        val apiUrl = HttpUrl.parse(cleanEndPoint(method))
+        if (apiUrl != null) {
+            val httpUrl = apiUrl.newBuilder().apply {
+                params.forEach {
+                    if (it.second.isNotBlank()) {
+                        addQueryParameter(it.first, it.second)
+                    }
+                }
+                addQueryParameter(Constants.AUTH_TOKEN, apiToken)
+            }.build()
+
+            val request = Request.Builder().url(httpUrl).build()
+            val result = client.newCall(request).execute()
+
+            logger.log(Level.FINE, "HTTP Result: ${result.code()}")
+
+            val response = result.body()?.string()
+
+            if (response != null) {
+                logger.log(Level.FINE, "HTTP Response:\n$response")
+                if (response.contains(Constants.DONE)) {
+                    return true
+                } else {
+                    val factory = DocumentBuilderFactory.newInstance().apply {
+                        isValidating = false
+                        isIgnoringElementContentWhitespace = true
+                        isIgnoringComments = true
+                        isCoalescing = false
+                        isNamespaceAware = false
+                    }
+
+                    try {
+                        val document = factory.newDocumentBuilder().parse(InputSource(StringReader(response)))
+
+                        val code = document.getElementsByTagName("result")?.item(0)?.attributes?.getNamedItem("code")?.nodeValue
+
+                        if (code != null && code.isNotBlank()) {
+                            logger.log(Level.SEVERE, "An error has occurred while executing $method: $code")
+                        } else {
+                            logger.log(Level.SEVERE, "An error has occurred while executing $method.")
+                        }
+                    } catch(e: Exception) {
+                        logger.log(Level.SEVERE, "Could not parse $method XML response.", e)
+                    }
+                }
+            }
+        } else {
+            logger.log(Level.SEVERE, "Invalid API end point: $apiEndPoint")
+        }
+
+        return false
+    }
+
+    private fun cleanEndPoint(method: String): String {
+        if (apiEndPoint.endsWith('/')) {
+            return "$apiEndPoint$method"
+        } else {
+            return "$apiEndPoint/$method"
+        }
+    }
+
+    private fun validate(): Boolean {
+        if (apiToken.isBlank() && !apiToken.contains(':')) {
+            logger.log(Level.SEVERE, "Please specify a valid API token. (eg. user:TOKEN)")
+            return false
+        } else if (!validateUrl(apiEndPoint)) {
+            logger.log(Level.SEVERE, "Please specify a valid API end point. (eg. ${Constants.API_ENDPOINT})")
+            return false
+        }
+        return true
     }
 
     private fun validateUrl(url: String): Boolean {
@@ -160,22 +187,11 @@ open class PinboardPoster(val apiToken: String) {
         return true
     }
 
-    private fun validate(): Boolean {
-        if (apiToken.isBlank() && !apiToken.contains(':')) {
-            logger.log(Level.SEVERE, "Please specify a valid API token. (eg. user:TOKEN)")
-            return false
-        } else if (!validateUrl(apiEndPoint)) {
-            logger.log(Level.SEVERE, "Please specify a valid API end point. (eg. ${Constants.API_ENDPOINT})")
-            return false
-        }
-        return true
-    }
-
-    private fun cleanEndPoint(method: String): String {
-        if (apiEndPoint.endsWith('/')) {
-            return "$apiEndPoint$method"
+    private fun yesNo(bool: Boolean): String {
+        if (bool) {
+            return "yes"
         } else {
-            return "$apiEndPoint/$method"
+            return "no"
         }
     }
 }
