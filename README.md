@@ -1,6 +1,6 @@
 # [Pinboard](https://pinboard.in) Poster for Kotlin/Java
 
-[![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause) [![Build Status](https://travis-ci.org/ethauvin/pinboard-poster.svg?branch=master)](https://travis-ci.org/ethauvin/pinboard-poster) [![Dependency Status](https://www.versioneye.com/user/projects/58ff729f6ac171425cd00acf/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58ff729f6ac171425cd00acf) [![Download](https://api.bintray.com/packages/ethauvin/maven/pinboard-poster/images/download.svg) ](https://bintray.com/ethauvin/maven/pinboard-poster/_latestVersion)
+[![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause) [![Build Status](https://travis-ci.org/ethauvin/pinboard-poster.svg?branch=master)](https://travis-ci.org/ethauvin/pinboard-poster) [![Dependency Status](https://www.versioneye.com/user/projects/591c0293b81f680038a784b3/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58ff729f6ac171425cd00acf) [![Download](https://api.bintray.com/packages/ethauvin/maven/pinboard-poster/images/download.svg) ](https://bintray.com/ethauvin/maven/pinboard-poster/_latestVersion)
 
 A small Kotlin/Java library for posting to [Pinboard](https://pinboard.in).
 
