@@ -11,6 +11,7 @@ import org.apache.maven.model.Developer
 import org.apache.maven.model.License
 import org.apache.maven.model.Model
 import org.apache.maven.model.Scm
+import java.io.File
 import java.io.FileInputStream
 import java.util.*
 
@@ -24,7 +25,10 @@ val p = project {
     artifactId = name
     version = "0.9.0"
 
-    val localProperties = Properties().apply { FileInputStream("local.properties").use { fis -> load(fis) } }
+    val localProperties = Properties().apply {
+        val f = "local.properties"
+        if (File(f).exists()) FileInputStream(f).use { fis -> load(fis) }
+    }
     val apiToken = localProperties.getProperty("pinboard-api-token", "")
 
     pom = Model().apply {
@@ -52,8 +56,8 @@ val p = project {
     }
 
     dependenciesTest {
-        compile("org.testng:testng:6.11")
-        compile("org.jetbrains.kotlin:kotlin-test:1.1.2-3")
+        //compile("org.testng:testng:6.11")
+        //compile("org.jetbrains.kotlin:kotlin-test:1.1.2-3")
     }
 
     assemble {
