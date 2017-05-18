@@ -16,7 +16,7 @@ poster.addPin("http://www.example.com/foo", "This is a test")
 poster.deletePin("http:///www.example.com/bar")
 
 ```
-[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/src/main/kotlin/net/thauvin/erik/pinboard/PinboardPoster.kt#L199)
+[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/src/main/kotlin/net/thauvin/erik/pinboard/PinboardPoster.kt#L203)
 
 ### Java
 ```java
