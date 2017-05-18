@@ -16,14 +16,15 @@ import java.io.FileInputStream
 import java.util.*
 
 val bs = buildScript {
-    plugins("net.thauvin.erik:kobalt-versioneye:")
+    plugins("net.thauvin.erik:kobalt-versioneye:", "net.thauvin.erik:kobalt-maven-local:")
 }
 
 val p = project {
     name = "pinboard-poster"
     group = "net.thauvin.erik"
+    description = "Pinboard Poster for Kotlin/Java"
     artifactId = name
-    version = "0.9.0"
+    version = "0.9.1"
 
     val localProperties = Properties().apply {
         val f = "local.properties"

@@ -40,7 +40,7 @@ To install and run from Maven, configure an artifact as follows:
 <dependency>
     <groupId>net.thauvin.erik</groupId>
     <artifactId>pinboard-poster</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.1</version>
 </dependency>
 ```
 
@@ -50,7 +50,7 @@ To install and run from Gradle, add the following to the build.gradle file:
 
 ```gradle
 dependencies {
-    compileOnly 'net.thauvin.erik:pinboard-poster:0.9.0'
+    compileOnly 'net.thauvin.erik:pinboard-poster:0.9.1'
 }
 ```
 
@@ -60,7 +60,7 @@ To install and run from Kobalt, add the following to the Build.kt file:
 
 ```gradle
 dependencies {
-    compile("net.thauvin.erik:pinboard-poster:0.9.0")
+    compile("net.thauvin.erik:pinboard-poster:0.9.1")
 }
 ```
 
@@ -97,12 +97,22 @@ It returns `true` if the bookmark was deleted successfully, `false` otherwise.
 
 The library used [`java.util.logging`](https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html) to log errors. Logging can be configured as follows:
 
+#### Kotlin
 ```kotlin
 with(poster.logger) {
     addHandler(ConsoleHandler().apply { level = Level.FINE })
     level = Level.FINE
 }
 ```
+#### Java
+```java
+final ConsoleHandler consoleHandler = new ConsoleHandler();
+consoleHandler.setLevel(Level.FINE);
+final Logger logger = poster.getLogger();
+logger.addHandler(consoleHandler);
+logger.setLevel(Level.FINE);
+```
+
 
 or using a property file.
 

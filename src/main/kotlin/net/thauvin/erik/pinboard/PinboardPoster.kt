@@ -66,9 +66,9 @@ open class PinboardPoster(val apiToken: String) {
                toRead: Boolean = false): Boolean {
         if (validate()) {
             if (!validateUrl(url)) {
-                logger.log(Level.SEVERE, "Please specify a valid URL to pin.")
+                logger.severe("Please specify a valid URL to pin.")
             } else if (description.isBlank()) {
-                logger.log(Level.SEVERE, "Please specify a valid description.")
+                logger.severe("Please specify a valid description.")
             } else {
                 val params = listOf(
                         Pair("url", url),
@@ -90,7 +90,7 @@ open class PinboardPoster(val apiToken: String) {
     fun deletePin(url: String): Boolean {
         if (validate()) {
             if (!validateUrl(url)) {
-                logger.log(Level.SEVERE, "Please specify a valid URL to delete.")
+                logger.severe("Please specify a valid URL to delete.")
             } else {
                 return executeMethod("posts/delete", listOf(Pair("url", url)))
             }
@@ -114,12 +114,12 @@ open class PinboardPoster(val apiToken: String) {
             val request = Request.Builder().url(httpUrl).build()
             val result = client.newCall(request).execute()
 
-            logger.log(Level.FINE, "HTTP Result: ${result.code()}")
+            logHttp(method, "HTTP Result: ${result.code()}")
 
             val response = result.body()?.string()
 
             if (response != null) {
-                logger.log(Level.FINE, "HTTP Response:\n$response")
+                logHttp(method, "HTTP Response:\n$response")
                 if (response.contains(Constants.DONE)) {
                     return true
                 } else {
@@ -137,9 +137,9 @@ open class PinboardPoster(val apiToken: String) {
                         val code = document.getElementsByTagName("result")?.item(0)?.attributes?.getNamedItem("code")?.nodeValue
 
                         if (code != null && code.isNotBlank()) {
-                            logger.log(Level.SEVERE, "An error has occurred while executing $method: $code")
+                            logger.severe("An error has occurred while executing $method: $code")
                         } else {
-                            logger.log(Level.SEVERE, "An error has occurred while executing $method.")
+                            logger.severe("An error has occurred while executing $method.")
                         }
                     } catch(e: Exception) {
                         logger.log(Level.SEVERE, "Could not parse $method XML response.", e)
@@ -147,7 +147,7 @@ open class PinboardPoster(val apiToken: String) {
                 }
             }
         } else {
-            logger.log(Level.SEVERE, "Invalid API end point: $apiEndPoint")
+            logger.severe("Invalid API end point: $apiEndPoint")
         }
 
         return false
@@ -160,13 +160,17 @@ open class PinboardPoster(val apiToken: String) {
             return "$apiEndPoint/$method"
         }
     }
+    
+    private fun logHttp(method: String, msg: String) {
+        logger.logp(Level.FINE, PinboardPoster::class.java.name, "executeMethod($method)", msg)
+    }
 
     private fun validate(): Boolean {
         if (apiToken.isBlank() && !apiToken.contains(':')) {
-            logger.log(Level.SEVERE, "Please specify a valid API token. (eg. user:TOKEN)")
+            logger.severe("Please specify a valid API token. (eg. user:TOKEN)")
             return false
         } else if (!validateUrl(apiEndPoint)) {
-            logger.log(Level.SEVERE, "Please specify a valid API end point. (eg. ${Constants.API_ENDPOINT})")
+            logger.severe("Please specify a valid API end point. (eg. ${Constants.API_ENDPOINT})")
             return false
         }
         return true

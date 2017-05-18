@@ -4,9 +4,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.thauvin.erik</groupId>
   <artifactId>pinboard-poster</artifactId>
-  <version>0.9.0</version>
+  <version>0.9.1</version>
   <name>pinboard-poster</name>
-  <description></description>
+  <description>Pinboard Poster for Kotlin/Java</description>
   <url>https://github.com/ethauvin/pinboard-poster</url>
   <licenses>
     <license>
