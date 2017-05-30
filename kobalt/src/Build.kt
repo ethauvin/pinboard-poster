@@ -24,7 +24,7 @@ val p = project {
     group = "net.thauvin.erik"
     description = "Pinboard Poster for Kotlin/Java"
     artifactId = name
-    version = "0.9.1"
+    version = "0.9.2"
 
     val localProperties = Properties().apply {
         val f = "local.properties"
@@ -52,7 +52,7 @@ val p = project {
     }
 
     dependencies {
-        compile("org.jetbrains.kotlin:kotlin-stdlib:1.1.2-3")
+        compile("org.jetbrains.kotlin:kotlin-stdlib:1.1.2-4")
         compile("com.squareup.okhttp3:okhttp:3.8.0")
     }
 
