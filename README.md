@@ -50,7 +50,7 @@ To install and run from Gradle, add the following to the build.gradle file:
 
 ```gradle
 dependencies {
-    compileOnly 'net.thauvin.erik:pinboard-poster:0.9.1'
+    compile 'net.thauvin.erik:pinboard-poster:0.9.1'
 }
 ```
 
