@@ -52,8 +52,8 @@ val p = project {
     }
 
     dependencies {
-        compile("org.jetbrains.kotlin:kotlin-stdlib:1.1.2-4")
-        compile("com.squareup.okhttp3:okhttp:3.8.0")
+        compile("org.jetbrains.kotlin:kotlin-stdlib:1.1.51")
+        compile("com.squareup.okhttp3:okhttp:3.9.0")
     }
 
     dependenciesTest {
@@ -87,7 +87,7 @@ val p = project {
 
     autoGitTag {
         enabled = true
-        //push = false
+        push = false
         message = "Version $version"
     }
 
