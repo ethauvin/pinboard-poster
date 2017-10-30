@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+
+    working_directory: ~/repo
+
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - kobalt-dependencies-{{ checksum "kobalt/src/Build.kt" }}
+          # fallback to using the latest cache if no exact match is found
+          - kobalt-dependencies-
+      - run:
+      		name: Assemble
+      		command: ./kobaltw assemble
+      - save_cache:
+          paths: ~/.kobalt
+          key: gradle-dependencies-{{ checksum "kobalt/src/Build.kt" }}
