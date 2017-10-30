@@ -37,5 +37,11 @@
       <artifactId>okhttp</artifactId>
       <version>3.9.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>6.12</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>
