@@ -19,13 +19,13 @@ jobs:
           - kobalt-dependencies-
 
       - run:
-          name: Kobalt Check Versions
-          command: ./kobaltw CheckVersions
+          name: Check Versions
+          command: ./kobaltw checkVersions
 
       - save_cache:
           paths: ~/.kobalt
           key: kobalt-dependencies-{{ checksum "kobalt/src/Build.kt" }}
 
       - run:
-          name: Kobalt Assemble
+          name: Assemble
           command: ./kobaltw assemble
