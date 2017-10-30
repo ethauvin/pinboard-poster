@@ -17,9 +17,11 @@ jobs:
           - kobalt-dependencies-{{ checksum "kobalt/src/Build.kt" }}
           # fallback to using the latest cache if no exact match is found
           - kobalt-dependencies-
+
       - run:
-      		name: Assemble
-      		command: ./kobaltw assemble
+          name: Kobalt Assemble
+          command: ./kobaltw assemble
+
       - save_cache:
           paths: ~/.kobalt
-          key: gradle-dependencies-{{ checksum "kobalt/src/Build.kt" }}
+          key: kobalt-dependencies-{{ checksum "kobalt/src/Build.kt" }}
