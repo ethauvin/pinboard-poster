@@ -166,7 +166,7 @@ open class PinboardPoster(var apiToken: String) {
     }
 
     private fun validate(): Boolean {
-        if (apiToken.isBlank() && !apiToken.contains(':')) {
+        if (apiToken.isBlank() || !apiToken.contains(':')) {
             logger.severe("Please specify a valid API token. (eg. user:TOKEN)")
             return false
         } else if (!validateUrl(apiEndPoint)) {
