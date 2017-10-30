@@ -192,10 +192,10 @@ open class PinboardPoster(var apiToken: String) {
     }
 
     private fun yesNo(bool: Boolean): String {
-        if (bool) {
-            return "yes"
+        return if (bool) {
+            "yes"
         } else {
-            return "no"
+            "no"
         }
     }
 }
