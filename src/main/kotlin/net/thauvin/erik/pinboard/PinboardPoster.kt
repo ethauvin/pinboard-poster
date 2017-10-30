@@ -210,7 +210,7 @@ fun main(args: Array<String>) {
             level = Level.FINE
         }
 
-        if (poster.addPin(url, "Testing", "Extended test", "test koltin")) {
+        if (poster.addPin(url, "Testing", "Extended test", "test kotlin")) {
             println("Added: $url")
         }
 

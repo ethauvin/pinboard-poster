@@ -36,7 +36,7 @@ public class JavaExample {
         final String url = "http://www.example.com/pinboard";
         final PinboardPoster poster = new PinboardPoster(args[0]);
 
-        if (poster.addPin(url, "Testing", "Extended test", "test koltin")) {
+        if (poster.addPin(url, "Testing", "Extended test", "test kotlin")) {
             System.out.println("Added: " + url);
         }
 
