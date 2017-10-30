@@ -48,7 +48,7 @@ object Constants {
     const val DONE = "done"
 }
 
-open class PinboardPoster(val apiToken: String) {
+open class PinboardPoster(var apiToken: String) {
     var apiEndPoint: String = Constants.API_ENDPOINT
 
     val logger: Logger by lazy { Logger.getLogger(PinboardPoster::class.java.simpleName) }
@@ -141,7 +141,7 @@ open class PinboardPoster(val apiToken: String) {
                         } else {
                             logger.severe("An error has occurred while executing $method.")
                         }
-                    } catch(e: Exception) {
+                    } catch (e: Exception) {
                         logger.log(Level.SEVERE, "Could not parse $method XML response.", e)
                     }
                 }
@@ -154,13 +154,13 @@ open class PinboardPoster(val apiToken: String) {
     }
 
     private fun cleanEndPoint(method: String): String {
-        if (apiEndPoint.endsWith('/')) {
-            return "$apiEndPoint$method"
+        return if (apiEndPoint.endsWith('/')) {
+            "$apiEndPoint$method"
         } else {
-            return "$apiEndPoint/$method"
+            "$apiEndPoint/$method"
         }
     }
-    
+
     private fun logHttp(method: String, msg: String) {
         logger.logp(Level.FINE, PinboardPoster::class.java.name, "executeMethod($method)", msg)
     }
@@ -183,7 +183,7 @@ open class PinboardPoster(val apiToken: String) {
 
         try {
             URL(url)
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             logger.log(Level.FINE, "Invalid URL: $url", e)
             return false
         }
