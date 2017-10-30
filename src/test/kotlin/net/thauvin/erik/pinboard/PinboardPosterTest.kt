@@ -48,7 +48,8 @@ class PinboardPosterTest {
 
         Assert.assertFalse(poster.addPin(url, desc), "apiToken: <blank>")
 
-        Assert.assertFalse(poster.addPin(url, desc), "apiToken: <blank>")
+        poster.apiToken = "foo"
+        Assert.assertFalse(poster.addPin(url, desc), "apiToken: ${poster.apiToken}")
 
         //poster.apiToken = "foo:TESTING"
         //Assert.assertFalse(poster.addPin(url, desc), "apiToken: ${poster.apiToken}")
