@@ -33,23 +33,22 @@ package net.thauvin.erik.pinboard
 
 import org.testng.Assert
 import org.testng.annotations.Test
-import java.io.FileInputStream
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.Properties
+import java.util.*
 
 class PinboardPosterTest {
     private val url = "http://www.foo.com/"
     private val desc = "This is a test."
-	private val localProps = Paths.get("local.properties")
-	private val apiToken = if (Files.exists(localProps)) {
-            val p = Properties().apply { Files.newInputStream(localProps).use { fis -> load(fis) }}
-		    p.getProperty("pinboard-api-token", "")
-        } else {
-			System.getenv("PINBOARD_API_TOKEN")
-        }
- 
-    @Test    
+    private val localProps = Paths.get("local.properties")
+    private val apiToken = if (Files.exists(localProps)) {
+        val p = Properties().apply { Files.newInputStream(localProps).use { fis -> load(fis) } }
+        p.getProperty("pinboard-api-token", "")
+    } else {
+        System.getenv("PINBOARD_API_TOKEN")
+    }
+
+    @Test
     fun testAddPin() {
         val poster = PinboardPoster("")
 
