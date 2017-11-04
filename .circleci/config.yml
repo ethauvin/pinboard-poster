@@ -27,5 +27,11 @@ jobs:
           key: kobalt-dependencies-{{ checksum "kobalt/src/Build.kt" }}
 
       - run:
-          name: Assemble
-          command: ./kobaltw assemble
+          name: Assemble & Test
+          command: ./kobaltw assemble test
+
+      - store_artifacts:
+          path: kobaltBuild/test-output/
+          destination: test-output
+      - store_test_results:
+          path: kobaltBuild/test-output/
