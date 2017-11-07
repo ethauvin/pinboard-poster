@@ -16,4 +16,4 @@ cache:
 before_cache:
     - rm -rf .kobalt/*
 
-script: ./kobaltw clean assemble
+script: ./kobaltw clean assemble test
