@@ -41,7 +41,7 @@ To install and run from Maven, configure an artifact as follows:
 <dependency>
     <groupId>net.thauvin.erik</groupId>
     <artifactId>pinboard-poster</artifactId>
-    <version>0.9.1</version>
+    <version>0.9.2</version>
 </dependency>
 ```
 
@@ -51,7 +51,7 @@ To install and run from Gradle, add the following to the build.gradle file:
 
 ```gradle
 dependencies {
-    compile 'net.thauvin.erik:pinboard-poster:0.9.1'
+    compile 'net.thauvin.erik:pinboard-poster:0.9.2'
 }
 ```
 
@@ -61,7 +61,7 @@ To install and run from Kobalt, add the following to the Build.kt file:
 
 ```gradle
 dependencies {
-    compile("net.thauvin.erik:pinboard-poster:0.9.1")
+    compile("net.thauvin.erik:pinboard-poster:0.9.2")
 }
 ```
 
