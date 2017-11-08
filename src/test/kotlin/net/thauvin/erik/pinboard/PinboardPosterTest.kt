@@ -41,16 +41,10 @@ class PinboardPosterTest {
     private val url = "http://www.foo.com/"
     private val desc = "This is a test."
     private val localProps = Paths.get("local.properties")
-    private val apiToken = if (Files.exists(localProps)) {
-        val p = Properties().apply { Files.newInputStream(localProps).use { fis -> load(fis) } }
-        p.getProperty("pinboard-api-token", "")
-    } else {
-        System.getenv("PINBOARD_API_TOKEN")
-    }
 
     @Test
     fun testAddPin() {
-        val poster = PinboardPoster("")
+        var poster = PinboardPoster("")
 
         Assert.assertFalse(poster.addPin(url, desc), "apiToken: <blank>")
 
@@ -60,13 +54,13 @@ class PinboardPosterTest {
         //poster.apiToken = "foo:TESTING"
         //Assert.assertFalse(poster.addPin(url, desc), "apiToken: ${poster.apiToken}")
 
-        poster.apiToken = apiToken
-        Assert.assertTrue(poster.addPin(url, desc), "apiToken: $apiToken")
+        poster = pinboardPosterInstance()
+        Assert.assertTrue(poster.addPin(url, desc), "apiToken: ${Constants.ENV_API_TOKEN}")
     }
 
     @Test
     fun testDeletePin() {
-        val poster = PinboardPoster(apiToken)
+        val poster = pinboardPosterInstance()
 
         poster.apiEndPoint = ""
         Assert.assertFalse(poster.deletePin(url), "apiEndPoint: <blank>")
@@ -75,5 +69,13 @@ class PinboardPosterTest {
         Assert.assertTrue(poster.deletePin(url), "apiEndPoint: ${Constants.API_ENDPOINT}")
 
         Assert.assertFalse(poster.deletePin("foo.com"), "url: foo.com")
+    }
+
+    private fun pinboardPosterInstance(): PinboardPoster {
+        return if (Files.exists(localProps)) {
+            PinboardPoster(Properties().apply { Files.newInputStream(localProps).use { fis -> load(fis) } })
+        } else {
+            PinboardPoster()
+        }
     }
 }

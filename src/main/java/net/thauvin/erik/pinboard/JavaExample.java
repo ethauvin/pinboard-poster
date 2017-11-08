@@ -31,15 +31,52 @@
  */
 package net.thauvin.erik.pinboard;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Properties;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class JavaExample {
     public static void main(String[] args) {
         final String url = "http://www.example.com/pinboard";
-        final PinboardPoster poster = new PinboardPoster(args[0]);
+        final Path properties = Paths.get("local.properties");
+        final PinboardPoster poster;
 
+        if (args.length == 1) {
+            // API Token is an argument
+            poster = new PinboardPoster(args[0]);
+        } else if (Files.exists(properties)) {
+            // API Token is in local.properties (PINBOARD_API_TOKEN)
+            final Properties p = new Properties();
+            try (final InputStream stream = Files.newInputStream(properties)) {
+                p.load(stream);
+            } catch (IOException ignore) {
+                ;
+            }
+            poster = new PinboardPoster(p);
+        } else {
+            // API Token is an environment variable (PINBOARD_API_TOKEN) or empty
+            poster = new PinboardPoster();
+        }
+
+        // Set logging levels
+        final ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setLevel(Level.FINE);
+        final Logger logger = poster.getLogger();
+        logger.addHandler(consoleHandler);
+        logger.setLevel(Level.FINE);
+
+        // Add Pin
         if (poster.addPin(url, "Testing", "Extended test", "test kotlin")) {
             System.out.println("Added: " + url);
         }
 
+        // Delete Pin
         if (poster.deletePin(url)) {
             System.out.println("Deleted: " + url);
         }

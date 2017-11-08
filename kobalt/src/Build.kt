@@ -11,9 +11,6 @@ import org.apache.maven.model.Developer
 import org.apache.maven.model.License
 import org.apache.maven.model.Model
 import org.apache.maven.model.Scm
-import java.io.File
-import java.io.FileInputStream
-import java.util.*
 
 val bs = buildScript {
     plugins("net.thauvin.erik:kobalt-versioneye:", "net.thauvin.erik:kobalt-maven-local:")
@@ -25,12 +22,6 @@ val p = project {
     description = "Pinboard Poster for Kotlin/Java"
     artifactId = name
     version = "0.9.2"
-
-    val localProperties = Properties().apply {
-        val f = "local.properties"
-        if (File(f).exists()) FileInputStream(f).use { fis -> load(fis) }
-    }
-    val apiToken = localProperties.getProperty("pinboard-api-token", "")
 
     pom = Model().apply {
         description = project.description
@@ -67,13 +58,13 @@ val p = project {
 
     application {
         mainClass = "net.thauvin.erik.pinboard.PinboardPosterKt"
-        args(apiToken)
+        ignoreErrorStream = true
     }
 
     application {
         taskName = "runJava"
         mainClass = "net.thauvin.erik.pinboard.JavaExample"
-        args(apiToken)
+        ignoreErrorStream = true
     }
 
     install {

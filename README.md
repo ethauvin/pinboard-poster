@@ -17,7 +17,7 @@ poster.addPin("http://www.example.com/foo", "This is a test")
 poster.deletePin("http:///www.example.com/bar")
 
 ```
-[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/src/main/kotlin/net/thauvin/erik/pinboard/PinboardPoster.kt#L203)
+[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/src/main/kotlin/net/thauvin/erik/pinboard/PinboardPoster.kt#L219)
 
 ### Java
 ```java
@@ -115,6 +115,46 @@ logger.setLevel(Level.FINE);
 ```
 
 or using a logging properties file.
+
+## API Authentication Token
+
+The token can also be located in a [properties file](https://en.wikipedia.org/wiki/.properties) or environment variable.
+
+### Local Property
+
+For example, using the default `PINBOARD_API_TOKEN` key value from a `local.properties` file:
+
+```ini
+# local.properties
+PINBOARD_API_TOKEN=user\:TOKEN
+```
+
+```kotlin
+val poster = PinboardPoster(Paths.get("local.properties"))
+```
+
+To specify your own key:
+
+```ini
+# my.properties
+my.api.key=user\:TOKEN
+```
+
+```kotlin
+val poster = PinboardPoster(Paths.get("my.properties"), "my.api.key")
+```
+
+### Environment Variable
+
+If no arguments are passed to the constructor, the `PINBOARD_API_TOKEN` environment variable will be used, if any.
+
+```sh
+export PINBOARD_API_TOKEN="user:TOKEN"
+```
+
+```kotlin
+val poster = PinboardPoster()
+```
 
 ## API End Point
 

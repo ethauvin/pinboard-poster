@@ -31,12 +31,16 @@
  */
 package net.thauvin.erik.pinboard
 
+import net.thauvin.erik.pinboard.Constants.ENV_API_TOKEN
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.xml.sax.InputSource
 import java.io.StringReader
 import java.net.URL
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.*
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -46,9 +50,21 @@ object Constants {
     const val API_ENDPOINT = "https://api.pinboard.in/v1/"
     const val AUTH_TOKEN = "auth_token"
     const val DONE = "done"
+    const val ENV_API_TOKEN = "PINBOARD_API_TOKEN"
 }
 
-open class PinboardPoster(var apiToken: String) {
+open class PinboardPoster() {
+    constructor(apiToken: String) : this() {
+        this.apiToken = apiToken
+    }
+
+    @JvmOverloads
+    constructor(properties: Properties, key: String = ENV_API_TOKEN) : this() {
+        this.apiToken = properties.getProperty(key, "")
+    }
+
+    var apiToken: String = if (System.getenv(ENV_API_TOKEN).isNullOrBlank()) "" else System.getenv(ENV_API_TOKEN)
+
     var apiEndPoint: String = Constants.API_ENDPOINT
 
     val logger: Logger by lazy { Logger.getLogger(PinboardPoster::class.java.simpleName) }
@@ -201,23 +217,37 @@ open class PinboardPoster(var apiToken: String) {
 }
 
 fun main(args: Array<String>) {
-    if (args.size == 1) {
-        val url = "http://www.example.com/pinboard"
-        val poster = PinboardPoster(args[0])
+    val url = "http://www.example.com/pinboard"
+    val properties = Paths.get("local.properties")
+    val poster = when {
+        args.size == 1 ->
+            // API Token is an argument
+            PinboardPoster(args[0])
+        Files.exists(properties) ->
+            // API Token is in a local.properties (PINBOARD_API_TOKEN)
+            PinboardPoster(
+                    Properties().apply {
+                        Files.newInputStream(properties).use { fis -> load(fis) }
+                    }.getProperty(ENV_API_TOKEN, "")
+            )
+        else ->
+            // API Token is an environment variable (PINBOARD_API_TOKEN) or empty;
+            PinboardPoster()
+    }
 
-        with(poster.logger) {
-            addHandler(ConsoleHandler().apply { level = Level.FINE })
-            level = Level.FINE
-        }
+    // Set logging levels
+    with(poster.logger) {
+        addHandler(ConsoleHandler().apply { level = Level.FINE })
+        level = Level.FINE
+    }
 
-        if (poster.addPin(url, "Testing", "Extended test", "test kotlin")) {
-            println("Added: $url")
-        }
+    // Add Pin
+    if (poster.addPin(url, "Testing", "Extended test", "test kotlin")) {
+        println("Added: $url")
+    }
 
-        if (poster.deletePin(url)) {
-            println("Deleted: $url")
-        }
-    } else {
-        println("Please specify a valid API token. (eg. user:TOKEN)")
+    // Delete Pin
+    if (poster.deletePin(url)) {
+        println("Deleted: $url")
     }
 }
