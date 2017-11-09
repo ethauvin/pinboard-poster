@@ -130,7 +130,11 @@ PINBOARD_API_TOKEN=user\:TOKEN
 ```
 
 ```kotlin
-val poster = PinboardPoster(Paths.get("local.properties"))
+val properties = Properties().apply { 
+    Files.newInputStream(Paths.get("local.properties")).use { fis -> load(fis) }
+}
+
+val poster = PinboardPoster(properties)
 ```
 
 To specify your own key:
@@ -141,7 +145,8 @@ my.api.key=user\:TOKEN
 ```
 
 ```kotlin
-val poster = PinboardPoster(Paths.get("my.properties"), "my.api.key")
+val properties = Properties().apply { FileInputStream("my.properties").use { fis -> load(fis) } }
+val poster = PinboardPoster(properties, "my.api.key")
 ```
 
 ### Environment Variable
