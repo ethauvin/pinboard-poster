@@ -17,7 +17,7 @@ poster.addPin("http://www.example.com/foo", "This is a test")
 poster.deletePin("http:///www.example.com/bar")
 
 ```
-[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/src/main/kotlin/net/thauvin/erik/pinboard/PinboardPoster.kt#L219)
+[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/src/main/kotlin/net/thauvin/erik/pinboard/PinboardPoster.kt#L232)
 
 ### Java
 ```java
@@ -27,7 +27,7 @@ final PinboardPoster poster = new PinBboardPoster("user:TOKEN");
 poster.addPin("http://www.example.com/foo", "This is a test");
 poster.deletePin("http:///www.example.com/bar");
 ```
-[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/src/main/java/net/thauvin/erik/pinboard/JavaExample.java)
+[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/src/main/java/net/thauvin/erik/pinboard/JavaExample.java#L40)
 
 Your API authentication token is available on the [Pinboard settings page](https://pinboard.in/settings/password).
 
