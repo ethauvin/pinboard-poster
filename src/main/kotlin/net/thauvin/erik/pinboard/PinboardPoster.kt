@@ -39,6 +39,7 @@ import org.xml.sax.InputSource
 import java.io.StringReader
 import java.net.URL
 import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.*
 import java.util.logging.ConsoleHandler
@@ -58,9 +59,21 @@ open class PinboardPoster() {
         this.apiToken = apiToken
     }
 
+    @Suppress("unused")
     @JvmOverloads
     constructor(properties: Properties, key: String = ENV_API_TOKEN) : this() {
-        this.apiToken = properties.getProperty(key, "")
+        apiToken = properties.getProperty(key, apiToken)
+    }
+
+    @JvmOverloads
+    constructor(propertiesFilePath: Path, key: String = ENV_API_TOKEN) : this() {
+        if (Files.exists(propertiesFilePath)) {
+            apiToken = Properties().apply {
+                Files.newInputStream(propertiesFilePath).use { nis ->
+                    load(nis)
+                }
+            }.getProperty(key, apiToken)
+        }
     }
 
     var apiToken: String = if (System.getenv(ENV_API_TOKEN).isNullOrBlank()) "" else System.getenv(ENV_API_TOKEN)
@@ -218,21 +231,14 @@ open class PinboardPoster() {
 
 fun main(args: Array<String>) {
     val url = "http://www.example.com/pinboard"
-    val properties = Paths.get("local.properties")
-    val poster = when {
-        args.size == 1 ->
-            // API Token is an argument
-            PinboardPoster(args[0])
-        Files.exists(properties) ->
-            // API Token is in a local.properties (PINBOARD_API_TOKEN)
-            PinboardPoster(
-                    Properties().apply {
-                        Files.newInputStream(properties).use { fis -> load(fis) }
-                    }
-            )
-        else ->
-            // API Token is an environment variable (PINBOARD_API_TOKEN) or empty;
-            PinboardPoster()
+    val localProp = Paths.get("local.properties")
+
+    val poster = if (args.size == 1) {
+        // API Token is an argument
+        PinboardPoster(args[0])
+    } else {
+        // API Token is in local.properties or PINBOARD_API_TOKEN environment variable
+        PinboardPoster(localProp)
     }
 
     // Set logging levels
