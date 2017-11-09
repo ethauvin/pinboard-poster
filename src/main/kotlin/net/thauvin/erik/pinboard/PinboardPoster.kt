@@ -228,7 +228,7 @@ fun main(args: Array<String>) {
             PinboardPoster(
                     Properties().apply {
                         Files.newInputStream(properties).use { fis -> load(fis) }
-                    }.getProperty(ENV_API_TOKEN, "")
+                    }
             )
         else ->
             // API Token is an environment variable (PINBOARD_API_TOKEN) or empty;
