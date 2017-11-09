@@ -21,7 +21,7 @@ val p = project {
     group = "net.thauvin.erik"
     description = "Pinboard Poster for Kotlin/Java"
     artifactId = name
-    version = "0.9.2"
+    version = "0.9.3"
 
     pom = Model().apply {
         description = project.description

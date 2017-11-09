@@ -41,7 +41,7 @@ To install and run from Maven, configure an artifact as follows:
 <dependency>
     <groupId>net.thauvin.erik</groupId>
     <artifactId>pinboard-poster</artifactId>
-    <version>0.9.2</version>
+    <version>0.9.3</version>
 </dependency>
 ```
 
@@ -51,7 +51,7 @@ To install and run from Gradle, add the following to the build.gradle file:
 
 ```gradle
 dependencies {
-    compile 'net.thauvin.erik:pinboard-poster:0.9.2'
+    compile 'net.thauvin.erik:pinboard-poster:0.9.3'
 }
 ```
 
@@ -61,7 +61,7 @@ To install and run from Kobalt, add the following to the Build.kt file:
 
 ```gradle
 dependencies {
-    compile("net.thauvin.erik:pinboard-poster:0.9.2")
+    compile("net.thauvin.erik:pinboard-poster:0.9.3")
 }
 ```
 
@@ -130,14 +130,10 @@ PINBOARD_API_TOKEN=user\:TOKEN
 ```
 
 ```kotlin
-val properties = Properties().apply { 
-    Files.newInputStream(Paths.get("local.properties")).use { fis -> load(fis) }
-}
-
-val poster = PinboardPoster(properties)
+val poster = PinboardPoster(Paths.get("local.properties"))
 ```
 
-To specify your own key:
+or by specifying your own key:
 
 ```ini
 # my.properties
@@ -145,13 +141,23 @@ my.api.key=user\:TOKEN
 ```
 
 ```kotlin
-val properties = Properties().apply { FileInputStream("my.properties").use { fis -> load(fis) } }
-val poster = PinboardPoster(properties, "my.api.key")
+val poster = PinboardPoster(Paths.get("my.properties"), "my.api.key")
 ```
+
+or even specifying your own property:
+
+```kotlin
+val p = Properties()
+p.setProperty("api.key", "user:TOKEN")
+
+val poster = PinboardPoster(p, "api.key")
+```
+
+_In all cases, the value of the `PINBOARD_API_TOKEN` environment variable is used by default if the specified property is invalid or not found._
 
 ### Environment Variable
 
-If no arguments are passed to the constructor, the `PINBOARD_API_TOKEN` environment variable will be used, if any.
+If no arguments are passed to the constructor, the value of the `PINBOARD_API_TOKEN` environment variable will be used, if any.
 
 ```sh
 export PINBOARD_API_TOKEN="user:TOKEN"
