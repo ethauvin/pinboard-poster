@@ -6,14 +6,14 @@ import com.beust.kobalt.plugin.packaging.install
 import com.beust.kobalt.plugin.publish.autoGitTag
 import com.beust.kobalt.plugin.publish.bintray
 import com.beust.kobalt.project
-import net.thauvin.erik.kobalt.plugin.versioneye.versionEye
+import net.thauvin.erik.kobalt.plugin.pom2xml.pom2xml
 import org.apache.maven.model.Developer
 import org.apache.maven.model.License
 import org.apache.maven.model.Model
 import org.apache.maven.model.Scm
 
 val bs = buildScript {
-    plugins("net.thauvin.erik:kobalt-versioneye:", "net.thauvin.erik:kobalt-maven-local:")
+    plugins("net.thauvin.erik:kobalt-pom2xml:", "net.thauvin.erik:kobalt-maven-local:")
 }
 
 val p = project {
@@ -43,8 +43,8 @@ val p = project {
     }
 
     dependencies {
-        compile("org.jetbrains.kotlin:kotlin-stdlib:1.1.51")
-        compile("com.squareup.okhttp3:okhttp:3.9.0")
+        compile("org.jetbrains.kotlin:kotlin-stdlib:1.2.10")
+        compile("com.squareup.okhttp3:okhttp:3.9.1")
     }
 
     dependenciesTest {
@@ -89,9 +89,7 @@ val p = project {
         sign = true
     }
 
-    versionEye {
-        org = "Thauvin"
-        team = "Owners"
-        pom = true
+    pom2xml {
+
     }
 }
