@@ -1,7 +1,7 @@
 /*
  * PinboardPoster.kt
  *
- * Copyright (c) 2017, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2017-2018, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,7 @@ import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.xml.sax.InputSource
+import java.io.File
 import java.io.StringReader
 import java.net.URL
 import java.nio.file.Files
@@ -75,6 +76,10 @@ open class PinboardPoster() {
             }.getProperty(key, apiToken)
         }
     }
+
+    @Suppress("unused")
+    @JvmOverloads
+    constructor(propertyFile: File, key: String = ENV_API_TOKEN) : this(propertyFile.toPath(), key)
 
     var apiToken: String = if (System.getenv(ENV_API_TOKEN).isNullOrBlank()) "" else System.getenv(ENV_API_TOKEN)
 
