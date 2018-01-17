@@ -1,6 +1,8 @@
 import com.beust.kobalt.buildScript
 import com.beust.kobalt.glob
 import com.beust.kobalt.plugin.application.application
+import com.beust.kobalt.plugin.java.javaCompiler
+import com.beust.kobalt.plugin.kotlin.kotlinCompiler
 import com.beust.kobalt.plugin.packaging.assemble
 import com.beust.kobalt.plugin.packaging.install
 import com.beust.kobalt.plugin.publish.autoGitTag
@@ -54,6 +56,14 @@ val p = project {
     assemble {
         jar { }
         mavenJars { }
+    }
+
+    javaCompiler {
+        //args("-source", "1.8", "-target", "1.8")
+    }
+
+    kotlinCompiler {
+        //args("-source", "1.8")
     }
 
     application {
