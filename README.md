@@ -66,6 +66,7 @@ dependencies {
     compile("net.thauvin.erik:pinboard-poster:0.9.3")
 }
 ```
+[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/koltin/kobalt/src/Build.kt)
 
 ## Adding
 
