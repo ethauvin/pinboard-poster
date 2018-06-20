@@ -5,7 +5,7 @@ plugins {
     kotlin("jvm") version "1.2.50"
 }
 
-defaultTasks("run")
+defaultTasks(ApplicationPlugin.TASK_RUN_NAME)
 
 dependencies {
     compile("net.thauvin.erik:pinboard-poster:0.9.3")
