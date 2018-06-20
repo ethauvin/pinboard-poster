@@ -109,6 +109,7 @@ tasks {
         commandLine("git", "tag", "-a", project.version, "-m", "Version ${project.version}")
     }
 
+
     val publicationName = "mavenJava"
     publishing {
         (publications) {
@@ -144,6 +145,16 @@ tasks {
         }
     }
 
+    val generatePom by creating {
+        description = "Generates pom.xml for snyk."
+        group = PublishingPlugin.PUBLISH_TASK_GROUP
+        dependsOn("generatePomFileForMavenJavaPublication")
+        val pom = File("build/publications/$publicationName/pom-default.xml")
+        if (pom.exists()) {
+            pom.copyTo(File("pom.xml"), true)
+        }
+    }
+
     fun findProperty(s: String) = project.findProperty(s) as String?
     bintray {
         user = findProperty("bintrayUser")
@@ -175,6 +186,6 @@ tasks {
     }
 
     "release" {
-        dependsOn(gitTag, bintrayUpload)
+        dependsOn(generatePom, gitTag, bintrayUpload)
     }
 }
