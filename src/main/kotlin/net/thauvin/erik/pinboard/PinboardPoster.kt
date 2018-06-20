@@ -61,7 +61,7 @@ object Constants {
  */
 open class PinboardPoster() {
     /**
-     * Initialize from a API token.
+     * Initialize from an API token.
      *
      * @param apiToken The API token.
      */
