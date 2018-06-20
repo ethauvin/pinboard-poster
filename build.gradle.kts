@@ -19,7 +19,7 @@ group = "net.thauvin.erik"
 version = "0.9.3"
 description = "Pinboard Poster for Kotlin/Java"
 
-val mavenUrl = "https://github.com/ethauvin/pinboard-poster"
+val mavenUrl = "https://github.com/ethauvin/$name"
 val deployDir = "deploy"
 
 dependencies {
@@ -77,13 +77,6 @@ tasks {
         group = JavaBasePlugin.DOCUMENTATION_GROUP
     }
 
-    "runJava"(JavaExec::class) {
-        description = "Run this project as a Java application."
-        group = ApplicationPlugin.APPLICATION_GROUP
-        main = "net.thauvin.erik.pinboard.example.JavaExample"
-        classpath = java.sourceSets["main"].runtimeClasspath
-    }
-
     "assemble" {
         dependsOn(sourcesJar, javadocJar)
     }
@@ -118,25 +111,25 @@ tasks {
                 artifact(sourcesJar)
                 artifact(javadocJar)
                 pom.withXml {
-                    asNode().let { root ->
-                        root.appendNode("name", project.name)
-                        root.appendNode("description", project.description)
-                        root.appendNode("url", mavenUrl)
+                    asNode().apply {
+                        appendNode("name", project.name)
+                        appendNode("description", project.description)
+                        appendNode("url", mavenUrl)
 
-                        root.appendNode("licenses").appendNode("license").apply {
+                        appendNode("licenses").appendNode("license").apply {
                             appendNode("name", "BSD 3-Clause")
                             appendNode("url", "https://opensource.org/licenses/BSD-3-Clause")
                         }
 
-                        root.appendNode("developers").appendNode("developer").apply {
+                        appendNode("developers").appendNode("developer").apply {
                             appendNode("id", "ethauvin")
                             appendNode("name", "Erik C. Thauvin")
                             appendNode("email", "erik@thauvin.net")
                         }
 
-                        root.appendNode("scm").apply {
+                        appendNode("scm").apply {
                             appendNode("connection", "$mavenUrl.git")
-                            appendNode("developerConnection", "git@github.com:ethauvin/pinboard-poster.git")
+                            appendNode("developerConnection", "git@github.com:ethauvin/${project.name}.git")
                             appendNode("url", mavenUrl)
                         }
                     }
@@ -167,9 +160,11 @@ tasks {
             desc = description
             websiteUrl = mavenUrl
             issueTrackerUrl = "$mavenUrl/issues"
-            githubRepo = "ethauvin/pinboard-poster"
-            vcsUrl = mavenUrl
+            githubRepo = "ethauvin/${project.name}"
+            githubReleaseNotesFile = "README.md"
+            vcsUrl = "$mavenUrl.git"
             setLabels("kotlin", "java", "pinboard", "poster", "bookmarks")
+            publicDownloadNumbers = true
             version.apply {
                 name = project.version as String
                 desc = description
@@ -186,6 +181,6 @@ tasks {
     }
 
     "release" {
-        dependsOn(generatePom, gitTag, bintrayUpload)
+        dependsOn(generatePom, bintrayUpload, "publishToMavenLocal")
     }
 }
