@@ -45,12 +45,12 @@ val p = project {
     }
 
     dependencies {
-        compile("org.jetbrains.kotlin:kotlin-stdlib:1.2.10")
-        compile("com.squareup.okhttp3:okhttp:3.9.1")
+        compile("org.jetbrains.kotlin:kotlin-stdlib:1.2.50")
+        compile("com.squareup.okhttp3:okhttp:3.10.0")
     }
 
     dependenciesTest {
-        compile("org.testng:testng:6.12")
+        compile("org.testng:testng:6.14.3")
     }
 
     assemble {
@@ -63,7 +63,7 @@ val p = project {
     }
 
     kotlinCompiler {
-        //args("-source", "1.8")
+       //args("-source", "1.8")
     }
 
     application {
