@@ -18,8 +18,3 @@ application {
 repositories {
     jcenter()
 }
-
-task<Wrapper>("wrapper") {
-    gradleVersion = "4.8"
-    distributionType = DistributionType.ALL
-}

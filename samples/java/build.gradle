@@ -14,7 +14,3 @@ dependencies {
 repositories {
     jcenter()
 }
-
-wrapper {
-    gradleVersion = '4.8'
-}
