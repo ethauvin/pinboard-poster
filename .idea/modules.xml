@@ -9,6 +9,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-java.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-java_main.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-java_main.iml" group="samples-java" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-java_test.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-java_test.iml" group="samples-java" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-koltin.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-koltin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-koltin_main.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-koltin_main.iml" group="samples-koltin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-koltin_test.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-koltin_test.iml" group="samples-koltin" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-kotlin.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-kotlin.iml" />
     </modules>
   </component>
