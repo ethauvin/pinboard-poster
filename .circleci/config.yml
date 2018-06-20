@@ -1,37 +1,41 @@
-version: 2
+defaults: &defaults
+  working_directory: ~/repo
+  environment:
+    JVM_OPTS: -Xmx3200m
+    TERM: dumb
+
+version: 2.0
+
 jobs:
-  build:
+
+  build_gradle:
+    <<: *defaults
+
     docker:
       - image: circleci/openjdk:8-jdk
-
-    working_directory: ~/repo
-
-    environment:
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
 
     steps:
       - checkout
       - restore_cache:
           keys:
-          - kobalt-dependencies-{{ checksum "kobalt/src/Build.kt" }}
+          - gradle-dependencies-{{ checksum "build.gradle.kts" }}
           # fallback to using the latest cache if no exact match is found
-          - kobalt-dependencies-
+          - gradle-dependencies-
 
       - run:
-          name: Check Versions
-          command: ./kobaltw checkVersions
+          name: Gradle Dependencies
+          command: ./gradlew dependencies
 
       - save_cache:
-          paths: ~/.kobalt
-          key: kobalt-dependencies-{{ checksum "kobalt/src/Build.kt" }}
+          paths: ~/.m2
+          key: gradle-dependencies-{{ checksum "build.gradle.kts" }}
 
       - run:
-          name: Assemble & Test
-          command: ./kobaltw assemble test
+          name: Run All Checks
+          command: ./gradlew check
 
       - store_artifacts:
-          path: kobaltBuild/test-output/
-          destination: test-output
+          path: build/reports/
+          destination: reports
       - store_test_results:
-          path: kobaltBuild/test-output/
+          path: build/reports/
