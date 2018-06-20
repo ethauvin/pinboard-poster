@@ -41,31 +41,52 @@ import java.io.StringReader
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 import java.util.*
-import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.xml.parsers.DocumentBuilderFactory
 
+/** Constants **/
 object Constants {
+    /** The Pinboard API endpoint URL. **/
     const val API_ENDPOINT = "https://api.pinboard.in/v1/"
-    const val AUTH_TOKEN = "auth_token"
-    const val DONE = "done"
+    /** The API token environment variable. **/
     const val ENV_API_TOKEN = "PINBOARD_API_TOKEN"
 }
 
+/**
+ * A small Kotlin/Java library for posting to [Pinboard](https://pinboard.in/).
+ *
+ * @author [Erik C. Thauvin](https://erik.thauvin.net/)
+ */
 open class PinboardPoster() {
+    /**
+     * Initialize from a API token.
+     *
+     * @param apiToken The API token.
+     */
     constructor(apiToken: String) : this() {
         this.apiToken = apiToken
     }
 
+    /**
+     * Initialize from a properties and key.
+     *
+     * @param properties The properties.
+     * @param key The property key.
+     */
     @Suppress("unused")
     @JvmOverloads
     constructor(properties: Properties, key: String = ENV_API_TOKEN) : this() {
         apiToken = properties.getProperty(key, apiToken)
     }
 
+    /**
+     * Initialize fom a properties file path and key.
+     *
+     * @param propertiesFilePath The properties file path.
+     * @param key The property key.
+     */
     @JvmOverloads
     constructor(propertiesFilePath: Path, key: String = ENV_API_TOKEN) : this() {
         if (Files.exists(propertiesFilePath)) {
@@ -77,18 +98,43 @@ open class PinboardPoster() {
         }
     }
 
+    /**
+     * Initialize fom a properties file and key.
+     *
+     * @param propertiesFile The properties file.
+     * @param key The property key.
+     */
     @Suppress("unused")
     @JvmOverloads
-    constructor(propertyFile: File, key: String = ENV_API_TOKEN) : this(propertyFile.toPath(), key)
+    constructor(propertiesFile: File, key: String = ENV_API_TOKEN) : this(propertiesFile.toPath(), key)
 
+    /** The API token. **/
     var apiToken: String = if (System.getenv(ENV_API_TOKEN).isNullOrBlank()) "" else System.getenv(ENV_API_TOKEN)
 
+    /** The API end point. **/
     var apiEndPoint: String = Constants.API_ENDPOINT
 
+    /** The logger object. **/
     val logger: Logger by lazy { Logger.getLogger(PinboardPoster::class.java.simpleName) }
 
     private val client by lazy { OkHttpClient() }
 
+    /**
+     * Add a bookmark to Pinboard.
+     *
+     * This method supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_add).
+     *
+     * @param url The URL of the bookmark.
+     * @param description The title of the bookmark.
+     * @param extended The description of the bookmark.
+     * @param tags A list of up to 100 tags.
+     * @param dt   The creation time of the bookmark.
+     * @param replace  Replace any existing bookmark with the specified URL. Default `true`.
+     * @param shared   Make bookmark public. Default is `true`.
+     * @param toRead Mark the bookmark as unread. Default is `false`.
+     *
+     * @return `true` if bookmark was successfully added.
+     */
     @JvmOverloads
     fun addPin(url: String,
                description: String,
@@ -121,6 +167,15 @@ open class PinboardPoster() {
         return false
     }
 
+    /**
+     *  Delete a bookmark on Pinboard.
+     *
+     *  This method supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_delete).
+     *
+     *  @param url The URL of the bookmark to delete.
+     *
+     *  @return `true` if bookmark was successfully deleted.
+     */
     fun deletePin(url: String): Boolean {
         if (validate()) {
             if (!validateUrl(url)) {
@@ -142,7 +197,7 @@ open class PinboardPoster() {
                         addQueryParameter(it.first, it.second)
                     }
                 }
-                addQueryParameter(Constants.AUTH_TOKEN, apiToken)
+                addQueryParameter("auth_token", apiToken)
             }.build()
 
             val request = Request.Builder().url(httpUrl).build()
@@ -154,7 +209,7 @@ open class PinboardPoster() {
 
             if (response != null) {
                 logHttp(method, "HTTP Response:\n$response")
-                if (response.contains(Constants.DONE)) {
+                if (response.contains("done")) {
                     return true
                 } else {
                     val factory = DocumentBuilderFactory.newInstance().apply {
@@ -231,34 +286,5 @@ open class PinboardPoster() {
         } else {
             "no"
         }
-    }
-}
-
-fun main(args: Array<String>) {
-    val url = "http://www.example.com/pinboard"
-    val localProp = Paths.get("local.properties")
-
-    val poster = if (args.size == 1) {
-        // API Token is an argument
-        PinboardPoster(args[0])
-    } else {
-        // API Token is in local.properties or PINBOARD_API_TOKEN environment variable
-        PinboardPoster(localProp)
-    }
-
-    // Set logging levels
-    with(poster.logger) {
-        addHandler(ConsoleHandler().apply { level = Level.FINE })
-        level = Level.FINE
-    }
-
-    // Add Pin
-    if (poster.addPin(url, "Testing", "Extended test", "test kotlin")) {
-        println("Added: $url")
-    }
-
-    // Delete Pin
-    if (poster.deletePin(url)) {
-        println("Deleted: $url")
     }
 }
