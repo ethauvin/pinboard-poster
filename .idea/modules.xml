@@ -4,6 +4,12 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/kobalt/Build.kt.iml" filepath="$PROJECT_DIR$/kobalt/Build.kt.iml" />
       <module fileurl="file://$PROJECT_DIR$/pinboard-poster.iml" filepath="$PROJECT_DIR$/pinboard-poster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pinboard-poster_main.iml" filepath="$PROJECT_DIR$/.idea/modules/pinboard-poster_main.iml" group="pinboard-poster" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pinboard-poster_test.iml" filepath="$PROJECT_DIR$/.idea/modules/pinboard-poster_test.iml" group="pinboard-poster" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-java.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-java_main.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-java_main.iml" group="samples-java" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-java_test.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-java_test.iml" group="samples-java" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-kotlin.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-kotlin.iml" />
     </modules>
   </component>
 </project>
