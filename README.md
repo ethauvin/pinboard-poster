@@ -17,7 +17,7 @@ poster.addPin("http://www.example.com/foo", "This is a test")
 poster.deletePin("http:///www.example.com/bar")
 
 ```
-[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/src/main/kotlin/net/thauvin/erik/pinboard/PinboardPoster.kt#L232)
+[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/koltin/src/main/kotlin/net/erik/pinboard/samples/KotlinExample.kt)
 
 ### Java
 ```java
@@ -27,7 +27,7 @@ final PinboardPoster poster = new PinBboardPoster("user:TOKEN");
 poster.addPin("http://www.example.com/foo", "This is a test");
 poster.deletePin("http:///www.example.com/bar");
 ```
-[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/src/main/java/net/thauvin/erik/pinboard/JavaExample.java#L40)
+[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/java/src/main/java/net/thauvin/erik/pinboard/JavaExample.java)
 
 Your API authentication token is available on the [Pinboard settings page](https://pinboard.in/settings/password).
 
@@ -54,6 +54,9 @@ dependencies {
     compile 'net.thauvin.erik:pinboard-poster:0.9.3'
 }
 ```
+[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/java/build.gradle)\
+
+[View Kotlin DSL Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/koltin/build.gradle.kts)
 
 ### Kobalt
 
