@@ -39,3 +39,9 @@ jobs:
           destination: reports
       - store_test_results:
           path: build/reports/
+
+workflows:
+  version: 2
+  gradle:
+    jobs:
+      - build_gradle
