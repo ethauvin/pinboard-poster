@@ -8,7 +8,7 @@ plugins {
 defaultTasks(ApplicationPlugin.TASK_RUN_NAME)
 
 dependencies {
-    compile("net.thauvin.erik:pinboard-poster:0.9.3")
+    compile("net.thauvin.erik:pinboard-poster:1.0.0")
 }
 
 application {
@@ -16,5 +16,6 @@ application {
 }
 
 repositories {
+    mavenLocal()
     jcenter()
 }

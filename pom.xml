@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.thauvin.erik</groupId>
   <artifactId>pinboard-poster</artifactId>
-  <version>0.9.3</version>
+  <version>1.0.0</version>
   <dependencies>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>

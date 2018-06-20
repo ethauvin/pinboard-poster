@@ -23,7 +23,7 @@ val p = project {
     group = "net.thauvin.erik"
     description = "Pinboard Poster for Kotlin/Java"
     artifactId = name
-    version = "0.9.3"
+    version = "1.0.0"
 
     pom = Model().apply {
         description = project.description
@@ -68,12 +68,6 @@ val p = project {
 
     application {
         mainClass = "net.thauvin.erik.pinboard.PinboardPosterKt"
-        ignoreErrorStream = true
-    }
-
-    application {
-        taskName = "runJava"
-        mainClass = "net.thauvin.erik.pinboard.JavaExample"
         ignoreErrorStream = true
     }
 

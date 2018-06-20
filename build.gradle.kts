@@ -16,7 +16,7 @@ plugins {
 }
 
 group = "net.thauvin.erik"
-version = "0.9.3"
+version = "1.0.0"
 description = "Pinboard Poster for Kotlin/Java"
 
 val mavenUrl = "https://github.com/ethauvin/$name"
@@ -35,6 +35,7 @@ repositories {
 application {
     mainClassName = "net.thauvin.erik.pinboard.PinboardPosterKt"
 }
+
 
 tasks {
     withType(Test::class.java).all {
@@ -64,6 +65,7 @@ tasks {
         // See https://github.com/Kotlin/dokka/issues/196
         externalDocumentationLink(delegateClosureOf<DokkaConfiguration.ExternalDocumentationLink.Builder> {
             url = URL("https://docs.oracle.com/javase/8/docs/api/")
+            packageListUrl = URL("https://docs.oracle.com/javase/8/docs/api/package-list")
         })
 
         includeNonPublic = false
@@ -150,8 +152,8 @@ tasks {
 
     fun findProperty(s: String) = project.findProperty(s) as String?
     bintray {
-        user = findProperty("bintrayUser")
-        key = findProperty("bintrayApiKey")
+        user = findProperty("bintray.user")
+        key = findProperty("bintray.apikey")
         publish = true
         setPublications(publicationName)
         pkg.apply {
