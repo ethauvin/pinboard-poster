@@ -29,9 +29,10 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.thauvin.erik.pinboard;
+package net.thauvin.erik.pinboard.samples;
 
-import java.nio.file.Path;
+import net.thauvin.erik.pinboard.PinboardPoster;
+
 import java.nio.file.Paths;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -40,7 +41,6 @@ import java.util.logging.Logger;
 public class JavaExample {
     public static void main(String[] args) {
         final String url = "http://www.example.com/pinboard";
-        final Path localProps = Paths.get("local.properties");
         final PinboardPoster poster;
 
         if (args.length == 1) {
@@ -48,7 +48,7 @@ public class JavaExample {
             poster = new PinboardPoster(args[0]);
         } else {
             // API Token is in local.properties or PINBOARD_API_TOKEN environment variable
-            poster = new PinboardPoster(localProps);
+            poster = new PinboardPoster(Paths.get("local.properties"));
         }
 
         // Set logging levels
