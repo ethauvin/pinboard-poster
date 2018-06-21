@@ -35,8 +35,12 @@
     </developer>
   </developers>
   <scm>
-    <connection>https://github.com/ethauvin/pinboard-poster.git</connection>
-    <developerConnection>git@github.com:ethauvin/pinboard-poster.git</developerConnection>
+    <connection>scm:git:https://github.com/ethauvin/pinboard-poster.git</connection>
+    <developerConnection>scm:git:git@github.com:ethauvin/pinboard-poster.git</developerConnection>
     <url>https://github.com/ethauvin/pinboard-poster</url>
   </scm>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/ethauvin/pinboard-poster/issues</url>
+  </issueManagement>
 </project>

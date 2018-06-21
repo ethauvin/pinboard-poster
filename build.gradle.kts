@@ -6,7 +6,6 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import java.net.URL
 
 plugins {
-    application
     kotlin("jvm") version "1.2.50"
     java
     `maven-publish`
@@ -19,7 +18,8 @@ group = "net.thauvin.erik"
 version = "1.0.0"
 description = "Pinboard Poster for Kotlin/Java"
 
-val mavenUrl = "https://github.com/ethauvin/$name"
+val gitHub = "ethauvin/$name"
+val mavenUrl = "https://github.com/$gitHub"
 val deployDir = "deploy"
 
 dependencies {
@@ -31,11 +31,6 @@ dependencies {
 repositories {
     jcenter()
 }
-
-application {
-    mainClassName = "net.thauvin.erik.pinboard.PinboardPosterKt"
-}
-
 
 tasks {
     withType(Test::class.java).all {
@@ -130,9 +125,14 @@ tasks {
                         }
 
                         appendNode("scm").apply {
-                            appendNode("connection", "$mavenUrl.git")
-                            appendNode("developerConnection", "git@github.com:ethauvin/${project.name}.git")
+                            appendNode("connection", "scm:git:$mavenUrl.git")
+                            appendNode("developerConnection", "scm:git:git@github.com:${gitHub}.git")
                             appendNode("url", mavenUrl)
+                        }
+
+                        appendNode("issueManagement").apply {
+                            appendNode("system", "GitHub")
+                            appendNode("url", "$mavenUrl/issues")
                         }
                     }
                 }
@@ -149,7 +149,7 @@ tasks {
             pom.copyTo(File("pom.xml"), true)
         }
     }
-
+    
     fun findProperty(s: String) = project.findProperty(s) as String?
     bintray {
         user = findProperty("bintray.user")
@@ -162,7 +162,7 @@ tasks {
             desc = description
             websiteUrl = mavenUrl
             issueTrackerUrl = "$mavenUrl/issues"
-            githubRepo = "ethauvin/${project.name}"
+            githubRepo = gitHub
             githubReleaseNotesFile = "README.md"
             vcsUrl = "$mavenUrl.git"
             setLabels("kotlin", "java", "pinboard", "poster", "bookmarks")
