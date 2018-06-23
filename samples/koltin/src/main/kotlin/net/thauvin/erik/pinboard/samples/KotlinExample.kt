@@ -32,12 +32,9 @@
 package net.thauvin.erik.pinboard.samples
 
 import net.thauvin.erik.pinboard.PinboardPoster
-
-import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
-import java.util.logging.Logger
 
 fun main(args: Array<String>) {
     val url = "http://www.example.com/pinboard"
