@@ -46,7 +46,7 @@ import java.util.logging.Level
 import java.util.logging.Logger
 import javax.xml.parsers.DocumentBuilderFactory
 
-/** Constants **/
+/** Constants for this package. **/
 object Constants {
     /** The Pinboard API endpoint URL. **/
     const val API_ENDPOINT = "https://api.pinboard.in/v1/"
