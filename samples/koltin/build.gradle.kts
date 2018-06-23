@@ -1,5 +1,3 @@
-import org.gradle.api.tasks.wrapper.Wrapper.DistributionType
-
 plugins {
     application
     kotlin("jvm") version "1.2.50"
