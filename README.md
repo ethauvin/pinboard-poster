@@ -41,7 +41,7 @@ To install and run from Maven, configure an artifact as follows:
 <dependency>
     <groupId>net.thauvin.erik</groupId>
     <artifactId>pinboard-poster</artifactId>
-    <version>0.9.3</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -51,7 +51,7 @@ To install and run from Gradle, add the following to the build.gradle file:
 
 ```gradle
 dependencies {
-    compile 'net.thauvin.erik:pinboard-poster:0.9.3'
+    compile 'net.thauvin.erik:pinboard-poster:1.0.0'
 }
 ```
 [View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/java/build.gradle)  
@@ -63,7 +63,7 @@ To install and run from Kobalt, add the following to the Build.kt file:
 
 ```gradle
 dependencies {
-    compile("net.thauvin.erik:pinboard-poster:0.9.3")
+    compile("net.thauvin.erik:pinboard-poster:1.0.0")
 }
 ```
 [View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/koltin/kobalt/src/Build.kt)
@@ -74,7 +74,7 @@ The `addPin` function support all of the [Pinboard API parameters](https://pinbo
 
 ```kotlin
 poster.addPin(url = "http://www.example.com",
-              description = "This is the title.",
+              description = "This is the title",
               extended = "This is the extended description.",
               tags = "tag1 tag2 tag3",
               dt = "2010-12-11T19:48:02Z",
