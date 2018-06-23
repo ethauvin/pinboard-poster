@@ -3,10 +3,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.publish.maven.MavenPom
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
+import java.io.FileInputStream
 import java.net.URL
+import java.util.Properties
+
 
 plugins {
     kotlin("jvm") version "1.2.50"
+    `build-scan`
     java
     `maven-publish`
     id("com.github.ben-manes.versions") version "0.20.0"
@@ -22,14 +26,28 @@ val gitHub = "ethauvin/$name"
 val mavenUrl = "https://github.com/$gitHub"
 val deployDir = "deploy"
 
-dependencies {
-    compile(kotlin("stdlib"))
-    compile("com.squareup.okhttp3:okhttp:3.10.0")
-    testCompile("org.testng:testng:6.14.3")
+// Load local.properties
+File("local.properties").apply {
+    if (exists()) {
+        FileInputStream(this).use { fis ->
+            Properties().apply {
+                load(fis)
+                forEach { (k, v) ->
+                    extra[k as String] = v
+                }
+            }
+        }
+    }
 }
 
 repositories {
     jcenter()
+}
+
+dependencies {
+    compile(kotlin("stdlib"))
+    compile("com.squareup.okhttp3:okhttp:3.10.0")
+    testCompile("org.testng:testng:6.14.3")
 }
 
 tasks {
@@ -39,13 +57,6 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
-    }
-
-    withType<Javadoc> {
-        options {
-            header = project.name
-            encoding = "UTF-8"
-        }
     }
 
     val sourcesJar by creating(Jar::class) {
@@ -126,7 +137,7 @@ tasks {
 
                         appendNode("scm").apply {
                             appendNode("connection", "scm:git:$mavenUrl.git")
-                            appendNode("developerConnection", "scm:git:git@github.com:${gitHub}.git")
+                            appendNode("developerConnection", "scm:git:git@github.com:$gitHub.git")
                             appendNode("url", mavenUrl)
                         }
 
@@ -140,16 +151,10 @@ tasks {
         }
     }
 
-    val generatePom by creating {
-        description = "Generates pom.xml for snyk."
-        group = PublishingPlugin.PUBLISH_TASK_GROUP
-        dependsOn("generatePomFileForMavenJavaPublication")
-        val pom = File("build/publications/$publicationName/pom-default.xml")
-        if (pom.exists()) {
-            pom.copyTo(File("pom.xml"), true)
-        }
+    val generatePomFileForMavenJavaPublication by getting(GenerateMavenPom::class) {
+        destination = file("$projectDir/pom.xml")
     }
-    
+
     fun findProperty(s: String) = project.findProperty(s) as String?
     bintray {
         user = findProperty("bintray.user")
@@ -178,11 +183,12 @@ tasks {
         }
     }
 
-    val bintrayUpload by getting {
-        dependsOn(gitTag)
+    buildScan {
+        setTermsOfServiceUrl("https://gradle.com/terms-of-service")
+        setTermsOfServiceAgree("yes")
     }
 
     "release" {
-        dependsOn(generatePom, bintrayUpload, "publishToMavenLocal")
+        dependsOn(gitTag, generatePomFileForMavenJavaPublication, "bintrayUpload", "publishToMavenLocal")
     }
 }
