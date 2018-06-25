@@ -107,7 +107,7 @@ tasks {
     val gitIsDirty by creating(Exec::class) {
         description = "Fails if git has uncommitted changes."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        commandLine("git", "diff-index", "--quiet", "--HEAD", "--")
+        commandLine("git", "diff-index", "--quiet", "HEAD", "--")
     }
 
     val gitTag by creating(Exec::class) {
