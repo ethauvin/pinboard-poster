@@ -1,4 +1,5 @@
 import com.jfrog.bintray.gradle.BintrayExtension
+import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.publish.maven.MavenPom
 import org.jetbrains.dokka.DokkaConfiguration
@@ -25,6 +26,7 @@ description = "Pinboard Poster for Kotlin/Java"
 val gitHub = "ethauvin/$name"
 val mavenUrl = "https://github.com/$gitHub"
 val deployDir = "deploy"
+var release = false
 
 // Load local.properties
 File("local.properties").apply {
@@ -106,7 +108,7 @@ tasks {
 
     val gitIsDirty by creating(Exec::class) {
         description = "Fails if git has uncommitted changes."
-        group = PublishingPlugin.PUBLISH_TASK_GROUP
+        group = "verification"
         commandLine("git", "diff-index", "--quiet", "HEAD", "--")
     }
 
@@ -162,11 +164,15 @@ tasks {
         destination = file("$projectDir/pom.xml")
     }
 
+    val bintrayUpload by getting(BintrayUploadTask::class) {
+        dependsOn(generatePomFileForMavenJavaPublication, gitTag)
+    }
+
     fun findProperty(s: String) = project.findProperty(s) as String?
     bintray {
         user = findProperty("bintray.user")
         key = findProperty("bintray.apikey")
-        publish = true
+        publish = release
         setPublications(publicationName)
         pkg.apply {
             repo = "maven"
@@ -198,7 +204,9 @@ tasks {
     "release" {
         description = "Release version ${project.version} to Bintray."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        mustRunAfter(generatePomFileForMavenJavaPublication, gitTag)
-        dependsOn("bintrayUpload", "publishToMavenLocal")
+        dependsOn(bintrayUpload)
+        doFirst {
+            release = true
+        }
     }
 }
