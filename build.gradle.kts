@@ -104,9 +104,16 @@ tasks {
         mustRunAfter("clean")
     }
 
+    val gitIsDirty by creating(Exec::class) {
+        description = "Fails if git has uncommitted changes."
+        group = PublishingPlugin.PUBLISH_TASK_GROUP
+        commandLine("git", "diff-index", "--quiet", "--HEAD", "--")
+    }
+
     val gitTag by creating(Exec::class) {
         description = "Tags the local repository with version ${project.version}"
         group = PublishingPlugin.PUBLISH_TASK_GROUP
+        dependsOn(gitIsDirty)
         commandLine("git", "tag", "-a", project.version, "-m", "Version ${project.version}")
     }
 
@@ -189,6 +196,6 @@ tasks {
     }
 
     "release" {
-        dependsOn(gitTag, generatePomFileForMavenJavaPublication, "bintrayUpload", "publishToMavenLocal")
+        dependsOn(generatePomFileForMavenJavaPublication, gitTag, "bintrayUpload", "publishToMavenLocal")
     }
 }
