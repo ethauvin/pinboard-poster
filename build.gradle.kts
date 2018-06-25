@@ -198,6 +198,7 @@ tasks {
     "release" {
         description = "Release version ${project.version} to Bintray."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        dependsOn(generatePomFileForMavenJavaPublication, gitTag, "bintrayUpload", "publishToMavenLocal")
+        mustRunAfter(generatePomFileForMavenJavaPublication, gitTag)
+        dependsOn("bintrayUpload", "publishToMavenLocal")
     }
 }
