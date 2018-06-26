@@ -4,6 +4,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.publish.maven.MavenPom
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.dokka.gradle.LinkMapping
+import groovy.lang.Closure
 import java.io.FileInputStream
 import java.net.URL
 import java.util.Properties
@@ -75,6 +77,12 @@ tasks {
             url = URL("https://docs.oracle.com/javase/8/docs/api/")
             packageListUrl = URL("https://docs.oracle.com/javase/8/docs/api/package-list")
         })
+        val mapping = LinkMapping().apply {
+            dir = project.rootDir.toPath().resolve("src/main/kotlin").toFile().path
+            url = "https://github.com/ethauvin/pinboard-poster/blob/${project.version}/src/main/kotlin"
+            suffix = "#L"
+        }
+        linkMappings = arrayListOf(mapping)
 
         includeNonPublic = false
     }
