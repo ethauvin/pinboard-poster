@@ -115,7 +115,7 @@ open class PinboardPoster() {
     /** The API end point. **/
     var apiEndPoint: String = Constants.API_ENDPOINT
 
-    /** The logger object. **/
+    /** The logger instance. **/
     val logger: Logger by lazy { Logger.getLogger(PinboardPoster::class.java.simpleName) }
 
     private val client by lazy { OkHttpClient() }
