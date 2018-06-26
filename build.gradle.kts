@@ -208,7 +208,7 @@ tasks {
     }
 
     "release" {
-        description = "Release version ${project.version} to Bintray."
+        description = "Publishes version ${project.version} to Bintray."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
         dependsOn(bintrayUpload)
         doFirst {
