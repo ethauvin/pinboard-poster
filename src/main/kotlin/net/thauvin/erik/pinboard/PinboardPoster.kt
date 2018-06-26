@@ -31,7 +31,6 @@
  */
 package net.thauvin.erik.pinboard
 
-import net.thauvin.erik.pinboard.Constants.ENV_API_TOKEN
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -57,11 +56,13 @@ object Constants {
 /**
  * A small Kotlin/Java library for posting to [Pinboard](https://pinboard.in/).
  *
+ * @constructor Creates a new instance.
+ *
  * @author [Erik C. Thauvin](https://erik.thauvin.net/)
  */
 open class PinboardPoster() {
     /**
-     * Initialize from an API token.
+     * Creates a new instance using an [API Token][apiToken].
      *
      * @param apiToken The API token.
      */
@@ -70,25 +71,25 @@ open class PinboardPoster() {
     }
 
     /**
-     * Initialize from a properties and key.
+     * Creates a new instance using a [Properties][properties] and [Property Key][key].
      *
      * @param properties The properties.
      * @param key The property key.
      */
     @Suppress("unused")
     @JvmOverloads
-    constructor(properties: Properties, key: String = ENV_API_TOKEN) : this() {
+    constructor(properties: Properties, key: String = Constants.ENV_API_TOKEN) : this() {
         apiToken = properties.getProperty(key, apiToken)
     }
 
     /**
-     * Initialize fom a properties file path and key.
+     * Creates a new instance using a [Properties File Path][propertiesFilePath] and [Property Key][key].
      *
      * @param propertiesFilePath The properties file path.
      * @param key The property key.
      */
     @JvmOverloads
-    constructor(propertiesFilePath: Path, key: String = ENV_API_TOKEN) : this() {
+    constructor(propertiesFilePath: Path, key: String = Constants.ENV_API_TOKEN) : this() {
         if (Files.exists(propertiesFilePath)) {
             apiToken = Properties().apply {
                 Files.newInputStream(propertiesFilePath).use { nis ->
@@ -99,17 +100,17 @@ open class PinboardPoster() {
     }
 
     /**
-     * Initialize fom a properties file and key.
+     * Creates a new instance using a [Properties File][propertiesFile] and [Property Key][key].
      *
      * @param propertiesFile The properties file.
      * @param key The property key.
      */
     @Suppress("unused")
     @JvmOverloads
-    constructor(propertiesFile: File, key: String = ENV_API_TOKEN) : this(propertiesFile.toPath(), key)
+    constructor(propertiesFile: File, key: String = Constants.ENV_API_TOKEN) : this(propertiesFile.toPath(), key)
 
     /** The API token. **/
-    var apiToken: String = if (System.getenv(ENV_API_TOKEN).isNullOrBlank()) "" else System.getenv(ENV_API_TOKEN)
+    var apiToken: String = if (System.getenv(Constants.ENV_API_TOKEN).isNullOrBlank()) "" else System.getenv(Constants.ENV_API_TOKEN)
 
     /** The API end point. **/
     var apiEndPoint: String = Constants.API_ENDPOINT
@@ -120,7 +121,7 @@ open class PinboardPoster() {
     private val client by lazy { OkHttpClient() }
 
     /**
-     * Add a bookmark to Pinboard.
+     * Adds a bookmark to Pinboard.
      *
      * This method supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_add).
      *
@@ -168,7 +169,7 @@ open class PinboardPoster() {
     }
 
     /**
-     *  Delete a bookmark on Pinboard.
+     *  Deletes a bookmark on Pinboard.
      *
      *  This method supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_delete).
      *
