@@ -114,9 +114,8 @@ tasks {
     val gitIsDirty by creating(Exec::class) {
         description = "Fails if git has uncommitted changes."
         group = "verification"
-        //dependsOn(gitRefreshIndex)
-        commandLine("git", "update-index", "--refresh").isIgnoreExitValue = true
-        commandLine("git", "diff-index", "--quiet", "HEAD", "--").isIgnoreExitValue = false
+        dependsOn(gitRefreshIndex)
+        commandLine("git", "diff-index", "--quiet", "HEAD", "--")
     }
 
     val gitTag by creating(Exec::class) {
