@@ -5,7 +5,6 @@ import org.gradle.api.publish.maven.MavenPom
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.dokka.gradle.LinkMapping
-import groovy.lang.Closure
 import java.io.FileInputStream
 import java.net.URL
 import java.util.Properties
@@ -17,7 +16,7 @@ plugins {
     java
     `maven-publish`
     id("com.github.ben-manes.versions") version "0.20.0"
-    id("com.jfrog.bintray") version "1.8.2"
+    id("com.jfrog.bintray") version "1.8.3"
     id("org.jetbrains.dokka") version "0.9.17"
 }
 
