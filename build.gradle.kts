@@ -27,7 +27,7 @@ description = "Pinboard Poster for Kotlin/Java"
 val gitHub = "ethauvin/$name"
 val mavenUrl = "https://github.com/$gitHub"
 val deployDir = "deploy"
-var release = false
+var isRelease =  "release" in gradle.startParameter.taskNames
 
 // Load local.properties
 File("local.properties").apply {
@@ -129,7 +129,9 @@ tasks {
         description = "Tags the local repository with version ${project.version}"
         group = PublishingPlugin.PUBLISH_TASK_GROUP
         dependsOn(gitIsDirty)
-        commandLine("git", "tag", "-a", project.version, "-m", "Version ${project.version}")
+        if (isRelease) {
+            commandLine("git", "tag", "-a", project.version, "-m", "Version ${project.version}")
+        }
     }
 
 
@@ -185,7 +187,7 @@ tasks {
     bintray {
         user = findProperty("bintray.user")
         key = findProperty("bintray.apikey")
-        publish = release
+        publish = isRelease
         setPublications(publicationName)
         pkg.apply {
             repo = "maven"
@@ -218,8 +220,5 @@ tasks {
         description = "Publishes version ${project.version} to Bintray."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
         dependsOn(bintrayUpload)
-        doFirst {
-            release = true
-        }
     }
 }
