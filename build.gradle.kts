@@ -106,9 +106,15 @@ tasks {
         mustRunAfter("clean")
     }
 
+    val gitRefreshIndex by creating(Exec::class) {
+        description = "Refreshes the git index."
+        commandLine("git", "update-index", "--refresh").isIgnoreExitValue = true
+    }
+
     val gitIsDirty by creating(Exec::class) {
         description = "Fails if git has uncommitted changes."
         group = "verification"
+        dependsOn(gitRefreshIndex)
         commandLine("git", "diff-index", "--quiet", "HEAD", "--")
     }
 
