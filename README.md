@@ -17,7 +17,7 @@ poster.addPin("http://www.example.com/foo", "This is a test")
 poster.deletePin("http:///www.example.com/bar")
 
 ```
-[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/koltin/src/main/kotlin/net/thauvin/erik/pinboard/samples/KotlinExample.kt)
+[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/kotlin/src/main/kotlin/net/thauvin/erik/pinboard/samples/KotlinExample.kt)
 
 ### Java
 ```java
@@ -55,7 +55,7 @@ dependencies {
 }
 ```
 [View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/java/build.gradle)  
-[View Kotlin DSL Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/koltin/build.gradle.kts)
+[View Kotlin DSL Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/kotlin/build.gradle.kts)
 
 ### Kobalt
 
@@ -66,7 +66,7 @@ dependencies {
     compile("net.thauvin.erik:pinboard-poster:1.0.0")
 }
 ```
-[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/koltin/kobalt/src/Build.kt)
+[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/kotlin/kobalt/src/Build.kt)
 
 ## Adding
 

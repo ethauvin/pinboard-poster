@@ -10,6 +10,8 @@
       <module name="samples-java_test" target="1.8" />
       <module name="samples-koltin_main" target="1.8" />
       <module name="samples-koltin_test" target="1.8" />
+      <module name="samples-kotlin_main" target="1.8" />
+      <module name="samples-kotlin_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

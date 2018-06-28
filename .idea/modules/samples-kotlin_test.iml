@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="samples-koltin:test" external.linked.project.path="$MODULE_DIR$/../../samples/koltin" external.root.project.path="$MODULE_DIR$/../../samples/koltin" external.system.id="GRADLE" external.system.module.group="" external.system.module.type="sourceSet" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="samples-kotlin:test" external.linked.project.path="$MODULE_DIR$/../../samples/kotlin" external.root.project.path="$MODULE_DIR$/../../samples/kotlin" external.system.id="GRADLE" external.system.module.group="" external.system.module.type="sourceSet" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="kotlin-language" name="Kotlin">
       <configuration version="3" platform="JVM 1.6" useProjectSettings="false">
         <compilerSettings />
         <compilerArguments>
-          <option name="destination" value="$MODULE_DIR$/../../samples/koltin/build/classes/kotlin/test" />
+          <option name="destination" value="$MODULE_DIR$/../../samples/kotlin/build/classes/kotlin/test" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
-          <option name="moduleName" value="samples-koltin" />
+          <option name="moduleName" value="samples-kotlin" />
           <option name="addCompilerBuiltIns" value="true" />
           <option name="loadBuiltInsFromDependencies" value="true" />
           <option name="languageVersion" value="1.2" />
@@ -24,12 +24,12 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
-    <output-test url="file://$MODULE_DIR$/../../samples/koltin/out/test/classes" />
+    <output-test url="file://$MODULE_DIR$/../../samples/kotlin/out/test/classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../samples/koltin/src/test" />
+    <content url="file://$MODULE_DIR$/../../samples/kotlin/src/test" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="samples-koltin_main" />
+    <orderEntry type="module" module-name="samples-kotlin_main" />
     <orderEntry type="library" name="Gradle: net.thauvin.erik:pinboard-poster:1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.50" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.10.0" level="project" />
@@ -37,5 +37,5 @@
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.14.0" level="project" />
   </component>
-  <component name="TestModuleProperties" production-module="samples-koltin_main" />
+  <component name="TestModuleProperties" production-module="samples-kotlin_main" />
 </module>
