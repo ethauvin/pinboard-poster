@@ -9,7 +9,6 @@ import java.io.FileInputStream
 import java.net.URL
 import java.util.Properties
 
-
 plugins {
     kotlin("jvm") version "1.2.50"
     `build-scan`
@@ -113,16 +112,10 @@ tasks {
         mustRunAfter("clean")
     }
 
-    val gitRefreshIndex by creating(Exec::class) {
-        description = "Refreshes the git index."
-        commandLine("git", "update-index", "--refresh").isIgnoreExitValue = true
-    }
-
     val gitIsDirty by creating(Exec::class) {
         description = "Fails if git has uncommitted changes."
         group = "verification"
-        dependsOn(gitRefreshIndex)
-        commandLine("git", "diff-index", "--quiet", "HEAD", "--")
+        commandLine("git", "diff", "--quiet", "--exit-code")
     }
 
     val gitTag by creating(Exec::class) {
