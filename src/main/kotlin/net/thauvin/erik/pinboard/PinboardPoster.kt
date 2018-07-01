@@ -40,7 +40,7 @@ import java.io.StringReader
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
-import java.util.*
+import java.util.Properties
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.xml.parsers.DocumentBuilderFactory
@@ -129,22 +129,24 @@ open class PinboardPoster() {
      * @param description The title of the bookmark.
      * @param extended The description of the bookmark.
      * @param tags A list of up to 100 tags.
-     * @param dt   The creation time of the bookmark.
-     * @param replace  Replace any existing bookmark with the specified URL. Default `true`.
-     * @param shared   Make bookmark public. Default is `true`.
+     * @param dt The creation time of the bookmark.
+     * @param replace Replace any existing bookmark with the specified URL. Default `true`.
+     * @param shared Make bookmark public. Default is `true`.
      * @param toRead Mark the bookmark as unread. Default is `false`.
      *
      * @return `true` if bookmark was successfully added.
      */
     @JvmOverloads
-    fun addPin(url: String,
-               description: String,
-               extended: String = "",
-               tags: String = "",
-               dt: String = "",
-               replace: Boolean = true,
-               shared: Boolean = true,
-               toRead: Boolean = false): Boolean {
+    fun addPin(
+        url: String,
+        description: String,
+        extended: String = "",
+        tags: String = "",
+        dt: String = "",
+        replace: Boolean = true,
+        shared: Boolean = true,
+        toRead: Boolean = false
+    ): Boolean {
         if (validate()) {
             if (!validateUrl(url)) {
                 logger.severe("Please specify a valid URL to pin.")
@@ -152,14 +154,14 @@ open class PinboardPoster() {
                 logger.severe("Please specify a valid description.")
             } else {
                 val params = listOf(
-                        Pair("url", url),
-                        Pair("description", description),
-                        Pair("extended", extended),
-                        Pair("tags", tags),
-                        Pair("dt", dt),
-                        Pair("replace", yesNo(replace)),
-                        Pair("shared", yesNo(shared)),
-                        Pair("toread", yesNo(toRead))
+                    Pair("url", url),
+                    Pair("description", description),
+                    Pair("extended", extended),
+                    Pair("tags", tags),
+                    Pair("dt", dt),
+                    Pair("replace", yesNo(replace)),
+                    Pair("shared", yesNo(shared)),
+                    Pair("toread", yesNo(toRead))
                 )
                 return executeMethod("posts/add", params)
             }

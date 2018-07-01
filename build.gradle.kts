@@ -17,6 +17,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.20.0"
     id("com.jfrog.bintray") version "1.8.3"
     id("org.jetbrains.dokka") version "0.9.17"
+    id("org.jlleitschuh.gradle.ktlint") version "4.1.0"
 }
 
 group = "net.thauvin.erik"
@@ -26,7 +27,7 @@ description = "Pinboard Poster for Kotlin/Java"
 val gitHub = "ethauvin/$name"
 val mavenUrl = "https://github.com/$gitHub"
 val deployDir = "deploy"
-var isRelease =  "release" in gradle.startParameter.taskNames
+var isRelease = "release" in gradle.startParameter.taskNames
 
 // Load local.properties
 File("local.properties").apply {
@@ -127,6 +128,9 @@ tasks {
         }
     }
 
+    val check by getting {
+        dependsOn("ktlintCheck")
+    }
 
     val publicationName = "mavenJava"
     publishing {
@@ -212,6 +216,6 @@ tasks {
     "release" {
         description = "Publishes version ${project.version} to Bintray."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        dependsOn(bintrayUpload)
+        dependsOn("wrapper", bintrayUpload)
     }
 }
