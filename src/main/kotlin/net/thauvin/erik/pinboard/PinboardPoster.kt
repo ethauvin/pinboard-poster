@@ -37,6 +37,7 @@ import okhttp3.Request
 import org.xml.sax.InputSource
 import java.io.File
 import java.io.StringReader
+import java.net.MalformedURLException
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
@@ -110,7 +111,7 @@ open class PinboardPoster() {
     constructor(propertiesFile: File, key: String = Constants.ENV_API_TOKEN) : this(propertiesFile.toPath(), key)
 
     /** The API token. **/
-    var apiToken: String = if (System.getenv(Constants.ENV_API_TOKEN).isNullOrBlank()) "" else System.getenv(Constants.ENV_API_TOKEN)
+    var apiToken: String = System.getenv(Constants.ENV_API_TOKEN) ?: ""
 
     /** The API end point. **/
     var apiEndPoint: String = Constants.API_ENDPOINT
@@ -258,29 +259,28 @@ open class PinboardPoster() {
     }
 
     private fun validate(): Boolean {
-        if (apiToken.isBlank() || !apiToken.contains(':')) {
+        var isValid = true
+        if (!apiToken.contains(':')) {
             logger.severe("Please specify a valid API token. (eg. user:TOKEN)")
-            return false
+            isValid = false
         } else if (!validateUrl(apiEndPoint)) {
             logger.severe("Please specify a valid API end point. (eg. ${Constants.API_ENDPOINT})")
-            return false
+            isValid = false
         }
-        return true
+        return isValid
     }
 
     private fun validateUrl(url: String): Boolean {
-        if (url.isBlank()) {
-            return false
+        var isValid = url.isNotBlank()
+        if (isValid) {
+            try {
+                URL(url)
+            } catch (e: MalformedURLException) {
+                logger.log(Level.FINE, "Invalid URL: $url", e)
+                isValid = false
+            }
         }
-
-        try {
-            URL(url)
-        } catch (e: Exception) {
-            logger.log(Level.FINE, "Invalid URL: $url", e)
-            return false
-        }
-
-        return true
+        return isValid
     }
 
     private fun yesNo(bool: Boolean): String {
