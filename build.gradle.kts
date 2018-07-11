@@ -18,6 +18,7 @@ plugins {
     id("com.jfrog.bintray") version "1.8.3"
     id("org.jetbrains.dokka") version "0.9.17"
     id("org.jlleitschuh.gradle.ktlint") version "4.1.0"
+    id("io.gitlab.arturbosch.detekt") version "1.0.0.RC7"
 }
 
 group = "net.thauvin.erik"
@@ -53,8 +54,19 @@ dependencies {
     testCompile("org.testng:testng:6.14.3")
 }
 
+detekt {
+    profile("main", Action {
+        //config = "default-detekt-config.yml"
+        input = "src/main/kotlin"
+        filters = ".*/resources/.*,.*/build/.*"
+        output = "$buildDir/reports/detekt-reports"
+        outputName = "detekt-report"
+        baseline = "detekt-baseline.xml"
+    })
+}
+
 tasks {
-    withType(Test::class.java).all {
+    withType<Test> {
         useTestNG()
     }
 
