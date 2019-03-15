@@ -49,8 +49,8 @@ class PinboardPosterTest {
         poster.apiToken = "foo"
         Assert.assertFalse(poster.addPin(url, desc), "apiToken: ${poster.apiToken}")
 
-        //poster.apiToken = "foo:TESTING"
-        //Assert.assertFalse(poster.addPin(url, desc), "apiToken: ${poster.apiToken}")
+        // poster.apiToken = "foo:TESTING"
+        // Assert.assertFalse(poster.addPin(url, desc), "apiToken: ${poster.apiToken}")
 
         poster = PinboardPoster(localProps)
         Assert.assertTrue(poster.addPin(url, desc), "apiToken: ${Constants.ENV_API_TOKEN}")
