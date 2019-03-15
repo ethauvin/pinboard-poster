@@ -1,6 +1,6 @@
 plugins {
     application
-    kotlin("jvm") version "1.2.50"
+    kotlin("jvm") version "1.3.0"
 }
 
 defaultTasks(ApplicationPlugin.TASK_RUN_NAME)
