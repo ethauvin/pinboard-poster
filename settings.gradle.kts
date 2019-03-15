@@ -1,1 +1,1 @@
-enableFeaturePreview("STABLE_PUBLISHING")
+
