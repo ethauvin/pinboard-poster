@@ -3,13 +3,15 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/pinboard-poster.iml" filepath="$PROJECT_DIR$/pinboard-poster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pinboard-poster-samples-kotlin.iml" filepath="$PROJECT_DIR$/.idea/modules/pinboard-poster-samples-kotlin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pinboard-poster_main.iml" filepath="$PROJECT_DIR$/.idea/modules/pinboard-poster_main.iml" group="pinboard-poster" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pinboard-poster_test.iml" filepath="$PROJECT_DIR$/.idea/modules/pinboard-poster_test.iml" group="pinboard-poster" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-java.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-java_main.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-java_main.iml" group="samples-java" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-java_test.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-java_test.iml" group="samples-java" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-kotlin.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-kotlin.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-kotlin_main.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-kotlin_main.iml" group="samples-kotlin" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-kotlin_test.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-kotlin_test.iml" group="samples-kotlin" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-kotlin~1.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-kotlin~1.iml" />
     </modules>
   </component>
 </project>

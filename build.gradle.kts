@@ -5,15 +5,17 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    kotlin("jvm") version "1.3.21"
     `build-scan`
+    jacoco
     java
+    kotlin("jvm") version "1.3.21"
     `maven-publish`
     id("com.github.ben-manes.versions") version "0.21.0"
     id("com.jfrog.bintray") version "1.8.4"
-    id("org.jetbrains.dokka") version "0.9.17"
-    id("org.jlleitschuh.gradle.ktlint") version "7.2.1"
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC14"
+    id("org.jetbrains.dokka") version "0.9.18"
+    id("org.jlleitschuh.gradle.ktlint") version "7.2.1"
+    id("org.sonarqube") version "2.7"
 }
 
 group = "net.thauvin.erik"
@@ -46,15 +48,22 @@ repositories {
 }
 
 dependencies {
-    compile(kotlin("stdlib"))
-    compile("com.squareup.okhttp3:okhttp:3.14.0")
-    testCompile("org.testng:testng:6.14.3")
+    implementation(kotlin("stdlib"))
+    implementation("com.squareup.okhttp3:okhttp:3.14.0")
+    testImplementation("org.testng:testng:6.14.3")
 }
 
 detekt {
     input = files("src/main/kotlin")
     filters = ".*/resources/.*,.*/build/.*"
     baseline = project.rootDir.resolve("detekt-baseline.xml")
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "ethauvin_pinboard-poster")
+        property("sonar.sourceEncoding", "UTF-8")
+    }
 }
 
 val sourcesJar by tasks.creating(Jar::class) {
@@ -75,6 +84,12 @@ tasks {
         useTestNG()
     }
 
+    withType<JacocoReport> {
+        reports {
+            html.isEnabled = true
+        }
+    }
+
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
     }
@@ -88,7 +103,7 @@ tasks {
         outputDirectory = "$buildDir/javadoc"
         jdkVersion = 8
         val mapping = LinkMapping().apply {
-            dir = project.rootDir.toPath().resolve("src/main/kotlin").toFile().path
+            dir = "src/main/kotlin"
             url = "https://github.com/ethauvin/pinboard-poster/blob/${project.version}/src/main/kotlin"
             suffix = "#L"
         }
