@@ -1,7 +1,7 @@
 # [Pinboard](https://pinboard.in) Poster for Kotlin/Java
 
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause) [![release](https://img.shields.io/github/release/ethauvin/pinboard-poster.svg)](https://github.com/ethauvin/pinboard-poster/releases/latest) [![Download](https://api.bintray.com/packages/ethauvin/maven/pinboard-poster/images/download.svg)](https://bintray.com/ethauvin/maven/pinboard-poster/_latestVersion)  
-[![Known Vulnerabilities](https://snyk.io/test/github/ethauvin/pinboard-poster/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/ethauvin/pinboard-poster?targetFile=pom.xml) [![Build Status](https://travis-ci.org/ethauvin/pinboard-poster.svg?branch=master)](https://travis-ci.org/ethauvin/pinboard-poster) [![CircleCI](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master.svg?style=shield)](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master)
+[![Known Vulnerabilities](https://snyk.io/test/github/ethauvin/pinboard-poster/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/ethauvin/pinboard-poster?targetFile=pom.xml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_pinboard-poster&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_pinboard-poster) [![Build Status](https://travis-ci.org/ethauvin/pinboard-poster.svg?branch=master)](https://travis-ci.org/ethauvin/pinboard-poster) [![CircleCI](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master.svg?style=shield)](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master)
 
 A small Kotlin/Java library for posting to [Pinboard](https://pinboard.in).
 
