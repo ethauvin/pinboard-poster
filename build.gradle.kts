@@ -59,6 +59,10 @@ detekt {
     baseline = project.rootDir.resolve("detekt-baseline.xml")
 }
 
+jacoco {
+    toolVersion = "0.8.3"
+}
+
 sonarqube {
     properties {
         property("sonar.projectKey", "ethauvin_pinboard-poster")
