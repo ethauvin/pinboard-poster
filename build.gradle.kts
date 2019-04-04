@@ -86,6 +86,7 @@ tasks {
 
     withType<JacocoReport> {
         reports {
+            xml.isEnabled = true
             html.isEnabled = true
         }
     }
@@ -162,6 +163,10 @@ tasks {
         description = "Publishes version ${project.version} to Bintray."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
         dependsOn("wrapper", bintrayUpload)
+    }
+
+    "sonarqube" {
+        dependsOn("jacocoTestReport")
     }
 }
 
