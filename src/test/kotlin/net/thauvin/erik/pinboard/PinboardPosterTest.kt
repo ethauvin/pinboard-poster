@@ -33,6 +33,7 @@ package net.thauvin.erik.pinboard
 
 import org.testng.Assert
 import org.testng.annotations.Test
+
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.Properties
@@ -60,11 +61,16 @@ class PinboardPosterTest {
 
     @Test
     fun testDeletePin() {
-        val props = Properties().apply {
-            Files.newInputStream(localProps).use { nis ->
-                load(nis)
+        val props = if (Files.exists(localProps)) {
+            Properties().apply {
+                Files.newInputStream(localProps).use { nis -> load(nis) }
+            }
+        } else {
+            Properties().apply {
+                setProperty(Constants.ENV_API_TOKEN, System.getenv(Constants.ENV_API_TOKEN))
             }
         }
+
         var poster = PinboardPoster(props)
 
         poster.apiEndPoint = ""
