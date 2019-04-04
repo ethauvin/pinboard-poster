@@ -33,7 +33,9 @@ package net.thauvin.erik.pinboard
 
 import org.testng.Assert
 import org.testng.annotations.Test
+import java.nio.file.Files
 import java.nio.file.Paths
+import java.util.Properties
 
 class PinboardPosterTest {
     private val url = "http://www.foo.com/"
@@ -58,10 +60,17 @@ class PinboardPosterTest {
 
     @Test
     fun testDeletePin() {
-        val poster = PinboardPoster(localProps)
+        val props = Properties().apply {
+            Files.newInputStream(localProps).use { nis ->
+                load(nis)
+            }
+        }
+        var poster = PinboardPoster(props)
 
         poster.apiEndPoint = ""
         Assert.assertFalse(poster.deletePin(url), "apiEndPoint: <blank>")
+
+        poster = PinboardPoster(localProps, Constants.ENV_API_TOKEN)
 
         poster.apiEndPoint = Constants.API_ENDPOINT
         Assert.assertTrue(poster.deletePin(url), "apiEndPoint: ${Constants.API_ENDPOINT}")
