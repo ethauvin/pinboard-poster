@@ -36,6 +36,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.xml.sax.InputSource
 import java.io.File
+import java.io.IOException
 import java.io.StringReader
 import java.net.MalformedURLException
 import java.net.URL
@@ -152,7 +153,7 @@ open class PinboardPoster() {
             if (!validateUrl(url)) {
                 logger.severe("Please specify a valid URL to pin.")
             } else if (description.isBlank()) {
-                logger.severe("Please specify a valid description.")
+                logger.severe("Please specify a valid description to pin: `$url`")
             } else {
                 val params = listOf(
                     Pair("url", url),
@@ -192,14 +193,41 @@ open class PinboardPoster() {
         return false
     }
 
+    fun parseMethodResponse(method: String, response: String) {
+        val factory = DocumentBuilderFactory.newInstance().apply {
+            isValidating = false
+            isIgnoringElementContentWhitespace = true
+            isIgnoringComments = true
+            isCoalescing = false
+            isNamespaceAware = false
+        }
+
+        if (response.isEmpty()) {
+            throw IOException("Response for $method is empty.")
+        }
+
+        try {
+            val document = factory.newDocumentBuilder().parse(InputSource(StringReader(response)))
+
+            val code = document.getElementsByTagName(
+                "result")?.item(0)?.attributes?.getNamedItem("code")?.nodeValue
+
+            if (!code.isNullOrBlank()) {
+                throw IOException("An error has occurred while executing $method: $code")
+            } else {
+                throw IOException("An error has occurred while executing $method.")
+            }
+        } catch (e: Exception) {
+            throw IOException("Could not parse $method response.", e)
+        }
+    }
+
     private fun executeMethod(method: String, params: List<Pair<String, String>>): Boolean {
         val apiUrl = HttpUrl.parse(cleanEndPoint(method))
         if (apiUrl != null) {
             val httpUrl = apiUrl.newBuilder().apply {
                 params.forEach {
-                    if (it.second.isNotBlank()) {
-                        addQueryParameter(it.first, it.second)
-                    }
+                    addQueryParameter(it.first, it.second)
                 }
                 addQueryParameter("auth_token", apiToken)
             }.build()
@@ -216,26 +244,10 @@ open class PinboardPoster() {
                 if (response.contains("done")) {
                     return true
                 } else {
-                    val factory = DocumentBuilderFactory.newInstance().apply {
-                        isValidating = false
-                        isIgnoringElementContentWhitespace = true
-                        isIgnoringComments = true
-                        isCoalescing = false
-                        isNamespaceAware = false
-                    }
-
                     try {
-                        val document = factory.newDocumentBuilder().parse(InputSource(StringReader(response)))
-
-                        val code = document.getElementsByTagName("result")?.item(0)?.attributes?.getNamedItem("code")?.nodeValue
-
-                        if (code != null && code.isNotBlank()) {
-                            logger.severe("An error has occurred while executing $method: $code")
-                        } else {
-                            logger.severe("An error has occurred while executing $method.")
-                        }
-                    } catch (e: Exception) {
-                        logger.log(Level.SEVERE, "Could not parse $method XML response.", e)
+                        parseMethodResponse(method, response)
+                    } catch (e: IOException) {
+                        logger.log(Level.SEVERE, e.message, e)
                     }
                 }
             }

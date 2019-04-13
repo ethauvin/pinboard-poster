@@ -31,9 +31,11 @@
  */
 package net.thauvin.erik.pinboard
 
-import org.testng.Assert
+import org.testng.Assert.assertFalse
+import org.testng.Assert.assertTrue
+import org.testng.Assert.expectThrows
 import org.testng.annotations.Test
-
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.Properties
@@ -47,16 +49,16 @@ class PinboardPosterTest {
     fun testAddPin() {
         var poster = PinboardPoster("")
 
-        Assert.assertFalse(poster.addPin(url, desc), "apiToken: <blank>")
+        assertFalse(poster.addPin(url, desc), "apiToken: <blank>")
 
         poster.apiToken = "foo"
-        Assert.assertFalse(poster.addPin(url, desc), "apiToken: ${poster.apiToken}")
+        assertFalse(poster.addPin(url, desc), "apiToken: ${poster.apiToken}")
 
         // poster.apiToken = "foo:TESTING"
-        // Assert.assertFalse(poster.addPin(url, desc), "apiToken: ${poster.apiToken}")
+        // assertFalse(poster.addPin(url, desc), "apiToken: ${poster.apiToken}")
 
         poster = PinboardPoster(localProps)
-        Assert.assertTrue(poster.addPin(url, desc), "apiToken: ${Constants.ENV_API_TOKEN}")
+        assertTrue(poster.addPin(url, desc), "apiToken: ${Constants.ENV_API_TOKEN}")
     }
 
     @Test
@@ -74,13 +76,21 @@ class PinboardPosterTest {
         var poster = PinboardPoster(props)
 
         poster.apiEndPoint = ""
-        Assert.assertFalse(poster.deletePin(url), "apiEndPoint: <blank>")
+        assertFalse(poster.deletePin(url), "apiEndPoint: <blank>")
 
         poster = PinboardPoster(localProps, Constants.ENV_API_TOKEN)
 
         poster.apiEndPoint = Constants.API_ENDPOINT
-        Assert.assertTrue(poster.deletePin(url), "apiEndPoint: ${Constants.API_ENDPOINT}")
+        assertTrue(poster.deletePin(url), "apiEndPoint: ${Constants.API_ENDPOINT}")
 
-        Assert.assertFalse(poster.deletePin("foo.com"), "url: foo.com")
+        expectThrows(IOException::class.java) {
+            poster.parseMethodResponse("post/delete", "<result code=\"item not found\"/>")
+        }
+
+        expectThrows(IOException::class.java) {
+            poster.parseMethodResponse("post/delete", "")
+        }
+
+        assertFalse(poster.deletePin("foo.com"), "url: foo.com")
     }
 }
