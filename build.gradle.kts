@@ -1,6 +1,6 @@
 import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.dokka.gradle.LinkMapping
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -159,7 +159,7 @@ tasks {
     }
 
     buildScan {
-        setTermsOfServiceUrl("https://gradle.com/terms-of-service")
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
         setTermsOfServiceAgree("yes")
     }
 
