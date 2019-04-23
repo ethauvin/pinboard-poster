@@ -8,7 +8,7 @@ plugins {
     `build-scan`
     jacoco
     java
-    kotlin("jvm") version "1.3.21"
+    kotlin("jvm") version "1.3.30"
     `maven-publish`
     id("com.github.ben-manes.versions") version "0.21.0"
     id("com.jfrog.bintray") version "1.8.4"
@@ -48,8 +48,9 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    implementation("com.squareup.okhttp3:okhttp:3.14.0")
+    compile("com.squareup.okhttp3:okhttp:3.14.0")
+    compile(kotlin("stdlib"))
+
     testImplementation("org.testng:testng:6.14.3")
 }
 
@@ -116,12 +117,14 @@ tasks {
         includeNonPublic = false
     }
 
-    "assemble" {
+    assemble {
         dependsOn(sourcesJar, javadocJar)
     }
 
     val copyToDeploy by registering(Copy::class) {
-        from(configurations.runtime)
+        from(configurations.runtime) {
+            exclude("annotations-*.jar")
+        }
         from(jar)
         into(deployDir)
     }
@@ -150,7 +153,7 @@ tasks {
         }
     }
 
-    "check" {
+    check {
         dependsOn("ktlintCheck")
     }
 
