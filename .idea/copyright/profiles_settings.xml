@@ -1,5 +1,5 @@
 <component name="CopyrightManager">
-  <settings>
+  <settings default="Erik's Copyright Notice">
     <module2copyright>
       <element module="Source" copyright="Erik's Copyright Notice" />
     </module2copyright>

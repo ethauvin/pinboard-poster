@@ -1,7 +1,7 @@
 /*
  * PinboardPoster.kt
  *
- * Copyright (c) 2017-2018, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2017-2019, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package net.thauvin.erik.pinboard
 
 import okhttp3.HttpUrl
