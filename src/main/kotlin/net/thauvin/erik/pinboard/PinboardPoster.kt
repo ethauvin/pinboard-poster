@@ -211,8 +211,8 @@ open class PinboardPoster() {
         try {
             val document = factory.newDocumentBuilder().parse(InputSource(StringReader(response)))
 
-            val code = document.getElementsByTagName(
-                "result")?.item(0)?.attributes?.getNamedItem("code")?.nodeValue
+            val code = document.getElementsByTagName("result")?.item(0)?.attributes?.getNamedItem(
+                "code")?.nodeValue
 
             if (!code.isNullOrBlank()) {
                 throw IOException("An error has occurred while executing $method: $code")
