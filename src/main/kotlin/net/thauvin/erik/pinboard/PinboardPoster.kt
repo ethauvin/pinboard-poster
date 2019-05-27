@@ -194,7 +194,7 @@ open class PinboardPoster() {
         return false
     }
 
-    fun parseMethodResponse(method: String, response: String) {
+    internal fun parseMethodResponse(method: String, response: String) {
         val factory = DocumentBuilderFactory.newInstance().apply {
             isValidating = false
             isIgnoringElementContentWhitespace = true
@@ -220,6 +220,14 @@ open class PinboardPoster() {
             }
         } catch (e: Exception) {
             throw IOException("Could not parse $method response.", e)
+        }
+    }
+
+    private fun cleanEndPoint(method: String): String {
+        return if (apiEndPoint.endsWith('/')) {
+            "$apiEndPoint$method"
+        } else {
+            "$apiEndPoint/$method"
         }
     }
 
@@ -257,14 +265,6 @@ open class PinboardPoster() {
         }
 
         return false
-    }
-
-    private fun cleanEndPoint(method: String): String {
-        return if (apiEndPoint.endsWith('/')) {
-            "$apiEndPoint$method"
-        } else {
-            "$apiEndPoint/$method"
-        }
     }
 
     private fun logHttp(method: String, msg: String) {
