@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <SmellBaseline>
   <Blacklist timestamp="1531308331780"></Blacklist>
-  <Whitelist timestamp="1531311383595">
+  <Whitelist timestamp="1558928560207">
     <ID>ComplexMethod:PinboardPoster.kt$PinboardPoster$private fun executeMethod(method: String, params: List&lt;Pair&lt;String, String&gt;&gt;): Boolean</ID>
     <ID>LongParameterList:PinboardPoster.kt$PinboardPoster$( url: String, description: String, extended: String = "", tags: String = "", dt: String = "", replace: Boolean = true, shared: Boolean = true, toRead: Boolean = false )</ID>
-    <ID>MaxLineLength:PinboardPoster.kt$PinboardPoster$val code = document.getElementsByTagName("result")?.item(0)?.attributes?.getNamedItem("code")?.nodeValue</ID>
     <ID>NestedBlockDepth:PinboardPoster.kt$PinboardPoster$private fun executeMethod(method: String, params: List&lt;Pair&lt;String, String&gt;&gt;): Boolean</ID>
+    <ID>ThrowsCount:PinboardPoster.kt$PinboardPoster$internal fun parseMethodResponse(method: String, response: String)</ID>
     <ID>TooGenericExceptionCaught:PinboardPoster.kt$PinboardPoster$e: Exception</ID>
   </Whitelist>
 </SmellBaseline>
