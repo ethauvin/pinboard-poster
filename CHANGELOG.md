@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/ethauvin/pinboard-poster/tree/HEAD)
-
-[Full Changelog](https://github.com/ethauvin/pinboard-poster/compare/1.0.0...HEAD)
+## [1.0.1](https://github.com/ethauvin/pinboard-poster/tree/1.0.1) (2019-05-27)
+[Full Changelog](https://github.com/ethauvin/pinboard-poster/compare/1.0.0...1.0.1)
 
 **Implemented enhancements:**
 
