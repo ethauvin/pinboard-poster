@@ -119,6 +119,7 @@ open class PinboardPoster() {
     var apiEndPoint: String = Constants.API_ENDPOINT
 
     /** The logger instance. **/
+    @Suppress("MemberVisibilityCanBePrivate")
     val logger: Logger by lazy { Logger.getLogger(PinboardPoster::class.java.simpleName) }
 
     private val client by lazy { OkHttpClient() }
