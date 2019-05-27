@@ -5,21 +5,21 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    `build-scan`
+    id("com.gradle.build-scan") version "2.3"
     jacoco
     java
-    kotlin("jvm") version "1.3.30"
+    kotlin("jvm") version "1.3.31"
     `maven-publish`
     id("com.github.ben-manes.versions") version "0.21.0"
     id("com.jfrog.bintray") version "1.8.4"
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC14"
     id("org.jetbrains.dokka") version "0.9.18"
-    id("org.jlleitschuh.gradle.ktlint") version "7.2.1"
-    id("org.sonarqube") version "2.7"
+    id("org.jmailen.kotlinter") version "1.25.2"
+    id("org.sonarqube") version "2.7.1"
 }
 
 group = "net.thauvin.erik"
-version = "1.0.1-beta"
+version = "1.0.1"
 description = "Pinboard Poster for Kotlin/Java"
 
 val gitHub = "ethauvin/$name"
@@ -48,16 +48,22 @@ repositories {
 }
 
 dependencies {
-    compile("com.squareup.okhttp3:okhttp:3.14.0")
+    compile("com.squareup.okhttp3:okhttp:3.14.2")
     compile(kotlin("stdlib"))
 
     testImplementation("org.testng:testng:6.14.3")
 }
 
 detekt {
-    input = files("src/main/kotlin")
+    input = files("src/main/kotlin", "src/test/kotlin")
     filters = ".*/resources/.*,.*/build/.*"
     baseline = project.rootDir.resolve("detekt-baseline.xml")
+}
+
+kotlinter {
+    ignoreFailures = false
+    reporters = arrayOf("html")
+    experimentalRules = false
 }
 
 jacoco {
@@ -104,6 +110,16 @@ tasks {
         destination = file("$projectDir/pom.xml")
     }
 
+    assemble {
+        dependsOn(sourcesJar, javadocJar)
+    }
+
+    clean {
+        doLast {
+            project.delete(fileTree(deployDir))
+        }
+    }
+
     dokka {
         outputFormat = "html"
         outputDirectory = "$buildDir/javadoc"
@@ -117,10 +133,6 @@ tasks {
         includeNonPublic = false
     }
 
-    assemble {
-        dependsOn(sourcesJar, javadocJar)
-    }
-
     val copyToDeploy by registering(Copy::class) {
         from(configurations.runtime) {
             exclude("annotations-*.jar")
@@ -132,7 +144,7 @@ tasks {
     register("deploy") {
         description = "Copies all needed files to the $deployDir directory."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        dependsOn("build")
+        dependsOn("build", "jar")
         outputs.dir(deployDir)
         inputs.files(copyToDeploy)
         mustRunAfter("clean")
@@ -151,10 +163,6 @@ tasks {
         if (isRelease) {
             commandLine("git", "tag", "-a", project.version, "-m", "Version ${project.version}")
         }
-    }
-
-    check {
-        dependsOn("ktlintCheck")
     }
 
     val bintrayUpload by existing(BintrayUploadTask::class) {

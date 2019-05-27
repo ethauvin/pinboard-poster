@@ -6,7 +6,7 @@ plugins {
 defaultTasks(ApplicationPlugin.TASK_RUN_NAME)
 
 dependencies {
-    compile("net.thauvin.erik:pinboard-poster:1.0.0")
+    compile("net.thauvin.erik:pinboard-poster:1.0.1")
 }
 
 application {

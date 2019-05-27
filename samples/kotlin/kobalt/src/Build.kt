@@ -13,7 +13,7 @@ val p = project {
     version = "0.1"
 
     dependencies {
-        compile("net.thauvin.erik:pinboard-poster:1.0.0")
+        compile("net.thauvin.erik:pinboard-poster:1.0.1")
     }
 
     assemble {
@@ -23,6 +23,7 @@ val p = project {
     }
 
     application {
+        ignoreErrorStream = true
         mainClass = "net.thauvin.erik.pinboard.samples.KotlinExampleKt"
     }
 }
