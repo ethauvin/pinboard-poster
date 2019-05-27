@@ -9,7 +9,7 @@ java8=true
 # e.g: <example directory> <gradle args...>
 declare -a examples=(
     "samples/java run"
-    "examples/kotlin run")
+    "samples/kotlin run")
 # e.g: empty or javadoc, etc.
 gradle_doc="dokka"
 # e.g. empty or sonarqube
