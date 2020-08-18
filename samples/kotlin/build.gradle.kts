@@ -1,7 +1,9 @@
 plugins {
     application
-    kotlin("jvm") version "1.3.0"
+    kotlin("jvm") version "1.4.0"
 }
+
+// .gradlew run
 
 defaultTasks(ApplicationPlugin.TASK_RUN_NAME)
 

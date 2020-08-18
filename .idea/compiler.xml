@@ -4,8 +4,18 @@
     <bytecodeTargetLevel>
       <module name="java_main" target="1.8" />
       <module name="java_test" target="1.8" />
+      <module name="kotlin.samples-kotlin" target="1.8" />
+      <module name="kotlin.samples-kotlin.main" target="1.8" />
+      <module name="kotlin.samples-kotlin.test" target="1.8" />
+      <module name="pinboard-poster" target="1.8" />
+      <module name="pinboard-poster-samples-kotlin" target="1.8" />
+      <module name="pinboard-poster.main" target="1.8" />
+      <module name="pinboard-poster.test" target="1.8" />
       <module name="pinboard-poster_main" target="1.8" />
       <module name="pinboard-poster_test" target="1.8" />
+      <module name="samples-java" target="1.8" />
+      <module name="samples-java.main" target="1.8" />
+      <module name="samples-java.test" target="1.8" />
       <module name="samples-java_main" target="1.8" />
       <module name="samples-java_test" target="1.8" />
       <module name="samples-koltin_main" target="1.8" />

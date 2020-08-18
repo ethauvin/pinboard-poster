@@ -1,21 +1,18 @@
 import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
-import org.jetbrains.dokka.gradle.LinkMapping
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    id("com.gradle.build-scan") version "2.3"
     jacoco
     java
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version "1.4.0"
     `maven-publish`
-    id("com.github.ben-manes.versions") version "0.21.0"
-    id("com.jfrog.bintray") version "1.8.4"
-    id("io.gitlab.arturbosch.detekt") version "1.0.0-RC14"
-    id("org.jetbrains.dokka") version "0.9.18"
-    id("org.jmailen.kotlinter") version "1.25.2"
-    id("org.sonarqube") version "2.7.1"
+    id("com.github.ben-manes.versions") version "0.29.0"
+    id("com.jfrog.bintray") version "1.8.5"
+    id("io.gitlab.arturbosch.detekt") version "1.11.0"
+    id("org.jetbrains.dokka") version "1.4.0-rc"
+    id("org.sonarqube") version "3.0"
 }
 
 group = "net.thauvin.erik"
@@ -48,26 +45,17 @@ repositories {
 }
 
 dependencies {
-    compile("com.squareup.okhttp3:okhttp:3.14.2")
-    compile(kotlin("stdlib"))
+    compile("com.squareup.okhttp3:okhttp:4.8.1")
 
-    testImplementation("org.testng:testng:6.14.3")
+    testImplementation("org.testng:testng:7.3.0")
 }
 
 detekt {
-    input = files("src/main/kotlin", "src/test/kotlin")
-    filters = ".*/resources/.*,.*/build/.*"
-    baseline = project.rootDir.resolve("detekt-baseline.xml")
-}
-
-kotlinter {
-    ignoreFailures = false
-    reporters = arrayOf("html")
-    experimentalRules = false
+    baseline = project.rootDir.resolve("config/detekt/baseline.xml")
 }
 
 jacoco {
-    toolVersion = "0.8.3"
+    toolVersion = "0.8.5"
 }
 
 sonarqube {
@@ -83,8 +71,8 @@ val sourcesJar by tasks.creating(Jar::class) {
 }
 
 val javadocJar by tasks.creating(Jar::class) {
-    dependsOn(tasks.dokka)
-    from(tasks.dokka)
+    dependsOn(tasks.dokkaJavadoc)
+    from(tasks.dokkaJavadoc)
     archiveClassifier.set("javadoc")
     description = "Assembles a JAR of the generated Javadoc."
     group = JavaBasePlugin.DOCUMENTATION_GROUP
@@ -118,19 +106,6 @@ tasks {
         doLast {
             project.delete(fileTree(deployDir))
         }
-    }
-
-    dokka {
-        outputFormat = "html"
-        outputDirectory = "$buildDir/javadoc"
-        jdkVersion = 8
-        val mapping = LinkMapping().apply {
-            dir = "src/main/kotlin"
-            url = "https://github.com/ethauvin/pinboard-poster/blob/${project.version}/src/main/kotlin"
-            suffix = "#L"
-        }
-        linkMappings = arrayListOf(mapping)
-        includeNonPublic = false
     }
 
     val copyToDeploy by registering(Copy::class) {
@@ -200,7 +175,7 @@ bintray {
         githubRepo = gitHub
         githubReleaseNotesFile = "README.md"
         vcsUrl = "$mavenUrl.git"
-        setLabels("kotlin", "java", "pinboard", "poster", "bookmarks")
+        setLabels("android", "kotlin", "java", "pinboard", "poster", "bookmarks")
         publicDownloadNumbers = true
         version.apply {
             name = project.version as String

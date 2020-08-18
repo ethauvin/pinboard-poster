@@ -1,7 +1,7 @@
 /*
  * PinboardPoster.kt
  *
- * Copyright (c) 2017-2019, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2017-2020, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,7 @@
 
 package net.thauvin.erik.pinboard
 
-import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.xml.sax.InputSource
@@ -43,7 +43,7 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
-import java.util.Properties
+import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.xml.parsers.DocumentBuilderFactory
@@ -52,6 +52,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 object Constants {
     /** The Pinboard API endpoint URL. **/
     const val API_ENDPOINT = "https://api.pinboard.in/v1/"
+
     /** The API token environment variable. **/
     const val ENV_API_TOKEN = "PINBOARD_API_TOKEN"
 }
@@ -211,8 +212,7 @@ open class PinboardPoster() {
         try {
             val document = factory.newDocumentBuilder().parse(InputSource(StringReader(response)))
 
-            val code = document.getElementsByTagName("result")?.item(0)?.attributes?.getNamedItem(
-                "code")?.nodeValue
+            val code = document.getElementsByTagName("result")?.item(0)?.attributes?.getNamedItem("code")?.nodeValue
 
             if (!code.isNullOrBlank()) {
                 throw IOException("An error has occurred while executing $method: $code")
@@ -233,7 +233,7 @@ open class PinboardPoster() {
     }
 
     private fun executeMethod(method: String, params: List<Pair<String, String>>): Boolean {
-        val apiUrl = HttpUrl.parse(cleanEndPoint(method))
+        val apiUrl = cleanEndPoint(method).toHttpUrlOrNull()
         if (apiUrl != null) {
             val httpUrl = apiUrl.newBuilder().apply {
                 params.forEach {
@@ -245,9 +245,9 @@ open class PinboardPoster() {
             val request = Request.Builder().url(httpUrl).build()
             val result = client.newCall(request).execute()
 
-            logHttp(method, "HTTP Result: ${result.code()}")
+            logHttp(method, "HTTP Result: ${result.code}")
 
-            val response = result.body()?.string()
+            val response = result.body?.string()
 
             if (response != null) {
                 logHttp(method, "HTTP Response:\n$response")

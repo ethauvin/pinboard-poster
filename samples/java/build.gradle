@@ -3,6 +3,8 @@ plugins {
     id 'application'
 }
 
+// .gradlew run
+
 defaultTasks 'run'
 
 mainClassName = 'net.thauvin.erik.pinboard.samples.JavaExample'
