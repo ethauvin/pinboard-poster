@@ -242,32 +242,32 @@ open class PinboardPoster() {
     }
 
     private fun executeMethod(method: String, params: List<Pair<String, String>>): Boolean {
-        val apiUrl = cleanEndPoint(method).toHttpUrlOrNull()
-        if (apiUrl != null) {
-            val httpUrl = apiUrl.newBuilder().apply {
-                params.forEach {
-                    addQueryParameter(it.first, it.second)
-                }
-                addQueryParameter("auth_token", apiToken)
-            }.build()
+        try {
+            val apiUrl = cleanEndPoint(method).toHttpUrlOrNull()
+            if (apiUrl != null) {
+                val httpUrl = apiUrl.newBuilder().apply {
+                    params.forEach {
+                        addQueryParameter(it.first, it.second)
+                    }
+                    addQueryParameter("auth_token", apiToken)
+                }.build()
 
-            val request = Request.Builder().url(httpUrl).build()
-            val result = client.newCall(request).execute()
-            val response = result.body?.string()
+                val request = Request.Builder().url(httpUrl).build()
+                val result = client.newCall(request).execute()
+                val response = result.body?.string()
 
-            if (response != null) {
-                if (response.contains("done")) {
-                    return true
-                } else {
-                    try {
+                if (response != null) {
+                    if (response.contains("done")) {
+                        return true
+                    } else {
                         parseMethodResponse(method, response)
-                    } catch (e: IOException) {
-                        logger.log(Level.SEVERE, e.message, e)
                     }
                 }
+            } else {
+                logger.severe("Invalid API end point: $apiEndPoint")
             }
-        } else {
-            logger.severe("Invalid API end point: $apiEndPoint")
+        } catch (e: IOException) {
+            logger.log(Level.SEVERE, e.message, e)
         }
 
         return false
