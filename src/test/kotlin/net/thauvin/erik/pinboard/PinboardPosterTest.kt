@@ -1,7 +1,7 @@
 /*
  * PinboardPosterTest.kt
  *
- * Copyright (c) 2017-2019, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2017-2020, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,7 @@ import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.Properties
+import java.util.logging.Level
 
 class PinboardPosterTest {
     private val url = "http://www.foo.com/"
@@ -49,6 +50,7 @@ class PinboardPosterTest {
     @Test
     fun testAddPin() {
         var poster = PinboardPoster("")
+        poster.logger.level = Level.FINE
 
         assertFalse(poster.addPin(url, desc), "apiToken: <blank>")
 
@@ -59,6 +61,7 @@ class PinboardPosterTest {
         // assertFalse(poster.addPin(url, desc), "apiToken: ${poster.apiToken}")
 
         poster = PinboardPoster(localProps)
+        poster.logger.level = Level.FINE
         assertTrue(poster.addPin(url, desc), "apiToken: ${Constants.ENV_API_TOKEN}")
     }
 
@@ -75,11 +78,13 @@ class PinboardPosterTest {
         }
 
         var poster = PinboardPoster(props)
+        poster.logger.level = Level.FINE
 
         poster.apiEndPoint = ""
         assertFalse(poster.deletePin(url), "apiEndPoint: <blank>")
 
         poster = PinboardPoster(localProps, Constants.ENV_API_TOKEN)
+        poster.logger.level = Level.FINE
 
         poster.apiEndPoint = Constants.API_ENDPOINT
         assertTrue(poster.deletePin(url), "apiEndPoint: ${Constants.API_ENDPOINT}")

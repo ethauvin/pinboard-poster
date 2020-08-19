@@ -10,7 +10,7 @@ plugins {
     `maven-publish`
     id("com.github.ben-manes.versions") version "0.29.0"
     id("com.jfrog.bintray") version "1.8.5"
-    id("io.gitlab.arturbosch.detekt") version "1.11.0"
+    id("io.gitlab.arturbosch.detekt") version "1.11.1"
     id("org.jetbrains.dokka") version "1.4.0-rc"
     id("org.sonarqube") version "3.0"
 }
@@ -40,12 +40,19 @@ File("local.properties").apply {
     }
 }
 
+object VersionInfo {
+    const val okhttp = "4.8.1"
+}
+
+val versions: VersionInfo by extra { VersionInfo }
+
 repositories {
     jcenter()
 }
 
 dependencies {
-    compile("com.squareup.okhttp3:okhttp:4.8.1")
+    implementation("com.squareup.okhttp3:okhttp:${versions.okhttp}")
+    implementation("com.squareup.okhttp3:logging-interceptor:${versions.okhttp}")
 
     testImplementation("org.testng:testng:7.3.0")
 }

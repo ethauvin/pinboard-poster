@@ -35,6 +35,7 @@ package net.thauvin.erik.pinboard
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.logging.HttpLoggingInterceptor
 import org.xml.sax.InputSource
 import java.io.File
 import java.io.IOException
@@ -123,7 +124,15 @@ open class PinboardPoster() {
     @Suppress("MemberVisibilityCanBePrivate")
     val logger: Logger by lazy { Logger.getLogger(PinboardPoster::class.java.simpleName) }
 
-    private val client by lazy { OkHttpClient() }
+    private val client by lazy {
+        OkHttpClient.Builder().apply {
+            if (logger.isLoggable(Level.FINE)) {
+                addInterceptor(HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                })
+            }
+        }.build()
+    }
 
     /**
      * Adds a bookmark to Pinboard.
@@ -244,13 +253,9 @@ open class PinboardPoster() {
 
             val request = Request.Builder().url(httpUrl).build()
             val result = client.newCall(request).execute()
-
-            logHttp(method, "HTTP Result: ${result.code}")
-
             val response = result.body?.string()
 
             if (response != null) {
-                logHttp(method, "HTTP Response:\n$response")
                 if (response.contains("done")) {
                     return true
                 } else {
@@ -266,10 +271,6 @@ open class PinboardPoster() {
         }
 
         return false
-    }
-
-    private fun logHttp(method: String, msg: String) {
-        logger.logp(Level.FINE, PinboardPoster::class.java.name, "executeMethod($method)", msg)
     }
 
     private fun validate(): Boolean {
