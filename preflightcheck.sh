@@ -104,7 +104,7 @@ checkDeps() {
         * ) for ex in "${!examples[@]}"
             do
                 runGradle $(echo "${examples[ex]}" | cut -d " " -f 1) dU
-                runKobalt $(echo "${examples[ex]}" | cut -d " " -f 1) checkVersions
+                # runKobalt $(echo "${examples[ex]}" | cut -d " " -f 1) checkVersions
                 runMaven $(echo "${examples[ex]}" | cut -d " " -f 1) versions:display-dependency-updates 
                 if [ "$ex" -eq "${#examples}" ]
                 then
@@ -130,7 +130,7 @@ runExamples() {
     for ex in "${!examples[@]}"
     do
         runGradle ${examples[ex]} clean $gradle_opts
-        runKobalt ${examples[ex]} clean
+        # runKobalt ${examples[ex]} clean
         runMaven $(echo "${examples[ex]}" | cut -d " " -f 1) clean $maven_args
     done
 }
@@ -152,7 +152,7 @@ examplesMenu() {
                     examplesMenu
                 else
                     runGradle ${examples[$(($choice - 1))]}
-                    runKobalt ${examples[$(($choice - 1))]}
+                    # runKobalt ${examples[$(($choice - 1))]}
                     runMaven $(echo "${examples[$(($choice - 1))]}" | cut -d " " -f 1) $maven_args
                     examplesMenu
                 fi ;;

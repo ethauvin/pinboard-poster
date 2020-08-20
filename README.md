@@ -31,7 +31,7 @@ poster.deletePin("http:///www.example.com/bar");
 
 Your API authentication token is available on the [Pinboard settings page](https://pinboard.in/settings/password).
 
-## Usage with Maven, Gradle and Kobalt
+## Usage with Maven and Gradle
 
 ### Maven
 
@@ -56,17 +56,6 @@ dependencies {
 ```
 [View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/java/build.gradle)  
 [View Kotlin DSL Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/kotlin/build.gradle.kts)
-
-### Kobalt
-
-To install and run from Kobalt, add the following to the Build.kt file:
-
-```gradle
-dependencies {
-    compile("net.thauvin.erik:pinboard-poster:1.0.1")
-}
-```
-[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/kotlin/kobalt/src/Build.kt)
 
 ## Adding
 
