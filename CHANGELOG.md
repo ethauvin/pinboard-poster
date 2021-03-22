@@ -1,8 +1,8 @@
 # Changelog
 
-## [1.1.0](https://github.com/ethauvin/pinboard-poster/tree/1.1.0) (2021-03-21)
+## [1.0.2](https://github.com/ethauvin/pinboard-poster/tree/1.0.2) (2021-03-21)
 
-[Full Changelog](https://github.com/ethauvin/pinboard-poster/compare/1.0.1...1.1.0)
+[Full Changelog](https://github.com/ethauvin/pinboard-poster/compare/1.0.1...1.0.2)
 
 **Implemented enhancements:**
 
