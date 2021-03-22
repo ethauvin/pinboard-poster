@@ -3,17 +3,17 @@ plugins {
     id 'application'
 }
 
-// .gradlew run
+// ./gradlew run
 
 defaultTasks 'run'
 
 mainClassName = 'net.thauvin.erik.pinboard.samples.JavaExample'
 
-dependencies {
-    compile 'net.thauvin.erik:pinboard-poster:1.0.1'
-}
-
 repositories {
     mavenLocal()
-    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    compile 'net.thauvin.erik:pinboard-poster:1.0.2'
 }

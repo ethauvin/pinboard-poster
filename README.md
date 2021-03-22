@@ -1,6 +1,7 @@
 # [Pinboard](https://pinboard.in) Poster for Kotlin/Java
 
-[![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause) [![release](https://img.shields.io/github/release/ethauvin/pinboard-poster.svg)](https://github.com/ethauvin/pinboard-poster/releases/latest) [![Download](https://api.bintray.com/packages/ethauvin/maven/pinboard-poster/images/download.svg)](https://bintray.com/ethauvin/maven/pinboard-poster/_latestVersion)  
+[![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause) [![Release](https://img.shields.io/github/release/ethauvin/pinboard-poster.svg)](https://github.com/ethauvin/pinboard-poster/releases/latest) [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/pinboard-poster.svg?label=maven%20central)](https://search.maven.org/search?q=g:%22net.thauvin.erik%22%20AND%20a:%22pinboard-poster%22)
+
 [![Known Vulnerabilities](https://snyk.io/test/github/ethauvin/pinboard-poster/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/ethauvin/pinboard-poster?targetFile=pom.xml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_pinboard-poster&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_pinboard-poster) [![Build Status](https://travis-ci.com/ethauvin/pinboard-poster.svg?branch=master)](https://travis-ci.com/ethauvin/pinboard-poster) [![CircleCI](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master.svg?style=shield)](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master)
 
 A small Kotlin/Java/Android library for posting to [Pinboard](https://pinboard.in).
@@ -31,31 +32,19 @@ poster.deletePin("http:///www.example.com/bar");
 
 Your API authentication token is available on the [Pinboard settings page](https://pinboard.in/settings/password).
 
-## Usage with Maven and Gradle
-
-### Maven
-
-To install and run from Maven, configure an artifact as follows:
-
-```xml
-<dependency>
-    <groupId>net.thauvin.erik</groupId>
-    <artifactId>pinboard-poster</artifactId>
-    <version>1.0.1</version>
-</dependency>
-```
-
-### Gradle
+## Usage with Gradle, Maven, etc.
 
 To install and run from Gradle, add the following to the build.gradle file:
 
 ```gradle
 dependencies {
-    compile 'net.thauvin.erik:pinboard-poster:1.0.1'
+    compile 'net.thauvin.erik:pinboard-poster:1.0.2'
 }
 ```
 [View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/java/build.gradle)  
 [View Kotlin DSL Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/kotlin/build.gradle.kts)
+
+Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](https://search.maven.org/artifact/net.thauvin.erik/pinboard-poster/1.0.2/jar).
 
 ## Adding
 
