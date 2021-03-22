@@ -1,6 +1,14 @@
 # Changelog
 
-## [1.0.2](https://github.com/ethauvin/pinboard-poster/tree/1.0.2) (2021-03-21)
+## [1.0.3](https://github.com/ethauvin/pinboard-poster/tree/1.0.3) (2021-03-22)
+
+[Full Changelog](https://github.com/ethauvin/pinboard-poster/compare/1.0.2...1.0.3)
+
+**Fixed bugs:**
+
+- 1.0.2 only compiled for Java 15 [\#4](https://github.com/ethauvin/pinboard-poster/issues/4)
+
+## [1.0.2](https://github.com/ethauvin/pinboard-poster/tree/1.0.2) (2021-03-22)
 
 [Full Changelog](https://github.com/ethauvin/pinboard-poster/compare/1.0.1...1.0.2)
 
