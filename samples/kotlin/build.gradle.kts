@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    compile("net.thauvin.erik:pinboard-poster:1.0.2")
+    compile("net.thauvin.erik:pinboard-poster:1.0.3")
 }
 
 application {

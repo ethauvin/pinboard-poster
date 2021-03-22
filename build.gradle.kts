@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "net.thauvin.erik"
-version = "1.0.2"
+version = "1.0.3"
 description = "Pinboard Poster for Kotlin/Java"
 
 val gitHub = "ethauvin/$name"
