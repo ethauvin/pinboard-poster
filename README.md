@@ -31,21 +31,7 @@ poster.deletePin("http:///www.example.com/bar");
 
 Your API authentication token is available on the [Pinboard settings page](https://pinboard.in/settings/password).
 
-## Usage with Maven and Gradle
-
-### Maven
-
-To install and run from Maven, configure an artifact as follows:
-
-```xml
-<dependency>
-    <groupId>net.thauvin.erik</groupId>
-    <artifactId>pinboard-poster</artifactId>
-    <version>1.0.1</version>
-</dependency>
-```
-
-### Gradle
+## Usage with Gradle, Maven, etc.
 
 To install and run from Gradle, add the following to the build.gradle file:
 
@@ -56,6 +42,8 @@ dependencies {
 ```
 [View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/java/build.gradle)  
 [View Kotlin DSL Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/kotlin/build.gradle.kts)
+
+Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](https://search.maven.org/artifact/net.thauvin.erik/pinboard-poster/1.1.0/jar)
 
 ## Adding
 
