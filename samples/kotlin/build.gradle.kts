@@ -1,6 +1,6 @@
 plugins {
     application
-    kotlin("jvm") version "1.4.0"
+    kotlin("jvm") version "1.4.31"
 }
 
 // .gradlew run
@@ -8,7 +8,7 @@ plugins {
 defaultTasks(ApplicationPlugin.TASK_RUN_NAME)
 
 dependencies {
-    compile("net.thauvin.erik:pinboard-poster:1.0.1")
+    compile("net.thauvin.erik:pinboard-poster:1.1.0")
 }
 
 application {
@@ -17,5 +17,5 @@ application {
 
 repositories {
     mavenLocal()
-    jcenter()
+    mavenCentral()
 }

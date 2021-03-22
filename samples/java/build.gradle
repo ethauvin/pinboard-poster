@@ -10,10 +10,10 @@ defaultTasks 'run'
 mainClassName = 'net.thauvin.erik.pinboard.samples.JavaExample'
 
 dependencies {
-    compile 'net.thauvin.erik:pinboard-poster:1.0.1'
+    compile 'net.thauvin.erik:pinboard-poster:1.1.0'
 }
 
 repositories {
     mavenLocal()
-    jcenter()
+    mavenCentral()
 }
