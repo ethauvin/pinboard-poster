@@ -43,7 +43,7 @@ dependencies {
 [View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/java/build.gradle)  
 [View Kotlin DSL Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/kotlin/build.gradle.kts)
 
-Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](https://search.maven.org/artifact/net.thauvin.erik/pinboard-poster/1.0.2/jar)
+Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](https://search.maven.org/artifact/net.thauvin.erik/pinboard-poster/1.0.2/jar).
 
 ## Adding
 
