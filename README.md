@@ -38,13 +38,13 @@ To install and run from Gradle, add the following to the build.gradle file:
 
 ```gradle
 dependencies {
-    compile 'net.thauvin.erik:pinboard-poster:1.0.3'
+    compile 'net.thauvin.erik:pinboard-poster:1.0.4'
 }
 ```
 [View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/java/build.gradle)  
 [View Kotlin DSL Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/kotlin/build.gradle.kts)
 
-Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](https://search.maven.org/artifact/net.thauvin.erik/pinboard-poster/1.0.3/jar).
+Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](https://search.maven.org/artifact/net.thauvin.erik/pinboard-poster/1.0.4/jar).
 
 ## Adding
 

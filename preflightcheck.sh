@@ -2,7 +2,7 @@
 
 # set source and test locations
 src="src/main/kotlin/net/thauvin/erik/pinboard"
-test="src/main/kotlin/net/thauvin/erik/pinboard"
+test="src/test/kotlin/net/thauvin/erik/pinboard"
 # e.g: .java, .kt, etc.
 ext=".kt"
 java8=true
@@ -11,7 +11,7 @@ declare -a examples=(
     "samples/java run"
     "samples/kotlin run")
 # e.g: empty or javadoc, etc.
-gradle_doc="dokka"
+gradle_doc="dokkaJavadoc"
 # e.g. empty or sonarqube
 gradle_sonar="sonarqube"
 # gradle options for examples
@@ -163,7 +163,7 @@ examplesMenu() {
 validateCopyrights() {
     clear
     echo -e "${cyan}Validating copyrights...${std}"
-    for f in "LICENSE.TXT" ${src}/*${ext} ${test}/*${ext}
+    for f in "LICENSE.txt" ${src}/*${ext} ${test}/*${ext}
     do
         if [ -f "$f" ]
         then

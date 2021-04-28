@@ -15,5 +15,5 @@ repositories {
 }
 
 dependencies {
-    compile 'net.thauvin.erik:pinboard-poster:1.0.3'
+    implementation 'net.thauvin.erik:pinboard-poster:1.0.4'
 }

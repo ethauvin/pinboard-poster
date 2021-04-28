@@ -3,17 +3,17 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     jacoco
     java
-    kotlin("jvm") version "1.4.31"
+    kotlin("jvm") version "1.5.0"
     `maven-publish`
     signing
     id("com.github.ben-manes.versions") version "0.38.0"
     id("io.gitlab.arturbosch.detekt") version "1.16.0"
-    id("org.jetbrains.dokka") version "1.4.30"
+    id("org.jetbrains.dokka") version "1.4.32"
     id("org.sonarqube") version "3.1.1"
 }
 
 group = "net.thauvin.erik"
-version = "1.0.3"
+version = "1.0.4"
 description = "Pinboard Poster for Kotlin/Java"
 
 val gitHub = "ethauvin/$name"
@@ -31,7 +31,7 @@ val versions: VersionInfo by extra { VersionInfo }
 
 repositories {
     mavenCentral()
-    jcenter() // needed for Dokka
+    jcenter() // needed for detekt 1.16.0
 }
 
 dependencies {
@@ -97,7 +97,7 @@ tasks {
     }
 
     val copyToDeploy by registering(Copy::class) {
-        from(configurations.runtime) {
+        from(configurations.runtimeClasspath) {
             exclude("annotations-*.jar")
         }
         from(jar)
