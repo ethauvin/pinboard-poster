@@ -20,7 +20,7 @@ gradle_opts="--console=plain --no-build-cache --no-daemon"
 maven_args=""
 
 #
-# Version: 1.1.4
+# Version: 1.1.5
 #
 
 if [ "$java8" = true ]
@@ -40,7 +40,7 @@ pause() {
 }
 
 checkCopyright() {
-    if [ "$(grep -c "$date" "$1")" -eq 0 ]
+    if [ "$(grep -c "$date" "$1")" == "0" ]
     then
         echo -e "   Invalid: ${red}$f${std}"
     else

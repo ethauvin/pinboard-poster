@@ -9,7 +9,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.38.0"
     id("io.gitlab.arturbosch.detekt") version "1.16.0"
     id("org.jetbrains.dokka") version "1.4.32"
-    id("org.sonarqube") version "3.1.1"
+    id("org.sonarqube") version "3.2.0"
 }
 
 group = "net.thauvin.erik"
@@ -31,7 +31,6 @@ val versions: VersionInfo by extra { VersionInfo }
 
 repositories {
     mavenCentral()
-    jcenter() // needed for detekt 1.16.0
     maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
 }
 
@@ -49,6 +48,7 @@ java {
 }
 
 detekt {
+    toolVersion = "main-SNAPSHOT"
     baseline = project.rootDir.resolve("config/detekt/baseline.xml")
 }
 
