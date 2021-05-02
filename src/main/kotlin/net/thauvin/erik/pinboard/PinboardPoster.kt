@@ -205,6 +205,7 @@ open class PinboardPoster() {
         return false
     }
 
+    @Throws(IOException::class)
     internal fun parseMethodResponse(method: String, response: String) {
         val factory = DocumentBuilderFactory.newInstance().apply {
             isValidating = false
@@ -228,8 +229,10 @@ open class PinboardPoster() {
             } else {
                 throw IOException("An error has occurred while executing $method.")
             }
-        } catch (e: Exception) {
+        } catch (e: org.xml.sax.SAXException) {
             throw IOException("Could not parse $method response.", e)
+        } catch (e: IllegalArgumentException) {
+            throw IOException("Invalid input source for $method response", e)
         }
     }
 
