@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "net.thauvin.erik"
-version = "1.0.4"
+version = "1.0.4-SNAPSHOT"
 description = "Pinboard Poster for Kotlin/Java"
 
 val gitHub = "ethauvin/$name"
@@ -188,7 +188,9 @@ publishing {
     repositories {
         maven {
             name = "ossrh"
-            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            url = if (project.version.toString().contains("SNAPSHOT"))
+                uri("https://oss.sonatype.org/content/repositories/snapshots/") else
+                uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials(PasswordCredentials::class)
         }
     }
