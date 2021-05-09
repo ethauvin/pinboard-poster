@@ -35,6 +35,8 @@ repositories {
 }
 
 dependencies {
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+
     implementation("com.squareup.okhttp3:okhttp:${versions.okhttp}")
     implementation("com.squareup.okhttp3:logging-interceptor:${versions.okhttp}")
 
@@ -81,7 +83,7 @@ tasks {
     }
 
     jacoco {
-        toolVersion = "0.8.7-SNAPSHOT"
+        toolVersion = "0.8.7"
     }
 
     jacocoTestReport {
@@ -176,7 +178,7 @@ publishing {
                 scm {
                     connection.set("scm:git:git://github.com/$gitHub.git")
                     developerConnection.set("scm:git:git@github.com:$gitHub.git")
-                    url.set("$mavenUrl")
+                    url.set(mavenUrl)
                 }
                 issueManagement {
                     system.set("GitHub")
