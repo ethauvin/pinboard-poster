@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
     jacoco
@@ -71,6 +72,10 @@ val javadocJar by tasks.creating(Jar::class) {
 
 tasks {
     withType<Test> {
+        testLogging {
+            exceptionFormat = TestExceptionFormat.FULL
+        }
+
         useTestNG()
     }
 

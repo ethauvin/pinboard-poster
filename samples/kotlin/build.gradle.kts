@@ -17,5 +17,5 @@ dependencies {
 }
 
 application {
-    mainClassName = "net.thauvin.erik.pinboard.samples.KotlinExampleKt"
+    mainClass.set("net.thauvin.erik.pinboard.samples.KotlinExampleKt")
 }
