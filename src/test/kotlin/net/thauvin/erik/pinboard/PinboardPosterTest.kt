@@ -43,7 +43,7 @@ import java.util.Properties
 import java.util.logging.Level
 
 class PinboardPosterTest {
-    private val url = "http://www.foo.com/"
+    private val url = "http://www.example.com/?random=" + (1000..10000).random()
     private val desc = "This is a test."
     private val localProps = Paths.get("local.properties")
 
