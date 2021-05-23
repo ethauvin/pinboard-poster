@@ -167,15 +167,15 @@ open class PinboardPoster() {
             } else if (description.isBlank()) {
                 logger.severe("Please specify a valid description to pin: `$url`")
             } else {
-                val params = listOf(
-                    Pair("url", url),
-                    Pair("description", description),
-                    Pair("extended", extended),
-                    Pair("tags", tags),
-                    Pair("dt", dt),
-                    Pair("replace", yesNo(replace)),
-                    Pair("shared", yesNo(shared)),
-                    Pair("toread", yesNo(toRead))
+                val params = mapOf(
+                    "url" to url,
+                    "description" to description,
+                    "extended" to extended,
+                    "tags" to tags,
+                    "dt" to dt,
+                    "replace" to yesNo(replace),
+                    "shared" to yesNo(shared),
+                    "toread" to yesNo(toRead)
                 )
                 return executeMethod("posts/add", params)
             }
@@ -198,7 +198,7 @@ open class PinboardPoster() {
             if (!validateUrl(url)) {
                 logger.severe("Please specify a valid URL to delete.")
             } else {
-                return executeMethod("posts/delete", listOf(Pair("url", url)))
+                return executeMethod("posts/delete", mapOf("url" to url))
             }
         }
 
@@ -244,13 +244,13 @@ open class PinboardPoster() {
         }
     }
 
-    private fun executeMethod(method: String, params: List<Pair<String, String>>): Boolean {
+    private fun executeMethod(method: String, params: Map<String, String>): Boolean {
         try {
             val apiUrl = cleanEndPoint(method).toHttpUrlOrNull()
             if (apiUrl != null) {
                 val httpUrl = apiUrl.newBuilder().apply {
                     params.forEach {
-                        addQueryParameter(it.first, it.second)
+                        addQueryParameter(it.key, it.value)
                     }
                     addQueryParameter("auth_token", apiToken)
                 }.build()
