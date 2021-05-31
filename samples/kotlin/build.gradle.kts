@@ -1,6 +1,6 @@
 plugins {
-    application
-    kotlin("jvm") version "1.5.0"
+    id("application")
+    kotlin("jvm") version "1.5.10"
 }
 
 // ./gradlew run

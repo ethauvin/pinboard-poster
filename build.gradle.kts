@@ -3,15 +3,15 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    jacoco
-    java
-    kotlin("jvm") version "1.5.0"
-    `maven-publish`
-    signing
-    id("com.github.ben-manes.versions") version "0.38.0"
+    id("com.github.ben-manes.versions") version "0.39.0"
     id("io.gitlab.arturbosch.detekt") version "1.17.1"
+    id("jacoco")
+    id("java")
+    id("maven-publish")
     id("org.jetbrains.dokka") version "1.4.32"
     id("org.sonarqube") version "3.2.0"
+    id("signing")
+    kotlin("jvm") version "1.5.10"
 }
 
 group = "net.thauvin.erik"
@@ -25,11 +25,9 @@ var isRelease = "release" in gradle.startParameter.taskNames
 
 val publicationName = "mavenJava"
 
-object VersionInfo {
-    const val okhttp = "4.9.1"
+object Versions {
+    const val OKHTTP = "4.9.1"
 }
-
-val versions: VersionInfo by extra { VersionInfo }
 
 repositories {
     mavenCentral()
@@ -37,10 +35,10 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+    implementation(platform(kotlin("bom")))
 
-    implementation("com.squareup.okhttp3:okhttp:${versions.okhttp}")
-    implementation("com.squareup.okhttp3:logging-interceptor:${versions.okhttp}")
+    implementation("com.squareup.okhttp3:okhttp:${Versions.OKHTTP}")
+    implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
 
     testImplementation("org.testng:testng:7.4.0")
 }
