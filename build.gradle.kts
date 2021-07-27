@@ -4,14 +4,14 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
     id("com.github.ben-manes.versions") version "0.39.0"
-    id("io.gitlab.arturbosch.detekt") version "1.18.0-RC1"
+    id("io.gitlab.arturbosch.detekt") version "1.18.0-RC2"
     id("jacoco")
     id("java")
     id("maven-publish")
     id("org.jetbrains.dokka") version "1.5.0"
     id("org.sonarqube") version "3.3"
     id("signing")
-    kotlin("jvm") version "1.5.20"
+    kotlin("jvm") version "1.5.21"
 }
 
 group = "net.thauvin.erik"
@@ -96,8 +96,8 @@ tasks {
     jacocoTestReport {
         dependsOn(test)
         reports {
-            xml.isEnabled = true
-            html.isEnabled = true
+            xml.required.set(true)
+            html.required.set(true)
         }
     }
 
@@ -141,11 +141,6 @@ tasks {
         if (isRelease) {
             commandLine("git", "tag", "-a", project.version, "-m", "Version ${project.version}")
         }
-    }
-
-    buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        setTermsOfServiceAgree("yes")
     }
 
     register("release") {
