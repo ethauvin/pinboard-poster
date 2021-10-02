@@ -237,7 +237,7 @@ open class PinboardPoster() {
     }
 
     private fun cleanEndPoint(method: String): String {
-        return if (apiEndPoint.endsWith('/')) {
+        return if (apiEndPoint.last() == '/') {
             "$apiEndPoint$method"
         } else {
             "$apiEndPoint/$method"
