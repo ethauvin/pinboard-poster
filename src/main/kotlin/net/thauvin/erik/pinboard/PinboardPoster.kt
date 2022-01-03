@@ -257,9 +257,8 @@ open class PinboardPoster() {
 
                 val request = Request.Builder().url(httpUrl).build()
                 val result = client.newCall(request).execute()
-                val response = result.body?.string()
 
-                if (response != null) {
+                result.body?.string()?.let { response ->
                     if (response.contains("done")) {
                         return true
                     } else {
