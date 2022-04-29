@@ -4,15 +4,15 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.40.0"
-    id("io.gitlab.arturbosch.detekt") version "1.19.0"
+    id("com.github.ben-manes.versions") version "0.42.0"
+    id("io.gitlab.arturbosch.detekt") version "1.20.0"
     id("java")
     id("maven-publish")
-    id("org.jetbrains.dokka") version "1.6.10"
-    id("org.jetbrains.kotlinx.kover") version "0.4.4"
+    id("org.jetbrains.dokka") version "1.6.21"
+    id("org.jetbrains.kotlinx.kover") version "0.5.0"
     id("org.sonarqube") version "3.3"
     id("signing")
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.6.21"
 }
 
 group = "net.thauvin.erik"
@@ -48,7 +48,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:${Versions.OKHTTP}")
     implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
 
-    testImplementation("org.testng:testng:7.4.0")
+    testImplementation("org.testng:testng:7.5")
 }
 
 java {

@@ -1,6 +1,6 @@
 # [Pinboard](https://pinboard.in) Poster for Kotlin/Java
 
-[![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause) [![Release](https://img.shields.io/github/release/ethauvin/pinboard-poster.svg)](https://github.com/ethauvin/pinboard-poster/releases/latest) [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/pinboard-poster.svg?label=maven%20central)](https://search.maven.org/search?q=g:%22net.thauvin.erik%22%20AND%20a:%22pinboard-poster%22)
+[![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](https://opensource.org/licenses/BSD-3-Clause) [![Release](https://img.shields.io/github/release/ethauvin/pinboard-poster.svg)](https://github.com/ethauvin/pinboard-poster/releases/latest) [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/pinboard-poster.svg?label=maven%20central)](https://search.maven.org/search?q=g:%22net.thauvin.erik%22%20AND%20a:%22pinboard-poster%22)
 
 [![Known Vulnerabilities](https://snyk.io/test/github/ethauvin/pinboard-poster/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/ethauvin/pinboard-poster?targetFile=pom.xml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_pinboard-poster&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_pinboard-poster) [![GitHub CI](https://github.com/ethauvin/pinboard-poster/actions/workflows/gradle.yml/badge.svg)](https://github.com/ethauvin/pinboard-poster/actions/workflows/gradle.yml) [![CircleCI](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master.svg?style=shield)](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master)
 
@@ -14,8 +14,8 @@ A small Kotlin/Java/Android library for posting to [Pinboard](https://pinboard.i
 
 val poster = PinboardPoster("user:TOKEN")
 
-poster.addPin("http://www.example.com/foo", "This is a test")
-poster.deletePin("http:///www.example.com/bar")
+poster.addPin("https://www.example.com/foo", "This is a test")
+poster.deletePin("https:///www.example.com/bar")
 
 ```
 [View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/kotlin/src/main/kotlin/net/thauvin/erik/pinboard/samples/KotlinExample.kt)
@@ -25,8 +25,8 @@ poster.deletePin("http:///www.example.com/bar")
 
 final PinboardPoster poster = new PinBboardPoster("user:TOKEN");
 
-poster.addPin("http://www.example.com/foo", "This is a test");
-poster.deletePin("http:///www.example.com/bar");
+poster.addPin("https://www.example.com/foo", "This is a test");
+poster.deletePin("https:///www.example.com/bar");
 ```
 [View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/java/src/main/java/net/thauvin/erik/pinboard/samples/JavaExample.java)
 
@@ -51,7 +51,7 @@ Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](htt
 The `addPin` function support all of the [Pinboard API parameters](https://pinboard.in/api/#posts_add):
 
 ```kotlin
-poster.addPin(url = "http://www.example.com",
+poster.addPin(url = "https://www.example.com",
               description = "This is the title",
               extended = "This is the extended description.",
               tags = "tag1 tag2 tag3",
@@ -70,7 +70,7 @@ It returns `true` if the bookmark was added successfully, `false` otherwise.
 The `deletePin` function support all of the [Pinboard API parameters](https://pinboard.in/api/#posts_delete):
 
 ```kotlin
-poster.deletePin(url = "http://www.example.com/")
+poster.deletePin(url = "https://www.example.com/")
 ```
 
 It returns `true` if the bookmark was deleted successfully, `false` otherwise.
