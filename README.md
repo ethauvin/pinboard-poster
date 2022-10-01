@@ -2,7 +2,7 @@
 
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](https://opensource.org/licenses/BSD-3-Clause) [![Release](https://img.shields.io/github/release/ethauvin/pinboard-poster.svg)](https://github.com/ethauvin/pinboard-poster/releases/latest) [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/pinboard-poster.svg?label=maven%20central)](https://search.maven.org/search?q=g:%22net.thauvin.erik%22%20AND%20a:%22pinboard-poster%22)
 
-[![Known Vulnerabilities](https://snyk.io/test/github/ethauvin/pinboard-poster/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/ethauvin/pinboard-poster?targetFile=pom.xml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_pinboard-poster&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_pinboard-poster) [![GitHub CI](https://github.com/ethauvin/pinboard-poster/actions/workflows/gradle.yml/badge.svg)](https://github.com/ethauvin/pinboard-poster/actions/workflows/gradle.yml) [![CircleCI](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master.svg?style=shield)](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_pinboard-poster&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_pinboard-poster) [![GitHub CI](https://github.com/ethauvin/pinboard-poster/actions/workflows/gradle.yml/badge.svg)](https://github.com/ethauvin/pinboard-poster/actions/workflows/gradle.yml) [![CircleCI](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master.svg?style=shield)](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master)
 
 A small Kotlin/Java/Android library for posting to [Pinboard](https://pinboard.in).
 
@@ -37,6 +37,10 @@ Your API authentication token is available on the [Pinboard settings page](https
 To install and run from Gradle, add the following to the build.gradle file:
 
 ```gradle
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile 'net.thauvin.erik:pinboard-poster:1.0.4'
 }

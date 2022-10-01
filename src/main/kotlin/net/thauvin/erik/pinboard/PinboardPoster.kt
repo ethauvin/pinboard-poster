@@ -81,7 +81,6 @@ open class PinboardPoster() {
      * @param properties The properties.
      * @param key The property key.
      */
-    @Suppress("unused")
     @JvmOverloads
     constructor(properties: Properties, key: String = Constants.ENV_API_TOKEN) : this() {
         apiToken = properties.getProperty(key, apiToken)
@@ -121,7 +120,6 @@ open class PinboardPoster() {
     var apiEndPoint: String = Constants.API_ENDPOINT
 
     /** The logger instance. **/
-    @Suppress("MemberVisibilityCanBePrivate")
     val logger: Logger by lazy { Logger.getLogger(PinboardPoster::class.java.simpleName) }
 
     private val client by lazy {
