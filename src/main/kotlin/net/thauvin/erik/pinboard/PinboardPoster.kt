@@ -254,13 +254,13 @@ open class PinboardPoster() {
                 }.build()
 
                 val request = Request.Builder().url(httpUrl).build()
-                val result = client.newCall(request).execute()
-
-                result.body?.string()?.let { response ->
-                    if (response.contains("done")) {
-                        return true
-                    } else {
-                        parseMethodResponse(method, response)
+                client.newCall(request).execute().use { result ->
+                    result.body?.string()?.let { response ->
+                        if (response.contains("done")) {
+                            return true
+                        } else {
+                            parseMethodResponse(method, response)
+                        }
                     }
                 }
             } else {
