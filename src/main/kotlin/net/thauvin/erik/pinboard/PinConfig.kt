@@ -108,5 +108,12 @@ class PinConfig private constructor(
             result = 31 * result + toRead.hashCode()
             return result
         }
+
+        override fun toString(): String {
+            return "Builder(url='$url', description='$description', extended='$extended'," +
+                    "tags=${tags.contentToString()}, dt=$dt, replace=$replace, shared=$shared, toRead=$toRead)"
+        }
+
+
     }
 }

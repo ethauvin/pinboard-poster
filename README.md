@@ -32,7 +32,7 @@ poster.deletePin("https:///www.example.com/bar")
 final PinboardPoster poster = new PinBboardPoster("user:TOKEN");
 
 poster.addPin("https://www.example.com/foo", "This is a test");
-poster.addPin(new AddConfig.Builder()
+poster.addPin(new PinConfig.Builder()
                 .url("https://example.com")
                 .description("This is a test")
                 .tags("foo", "bar")
