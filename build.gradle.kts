@@ -16,7 +16,7 @@ plugins {
 }
 
 group = "net.thauvin.erik"
-version = "1.0.4-SNAPSHOT"
+version = "1.1.0"
 description = "A small library for posting to Pinboard"
 
 val gitHub = "ethauvin/$name"

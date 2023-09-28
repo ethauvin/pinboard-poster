@@ -1,6 +1,7 @@
 # [Pinboard](https://pinboard.in) Poster for Kotlin, Java and Android
 
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](https://opensource.org/licenses/BSD-3-Clause) [![Release](https://img.shields.io/github/release/ethauvin/pinboard-poster.svg)](https://github.com/ethauvin/pinboard-poster/releases/latest)
+[![Nexus Snapshot](https://img.shields.io/nexus/s/net.thauvin.erik/pinboard-poster?label=snapshot&server=https%3A%2F%2Foss.sonatype.org%2F)](https://oss.sonatype.org/content/repositories/snapshots/net/thauvin/erik/pinboard-poster/)
 [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/pinboard-poster.svg?color=blue)](https://central.sonatype.com/artifact/net.thauvin.erik/pinboard-poster)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_pinboard-poster&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_pinboard-poster)
@@ -54,7 +55,7 @@ repositories {
 }
 
 dependencies {
-    compile 'net.thauvin.erik:pinboard-poster:1.0.4'
+    compile 'net.thauvin.erik:pinboard-poster:1.1.0'
 }
 ```
 
