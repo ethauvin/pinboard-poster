@@ -2,15 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlin.samples-kotlin.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlin.samples-kotlin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlin.samples-kotlin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlin.samples-kotlin.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlin.samples-kotlin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlin.samples-kotlin.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pinboard-poster.iml" filepath="$PROJECT_DIR$/pinboard-poster.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pinboard-poster.main.iml" filepath="$PROJECT_DIR$/.idea/modules/pinboard-poster.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pinboard-poster.test.iml" filepath="$PROJECT_DIR$/.idea/modules/pinboard-poster.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-java.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-java.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-java.main.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-java.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-java.test.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-java.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/samples-kotlin.iml" filepath="$PROJECT_DIR$/.idea/modules/samples-kotlin.iml" />
     </modules>
   </component>

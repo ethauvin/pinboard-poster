@@ -2,7 +2,7 @@
 
 # set source and test locations
 src="src/main/kotlin/net/thauvin/erik/pinboard"
-test="src/main/kotlin/net/thauvin/erik/pinboard"
+test="src/test/kotlin/net/thauvin/erik/pinboard"
 # e.g: .java, .kt, etc.
 ext=".kt"
 java8=true
@@ -11,16 +11,16 @@ declare -a examples=(
     "samples/java run"
     "samples/kotlin run")
 # e.g: empty or javadoc, etc.
-gradle_doc="dokka"
+gradle_doc="dokkaJavadoc"
 # e.g. empty or sonarqube
-gradle_sonar="sonarqube"
+gradle_sonar="sonar"
 # gradle options for examples
 gradle_opts="--console=plain --no-build-cache --no-daemon"
 # maven arguments for examples
 maven_args=""
 
 #
-# Version: 1.1.4
+# Version: 1.1.5
 #
 
 if [ "$java8" = true ]
@@ -40,7 +40,7 @@ pause() {
 }
 
 checkCopyright() {
-    if [ "$(grep -c "$date" "$1")" -eq 0 ]
+    if [ "$(grep -c "$date" "$1")" == "0" ]
     then
         echo -e "   Invalid: ${red}$f${std}"
     else
@@ -56,20 +56,6 @@ runGradle() {
     shift
     ./gradlew $@ || exit 1
     pause
-    cd "$pwd"
-}
-
-runKobalt() {
-    cd "$1" || exit 1
-    if [ -f kobalt/src/Build.kt ]
-    then
-        clear
-        reset
-        echo -e "> Project: ${cyan}${1}${std} [Kobalt]"
-        shift
-        ./kobaltw $@ || exit 1
-        pause
-    fi
     cd "$pwd"
 }
 
@@ -104,7 +90,6 @@ checkDeps() {
         * ) for ex in "${!examples[@]}"
             do
                 runGradle $(echo "${examples[ex]}" | cut -d " " -f 1) dU
-                # runKobalt $(echo "${examples[ex]}" | cut -d " " -f 1) checkVersions
                 runMaven $(echo "${examples[ex]}" | cut -d " " -f 1) versions:display-dependency-updates 
                 if [ "$ex" -eq "${#examples}" ]
                 then
@@ -130,7 +115,6 @@ runExamples() {
     for ex in "${!examples[@]}"
     do
         runGradle ${examples[ex]} clean $gradle_opts
-        # runKobalt ${examples[ex]} clean
         runMaven $(echo "${examples[ex]}" | cut -d " " -f 1) clean $maven_args
     done
 }
@@ -152,7 +136,6 @@ examplesMenu() {
                     examplesMenu
                 else
                     runGradle ${examples[$(($choice - 1))]}
-                    # runKobalt ${examples[$(($choice - 1))]}
                     runMaven $(echo "${examples[$(($choice - 1))]}" | cut -d " " -f 1) $maven_args
                     examplesMenu
                 fi ;;
@@ -163,7 +146,7 @@ examplesMenu() {
 validateCopyrights() {
     clear
     echo -e "${cyan}Validating copyrights...${std}"
-    for f in "LICENSE.TXT" ${src}/*${ext} ${test}/*${ext}
+    for f in "LICENSE.txt" ${src}/*${ext} ${test}/*${ext}
     do
         if [ -f "$f" ]
         then

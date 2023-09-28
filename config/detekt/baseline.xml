@@ -1,11 +1,12 @@
-<?xml version="1.0" ?>
+<?xml version='1.0' encoding='UTF-8'?>
 <SmellBaseline>
-  <Blacklist timestamp="1531308331780"></Blacklist>
-  <Whitelist timestamp="1558928560207">
-    <ID>ComplexMethod:PinboardPoster.kt$PinboardPoster$private fun executeMethod(method: String, params: List&lt;Pair&lt;String, String&gt;&gt;): Boolean</ID>
-    <ID>LongParameterList:PinboardPoster.kt$PinboardPoster$( url: String, description: String, extended: String = "", tags: String = "", dt: String = "", replace: Boolean = true, shared: Boolean = true, toRead: Boolean = false )</ID>
-    <ID>NestedBlockDepth:PinboardPoster.kt$PinboardPoster$private fun executeMethod(method: String, params: List&lt;Pair&lt;String, String&gt;&gt;): Boolean</ID>
-    <ID>ThrowsCount:PinboardPoster.kt$PinboardPoster$internal fun parseMethodResponse(method: String, response: String)</ID>
-    <ID>TooGenericExceptionCaught:PinboardPoster.kt$PinboardPoster$e: Exception</ID>
-  </Whitelist>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>LongParameterList:PinConfig.kt$PinConfig$( val url: String, val description: String, val extended: String, val tags: Array&lt;out String>, val dt: ZonedDateTime, val replace: Boolean, val shared: Boolean, val toRead: Boolean )</ID>
+    <ID>LongParameterList:PinboardPoster.kt$PinboardPoster$( url: String, description: String, extended: String = "", vararg tags: String = emptyArray(), dt: ZonedDateTime = ZonedDateTime.now(), replace: Boolean = true, shared: Boolean = true, toRead: Boolean = false )</ID>
+    <ID>NestedBlockDepth:PinboardPoster.kt$PinboardPoster$private fun executeMethod(method: String, params: Map&lt;String, String>): Boolean</ID>
+    <ID>ThrowsCount:PinboardPoster.kt$PinboardPoster$@Throws(IOException::class) internal fun parseMethodResponse(method: String, response: String)</ID>
+    <ID>TooManyFunctions:PinConfig.kt$PinConfig$Builder</ID>
+    <ID>WildcardImport:PinboardPosterTest.kt$import org.testng.Assert.*</ID>
+  </CurrentIssues>
 </SmellBaseline>

@@ -1,7 +1,7 @@
 /*
  * PinboardPoster.kt
  *
- * Copyright (c) 2017-2021, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2017-2023, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,8 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -81,7 +83,6 @@ open class PinboardPoster() {
      * @param properties The properties.
      * @param key The property key.
      */
-    @Suppress("unused")
     @JvmOverloads
     constructor(properties: Properties, key: String = Constants.ENV_API_TOKEN) : this() {
         apiToken = properties.getProperty(key, apiToken)
@@ -121,7 +122,6 @@ open class PinboardPoster() {
     var apiEndPoint: String = Constants.API_ENDPOINT
 
     /** The logger instance. **/
-    @Suppress("MemberVisibilityCanBePrivate")
     val logger: Logger by lazy { Logger.getLogger(PinboardPoster::class.java.simpleName) }
 
     private val client by lazy {
@@ -132,6 +132,24 @@ open class PinboardPoster() {
                 })
             }
         }.build()
+    }
+
+    /**
+     * Adds a bookmark to Pinboard
+     *
+     * This method supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_add).
+     */
+    fun addPin(config: PinConfig): Boolean {
+        return addPin(
+            url = config.url,
+            description = config.description,
+            extended = config.extended,
+            tags = config.tags,
+            dt = config.dt,
+            replace = config.replace,
+            shared = config.shared,
+            toRead = config.toRead
+        )
     }
 
     /**
@@ -155,8 +173,8 @@ open class PinboardPoster() {
         url: String,
         description: String,
         extended: String = "",
-        tags: String = "",
-        dt: String = "",
+        vararg tags: String = emptyArray(),
+        dt: ZonedDateTime = ZonedDateTime.now(),
         replace: Boolean = true,
         shared: Boolean = true,
         toRead: Boolean = false
@@ -167,15 +185,15 @@ open class PinboardPoster() {
             } else if (description.isBlank()) {
                 logger.severe("Please specify a valid description to pin: `$url`")
             } else {
-                val params = listOf(
-                    Pair("url", url),
-                    Pair("description", description),
-                    Pair("extended", extended),
-                    Pair("tags", tags),
-                    Pair("dt", dt),
-                    Pair("replace", yesNo(replace)),
-                    Pair("shared", yesNo(shared)),
-                    Pair("toread", yesNo(toRead))
+                val params = mapOf(
+                    "url" to url,
+                    "description" to description,
+                    "extended" to extended,
+                    "tags" to tags.joinToString(","),
+                    "dt" to DateTimeFormatter.ISO_INSTANT.format(dt.withNano(0)),
+                    "replace" to yesNo(replace),
+                    "shared" to yesNo(shared),
+                    "toread" to yesNo(toRead)
                 )
                 return executeMethod("posts/add", params)
             }
@@ -198,13 +216,14 @@ open class PinboardPoster() {
             if (!validateUrl(url)) {
                 logger.severe("Please specify a valid URL to delete.")
             } else {
-                return executeMethod("posts/delete", listOf(Pair("url", url)))
+                return executeMethod("posts/delete", mapOf("url" to url))
             }
         }
 
         return false
     }
 
+    @Throws(IOException::class)
     internal fun parseMethodResponse(method: String, response: String) {
         val factory = DocumentBuilderFactory.newInstance().apply {
             isValidating = false
@@ -228,39 +247,40 @@ open class PinboardPoster() {
             } else {
                 throw IOException("An error has occurred while executing $method.")
             }
-        } catch (e: Exception) {
+        } catch (e: org.xml.sax.SAXException) {
             throw IOException("Could not parse $method response.", e)
+        } catch (e: IllegalArgumentException) {
+            throw IOException("Invalid input source for $method response", e)
         }
     }
 
     private fun cleanEndPoint(method: String): String {
-        return if (apiEndPoint.endsWith('/')) {
+        return if (apiEndPoint.last() == '/') {
             "$apiEndPoint$method"
         } else {
             "$apiEndPoint/$method"
         }
     }
 
-    private fun executeMethod(method: String, params: List<Pair<String, String>>): Boolean {
+    private fun executeMethod(method: String, params: Map<String, String>): Boolean {
         try {
             val apiUrl = cleanEndPoint(method).toHttpUrlOrNull()
             if (apiUrl != null) {
                 val httpUrl = apiUrl.newBuilder().apply {
                     params.forEach {
-                        addQueryParameter(it.first, it.second)
+                        addQueryParameter(it.key, it.value)
                     }
                     addQueryParameter("auth_token", apiToken)
                 }.build()
 
                 val request = Request.Builder().url(httpUrl).build()
-                val result = client.newCall(request).execute()
-                val response = result.body?.string()
-
-                if (response != null) {
-                    if (response.contains("done")) {
-                        return true
-                    } else {
-                        parseMethodResponse(method, response)
+                client.newCall(request).execute().use { result ->
+                    result.body?.string()?.let { response ->
+                        if (response.contains("done")) {
+                            return true
+                        } else {
+                            parseMethodResponse(method, response)
+                        }
                     }
                 }
             } else {

@@ -1,7 +1,7 @@
 /*
  * PinboardPosterTest.kt
  *
- * Copyright (c) 2017-2021, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2017-2023, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,20 +32,20 @@
 
 package net.thauvin.erik.pinboard
 
-import org.testng.Assert.assertFalse
-import org.testng.Assert.assertTrue
-import org.testng.Assert.expectThrows
+import org.testng.Assert.*
 import org.testng.annotations.Test
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.Properties
+import java.time.ZonedDateTime
+import java.util.*
 import java.util.logging.Level
 
 class PinboardPosterTest {
-    private val url = "http://www.foo.com/"
+    private val url = "http://www.example.com/?random=" + (1000..10000).random()
     private val desc = "This is a test."
     private val localProps = Paths.get("local.properties")
+    private val isCi = "true" == System.getenv("CI")
 
     @Test
     fun testAddPin() {
@@ -61,8 +61,40 @@ class PinboardPosterTest {
         // assertFalse(poster.addPin(url, desc), "apiToken: ${poster.apiToken}")
 
         poster = PinboardPoster(localProps)
-        poster.logger.level = Level.FINE
+        if (!isCi) {
+            poster.logger.level = Level.FINE
+        }
         assertTrue(poster.addPin(url, desc), "apiToken: ${Constants.ENV_API_TOKEN}")
+    }
+
+    @Test
+    fun testAddPinConfig() {
+        val poster = PinboardPoster(localProps)
+        if (!isCi) {
+            poster.logger.level = Level.FINE
+        }
+
+        var config = PinConfig.Builder().url(url).description(desc).extended("extra")
+
+        assertTrue(poster.addPin(config.build()), "apiToken: ${Constants.ENV_API_TOKEN}")
+
+        config = config.tags("foo", "bar")
+        assertTrue(poster.addPin(config.build()), "tags(foo,bar)")
+
+        config = config.shared(false)
+        assertTrue(poster.addPin(config.build()), "shared(false)")
+
+        try {
+            assertFalse(poster.addPin(config.replace(false).build()))
+        } catch (e: IOException) {
+            assertTrue(e.message!!.contains("item already exists"))
+        }
+
+        config = config.replace(true).toRead(true)
+        assertTrue(poster.addPin(config.build()), "toRead(true)")
+
+        config = config.dt(ZonedDateTime.now())
+        assertTrue(poster.addPin(config.build()), "dt(now)")
     }
 
     @Test
@@ -84,8 +116,9 @@ class PinboardPosterTest {
         assertFalse(poster.deletePin(url), "apiEndPoint: <blank>")
 
         poster = PinboardPoster(localProps, Constants.ENV_API_TOKEN)
-        poster.logger.level = Level.FINE
-
+        if (!isCi) {
+            poster.logger.level = Level.FINE
+        }
         poster.apiEndPoint = Constants.API_ENDPOINT
         assertTrue(poster.deletePin(url), "apiEndPoint: ${Constants.API_ENDPOINT}")
 

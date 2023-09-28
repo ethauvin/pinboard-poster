@@ -1,20 +1,23 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    jacoco
-    java
-    kotlin("jvm") version "1.4.31"
-    `maven-publish`
-    signing
-    id("com.github.ben-manes.versions") version "0.38.0"
-    id("io.gitlab.arturbosch.detekt") version "1.16.0"
-    id("org.jetbrains.dokka") version "1.4.30"
-    id("org.sonarqube") version "3.1.1"
+    id("com.github.ben-manes.versions") version "0.48.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.1"
+    id("java")
+    id("maven-publish")
+    id("org.jetbrains.dokka") version "1.9.0"
+    id("org.jetbrains.kotlinx.kover") version "0.7.3"
+    id("org.sonarqube") version "4.4.0.3356"
+    id("signing")
+    kotlin("jvm") version "1.9.10"
 }
 
 group = "net.thauvin.erik"
-version = "1.0.3"
-description = "Pinboard Poster for Kotlin/Java"
+version = "1.0.4-SNAPSHOT"
+description = "A small library for posting to Pinboard"
 
 val gitHub = "ethauvin/$name"
 val mavenUrl = "https://github.com/$gitHub"
@@ -23,38 +26,61 @@ var isRelease = "release" in gradle.startParameter.taskNames
 
 val publicationName = "mavenJava"
 
-object VersionInfo {
-    const val okhttp = "4.9.1"
+object Versions {
+    const val OKHTTP = "4.11.0"
 }
 
-val versions: VersionInfo by extra { VersionInfo }
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
 
 repositories {
     mavenCentral()
-    jcenter() // needed for Dokka
+    maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
 }
 
 dependencies {
-    implementation("com.squareup.okhttp3:okhttp:${versions.okhttp}")
-    implementation("com.squareup.okhttp3:logging-interceptor:${versions.okhttp}")
+    implementation(platform(kotlin("bom")))
 
-    testImplementation("org.testng:testng:7.4.0")
+    implementation("com.squareup.okhttp3:okhttp:${Versions.OKHTTP}")
+    implementation("com.squareup.okio:okio:3.5.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
+
+    testImplementation("org.testng:testng:7.8.0")
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
     withSourcesJar()
 }
 
 detekt {
+    //toolVersion = "main-SNAPSHOT"
     baseline = project.rootDir.resolve("config/detekt/baseline.xml")
+}
+
+koverReport {
+    defaults {
+        xml {
+            onCheck = true
+        }
+        html {
+            onCheck = true
+        }
+    }
 }
 
 sonarqube {
     properties {
-        property("sonar.projectKey", "ethauvin_pinboard-poster")
+        property("sonar.projectKey", "ethauvin_$name")
+        property("sonar.organization", "ethauvin-github")
+        property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/kover/report.xml")
     }
 }
 
@@ -68,26 +94,26 @@ val javadocJar by tasks.creating(Jar::class) {
 
 tasks {
     withType<Test> {
+        testLogging {
+            exceptionFormat = TestExceptionFormat.FULL
+            events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
+        }
+
         useTestNG()
     }
 
-    withType<JacocoReport> {
-        reports {
-            xml.isEnabled = true
-            html.isEnabled = true
-        }
-    }
-
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = java.targetCompatibility.toString()
     }
 
     withType<GenerateMavenPom> {
         destination = file("$projectDir/pom.xml")
     }
 
-    assemble {
-        dependsOn(javadocJar)
+     withType<DependencyUpdatesTask> {
+        rejectVersionIf {
+            isNonStable(candidate.version)
+        }
     }
 
     clean {
@@ -97,8 +123,9 @@ tasks {
     }
 
     val copyToDeploy by registering(Copy::class) {
-        from(configurations.runtime) {
+        from(configurations.runtimeClasspath) {
             exclude("annotations-*.jar")
+            exclude("kotlin-*.jar")
         }
         from(jar)
         into(deployDir)
@@ -107,10 +134,10 @@ tasks {
     register("deploy") {
         description = "Copies all needed files to the $deployDir directory."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        dependsOn("build", "jar")
+        dependsOn(clean, build, jar)
         outputs.dir(deployDir)
         inputs.files(copyToDeploy)
-        mustRunAfter("clean")
+        mustRunAfter(clean)
     }
 
     val gitIsDirty by registering(Exec::class) {
@@ -128,19 +155,10 @@ tasks {
         }
     }
 
-    buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        setTermsOfServiceAgree("yes")
-    }
-
     register("release") {
         description = "Publishes version ${project.version} to local repository."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        dependsOn("wrapper", "deploy", "gitTag", "publishToMavenLocal")
-    }
-
-    "sonarqube" {
-        dependsOn("jacocoTestReport")
+        dependsOn(wrapper, "deploy", gitTag, publishToMavenLocal)
     }
 }
 
@@ -168,9 +186,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/$gitHub.git")
+                    connection.set("scm:git:https//github.com/$gitHub.git")
                     developerConnection.set("scm:git:git@github.com:$gitHub.git")
-                    url.set("$mavenUrl")
+                    url.set(mavenUrl)
                 }
                 issueManagement {
                     system.set("GitHub")
@@ -182,7 +200,9 @@ publishing {
     repositories {
         maven {
             name = "ossrh"
-            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            url = if (project.version.toString().contains("SNAPSHOT"))
+                uri("https://oss.sonatype.org/content/repositories/snapshots/") else
+                uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials(PasswordCredentials::class)
         }
     }

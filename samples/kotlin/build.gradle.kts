@@ -1,6 +1,9 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    application
-    kotlin("jvm") version "1.4.31"
+    id("application")
+    id("com.github.ben-manes.versions") version "0.48.0"
+    kotlin("jvm") version "1.9.10"
 }
 
 // ./gradlew run
@@ -13,9 +16,20 @@ repositories {
 }
 
 dependencies {
-    compile("net.thauvin.erik:pinboard-poster:1.0.3")
+    implementation("net.thauvin.erik:pinboard-poster:1.0.4-SNAPSHOT")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 application {
-    mainClassName = "net.thauvin.erik.pinboard.samples.KotlinExampleKt"
+    mainClass.set("net.thauvin.erik.pinboard.samples.KotlinExampleKt")
+}
+
+tasks {
+    withType<KotlinCompile>().configureEach {
+        kotlinOptions.jvmTarget = java.targetCompatibility.toString()
+    }
 }
