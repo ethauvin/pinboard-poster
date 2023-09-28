@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/ethauvin/pinboard-poster/tree/1.1.0) (2023-09-28)
+
+[Full Changelog](https://github.com/ethauvin/pinboard-poster/compare/1.0.3...1.1.0)
+
+**Implemented enhancements:**
+
+- Add pin config builder [\#10](https://github.com/ethauvin/pinboard-poster/issues/10)
+
+**Fixed bugs:**
+
+- Fixed potential resource leak [\#11](https://github.com/ethauvin/pinboard-poster/issues/11)
+
 ## [1.0.3](https://github.com/ethauvin/pinboard-poster/tree/1.0.3) (2021-03-22)
 
 [Full Changelog](https://github.com/ethauvin/pinboard-poster/compare/1.0.2...1.0.3)
