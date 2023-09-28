@@ -13,7 +13,7 @@ declare -a examples=(
 # e.g: empty or javadoc, etc.
 gradle_doc="dokkaJavadoc"
 # e.g. empty or sonarqube
-gradle_sonar="sonarqube"
+gradle_sonar="sonar"
 # gradle options for examples
 gradle_opts="--console=plain --no-build-cache --no-daemon"
 # maven arguments for examples
@@ -59,20 +59,6 @@ runGradle() {
     cd "$pwd"
 }
 
-runKobalt() {
-    cd "$1" || exit 1
-    if [ -f kobalt/src/Build.kt ]
-    then
-        clear
-        reset
-        echo -e "> Project: ${cyan}${1}${std} [Kobalt]"
-        shift
-        ./kobaltw $@ || exit 1
-        pause
-    fi
-    cd "$pwd"
-}
-
 runMaven() {
     cd "$1" || exit 1
     if [ -f pom.xml ]
@@ -104,7 +90,6 @@ checkDeps() {
         * ) for ex in "${!examples[@]}"
             do
                 runGradle $(echo "${examples[ex]}" | cut -d " " -f 1) dU
-                # runKobalt $(echo "${examples[ex]}" | cut -d " " -f 1) checkVersions
                 runMaven $(echo "${examples[ex]}" | cut -d " " -f 1) versions:display-dependency-updates 
                 if [ "$ex" -eq "${#examples}" ]
                 then
@@ -130,7 +115,6 @@ runExamples() {
     for ex in "${!examples[@]}"
     do
         runGradle ${examples[ex]} clean $gradle_opts
-        # runKobalt ${examples[ex]} clean
         runMaven $(echo "${examples[ex]}" | cut -d " " -f 1) clean $maven_args
     done
 }
@@ -152,7 +136,6 @@ examplesMenu() {
                     examplesMenu
                 else
                     runGradle ${examples[$(($choice - 1))]}
-                    # runKobalt ${examples[$(($choice - 1))]}
                     runMaven $(echo "${examples[$(($choice - 1))]}" | cut -d " " -f 1) $maven_args
                     examplesMenu
                 fi ;;

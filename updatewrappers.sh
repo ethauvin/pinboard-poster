@@ -9,7 +9,7 @@ declare -a dirs=(
     "${PWD##*/}"
     "samples/java"
     "samples/kotlin")
-java8=true
+java8=false
 
 ###
 
@@ -25,7 +25,6 @@ then
     export PATH="$(cygpath "$JAVA_HOME")/bin:$PATH"
 fi
 
-kVer=$(kobaltw --version | awk '{print substr($2, 1, length($2)-1)}')
 updateWrappers() {
     curVer="$(gradle --version | awk '/Gradle/ {print $2}')"
     if [ -d gradle ]; then
@@ -34,16 +33,6 @@ updateWrappers() {
             echo -e "        $(./gradlew --version | awk '/Gradle/') ${green}UPDATED${std}"
         else
             echo -e "        Gradle $curVer UP-TO-DATE"
-        fi
-    fi
-    if [ -d kobalt ]; then
-        kw=$(cut -d "=" -f 2 kobalt/wrapper/kobalt-wrapper.properties)
-        if [ "$kw" = "$kVer" ]
-        then
-            echo -e "        Kobalt $kw UP-TO-DATE"
-        else
-            echo -e "kobalt.version=$kVer" > kobalt/wrapper/kobalt-wrapper.properties
-            echo -e "        Kobalt $kVer ${green}UPDATED${std}"
         fi
     fi
 }

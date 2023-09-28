@@ -4,20 +4,20 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.42.0"
-    id("io.gitlab.arturbosch.detekt") version "1.21.0"
+    id("com.github.ben-manes.versions") version "0.48.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.1"
     id("java")
     id("maven-publish")
-    id("org.jetbrains.dokka") version "1.7.10"
-    id("org.jetbrains.kotlinx.kover") version "0.6.0"
-    id("org.sonarqube") version "3.4.0.2513"
+    id("org.jetbrains.dokka") version "1.9.0"
+    id("org.jetbrains.kotlinx.kover") version "0.7.3"
+    id("org.sonarqube") version "4.4.0.3356"
     id("signing")
-    kotlin("jvm") version "1.7.20"
+    kotlin("jvm") version "1.9.10"
 }
 
 group = "net.thauvin.erik"
 version = "1.0.4-SNAPSHOT"
-description = "Pinboard Poster for Kotlin/Java"
+description = "A small library for posting to Pinboard"
 
 val gitHub = "ethauvin/$name"
 val mavenUrl = "https://github.com/$gitHub"
@@ -27,11 +27,11 @@ var isRelease = "release" in gradle.startParameter.taskNames
 val publicationName = "mavenJava"
 
 object Versions {
-    const val OKHTTP = "4.10.0"
+    const val OKHTTP = "4.11.0"
 }
 
 fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
@@ -46,9 +46,10 @@ dependencies {
     implementation(platform(kotlin("bom")))
 
     implementation("com.squareup.okhttp3:okhttp:${Versions.OKHTTP}")
+    implementation("com.squareup.okio:okio:3.5.0")
     implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
 
-    testImplementation("org.testng:testng:7.6.1")
+    testImplementation("org.testng:testng:7.8.0")
 }
 
 java {
@@ -62,13 +63,24 @@ detekt {
     baseline = project.rootDir.resolve("config/detekt/baseline.xml")
 }
 
+koverReport {
+    defaults {
+        xml {
+            onCheck = true
+        }
+        html {
+            onCheck = true
+        }
+    }
+}
+
 sonarqube {
     properties {
         property("sonar.projectKey", "ethauvin_$name")
         property("sonar.organization", "ethauvin-github")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/kover/xml/report.xml")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/kover/report.xml")
     }
 }
 
@@ -104,10 +116,6 @@ tasks {
         }
     }
 
-    assemble {
-        dependsOn(javadocJar)
-    }
-
     clean {
         doLast {
             project.delete(fileTree(deployDir))
@@ -126,7 +134,7 @@ tasks {
     register("deploy") {
         description = "Copies all needed files to the $deployDir directory."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        dependsOn(clean, wrapper, build, jar)
+        dependsOn(clean, build, jar)
         outputs.dir(deployDir)
         inputs.files(copyToDeploy)
         mustRunAfter(clean)
@@ -151,10 +159,6 @@ tasks {
         description = "Publishes version ${project.version} to local repository."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
         dependsOn(wrapper, "deploy", gitTag, publishToMavenLocal)
-    }
-
-    "sonarqube" {
-        dependsOn(koverReport)
     }
 }
 
@@ -182,7 +186,7 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/$gitHub.git")
+                    connection.set("scm:git:https//github.com/$gitHub.git")
                     developerConnection.set("scm:git:git@github.com:$gitHub.git")
                     url.set(mavenUrl)
                 }
