@@ -1,7 +1,7 @@
 /*
  * PinboardPoster.kt
  *
- * Copyright (c) 2017-2022, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2017-2023, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,8 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -133,6 +135,24 @@ open class PinboardPoster() {
     }
 
     /**
+     * Adds a bookmark to Pinboard
+     *
+     * This method supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_add).
+     */
+    fun addPin(config: PinConfig): Boolean {
+        return addPin(
+            url = config.url,
+            description = config.description,
+            extended = config.extended,
+            tags = config.tags,
+            dt = config.dt,
+            replace = config.replace,
+            shared = config.shared,
+            toRead = config.toRead
+        )
+    }
+
+    /**
      * Adds a bookmark to Pinboard.
      *
      * This method supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_add).
@@ -153,8 +173,8 @@ open class PinboardPoster() {
         url: String,
         description: String,
         extended: String = "",
-        tags: String = "",
-        dt: String = "",
+        vararg tags: String = emptyArray(),
+        dt: ZonedDateTime = ZonedDateTime.now(),
         replace: Boolean = true,
         shared: Boolean = true,
         toRead: Boolean = false
@@ -169,8 +189,8 @@ open class PinboardPoster() {
                     "url" to url,
                     "description" to description,
                     "extended" to extended,
-                    "tags" to tags,
-                    "dt" to dt,
+                    "tags" to tags.joinToString(","),
+                    "dt" to DateTimeFormatter.ISO_INSTANT.format(dt.withNano(0)),
                     "replace" to yesNo(replace),
                     "shared" to yesNo(shared),
                     "toread" to yesNo(toRead)

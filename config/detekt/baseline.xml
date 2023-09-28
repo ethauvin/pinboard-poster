@@ -2,8 +2,11 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
-    <ID>LongParameterList:PinboardPoster.kt$PinboardPoster$( url: String, description: String, extended: String = "", tags: String = "", dt: String = "", replace: Boolean = true, shared: Boolean = true, toRead: Boolean = false )</ID>
+    <ID>LongParameterList:PinConfig.kt$PinConfig$( val url: String, val description: String, val extended: String, val tags: Array&lt;out String>, val dt: ZonedDateTime, val replace: Boolean, val shared: Boolean, val toRead: Boolean )</ID>
+    <ID>LongParameterList:PinboardPoster.kt$PinboardPoster$( url: String, description: String, extended: String = "", vararg tags: String = emptyArray(), dt: ZonedDateTime = ZonedDateTime.now(), replace: Boolean = true, shared: Boolean = true, toRead: Boolean = false )</ID>
     <ID>NestedBlockDepth:PinboardPoster.kt$PinboardPoster$private fun executeMethod(method: String, params: Map&lt;String, String>): Boolean</ID>
     <ID>ThrowsCount:PinboardPoster.kt$PinboardPoster$@Throws(IOException::class) internal fun parseMethodResponse(method: String, response: String)</ID>
+    <ID>TooManyFunctions:PinConfig.kt$PinConfig$Builder</ID>
+    <ID>WildcardImport:PinboardPosterTest.kt$import org.testng.Assert.*</ID>
   </CurrentIssues>
 </SmellBaseline>

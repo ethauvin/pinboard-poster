@@ -37,7 +37,7 @@ import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 
 fun main(args: Array<String>) {
-    val url = "http://www.example.com/pinboard"
+    val url = "httpz://example.com/pinboard"
 
     val poster = if (args.size == 1) {
         // API Token is an argument
@@ -54,7 +54,7 @@ fun main(args: Array<String>) {
     }
 
     // Add Pin
-    if (poster.addPin(url, "Testing", "Extended test", "test kotlin")) {
+    if (poster.addPin(url, "Testing", "Extended test", tags = arrayOf("test", "kotlin"))) {
         println("Added: $url")
     }
 

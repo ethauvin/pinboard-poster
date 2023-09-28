@@ -31,6 +31,7 @@
  */
 package net.thauvin.erik.pinboard.samples;
 
+import net.thauvin.erik.pinboard.PinConfig;
 import net.thauvin.erik.pinboard.PinboardPoster;
 
 import java.nio.file.Paths;
@@ -40,7 +41,7 @@ import java.util.logging.Logger;
 
 public class JavaExample {
     public static void main(String[] args) {
-        final String url = "http://www.example.com/pinboard";
+        final String url = "httpz://example.com/pinboard";
         final PinboardPoster poster;
 
         if (args.length == 1) {
@@ -59,7 +60,12 @@ public class JavaExample {
         logger.setLevel(Level.FINE);
 
         // Add Pin
-        if (poster.addPin(url, "Testing", "Extended test", "test java")) {
+        if (poster.addPin(new PinConfig.Builder()
+                .url(url)
+                .description("Testing")
+                .extended("Extra")
+                .tags("test", "java")
+                .build())) {
             System.out.println("Added: " + url);
         }
 
