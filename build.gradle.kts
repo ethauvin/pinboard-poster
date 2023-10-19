@@ -4,19 +4,19 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.48.0"
+    id("com.github.ben-manes.versions") version "0.49.0"
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
     id("java")
     id("maven-publish")
-    id("org.jetbrains.dokka") version "1.9.0"
-    id("org.jetbrains.kotlinx.kover") version "0.7.3"
-    id("org.sonarqube") version "4.4.0.3356"
+    id("org.jetbrains.dokka") version "1.9.10"
+    id("org.jetbrains.kotlinx.kover") version "0.7.4"
+    id("org.sonarqube") version "4.4.1.3373"
     id("signing")
     kotlin("jvm") version "1.9.10"
 }
 
 group = "net.thauvin.erik"
-version = "1.1.0"
+version = "1.1.1-SNAPSHOT"
 description = "A small library for posting to Pinboard"
 
 val gitHub = "ethauvin/$name"
@@ -27,7 +27,7 @@ var isRelease = "release" in gradle.startParameter.taskNames
 val publicationName = "mavenJava"
 
 object Versions {
-    const val OKHTTP = "4.11.0"
+    const val OKHTTP = "4.12.0"
 }
 
 fun isNonStable(version: String): Boolean {
@@ -46,7 +46,6 @@ dependencies {
     implementation(platform(kotlin("bom")))
 
     implementation("com.squareup.okhttp3:okhttp:${Versions.OKHTTP}")
-    implementation("com.squareup.okio:okio:3.5.0")
     implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
 
     testImplementation("org.testng:testng:7.8.0")
@@ -80,7 +79,7 @@ sonarqube {
         property("sonar.organization", "ethauvin-github")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/kover/report.xml")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${layout.buildDirectory.get()}/reports/kover/report.xml")
     }
 }
 
