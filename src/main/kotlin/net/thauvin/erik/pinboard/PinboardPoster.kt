@@ -40,8 +40,8 @@ import org.xml.sax.InputSource
 import java.io.File
 import java.io.IOException
 import java.io.StringReader
-import java.net.MalformedURLException
-import java.net.URL
+import java.net.URI
+import java.net.URISyntaxException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.ZonedDateTime
@@ -309,8 +309,8 @@ open class PinboardPoster() {
         var isValid = url.isNotBlank()
         if (isValid) {
             try {
-                URL(url)
-            } catch (e: MalformedURLException) {
+                URI(url)
+            } catch (e: URISyntaxException) {
                 logger.log(Level.FINE, "Invalid URL: $url", e)
                 isValid = false
             }
