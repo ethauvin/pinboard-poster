@@ -66,7 +66,9 @@ class PinboardPosterTest {
         if (!isCi) {
             poster.logger.level = Level.FINE
         }
-        assertTrue(poster.addPin(url, desc), "apiToken: ${Constants.ENV_API_TOKEN}")
+        assertTrue(poster.addPin(url, desc), "addPin($url, $desc)")
+
+        assertTrue(poster.deletePin(url), "deletePin($url)")
     }
 
     @Test
@@ -97,6 +99,8 @@ class PinboardPosterTest {
 
         config = config.dt(ZonedDateTime.now())
         assertTrue(poster.addPin(config.build()), "dt(now)")
+
+        assertTrue(poster.deletePin(url), "deletePin($url)")
     }
 
     @Test
@@ -122,8 +126,8 @@ class PinboardPosterTest {
         poster = PinboardPoster(localProps, Constants.ENV_API_TOKEN)
 
         poster.apiEndPoint = Constants.API_ENDPOINT
-        assertTrue(poster.addPin(url, desc), "addPin()")
-        assertTrue(poster.deletePin(url), "apiEndPoint: ${Constants.API_ENDPOINT}")
+        assertTrue(poster.addPin(url, desc), "addPin($url, $desc)")
+        assertTrue(poster.deletePin(url), "deletePin($url)")
 
         assertThrows<IOException> {
             poster.parseMethodResponse("post/delete", "<result code=\"item not found\"/>")
@@ -133,6 +137,6 @@ class PinboardPosterTest {
             poster.parseMethodResponse("post/delete", "")
         }
 
-        assertFalse(poster.deletePin("foo.com"), "url: foo.com")
+        assertFalse(poster.deletePin("foo.com"), "deletePin(foo.com)")
     }
 }
