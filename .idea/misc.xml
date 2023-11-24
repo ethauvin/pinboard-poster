@@ -6,6 +6,11 @@
       <list>
         <option value="K:\java\semver\config\pmd.xml" />
         <option value="$PROJECT_DIR$/../../java/bld-exec/config/pmd.xml" />
+        <option value="$PROJECT_DIR$/../../java/bld-generated-version/config/pmd.xml" />
+        <option value="$PROJECT_DIR$/../../java/bld-pitest/config/pmd.xml" />
+        <option value="$PROJECT_DIR$/../../java/bld-jacoco-report/config/pmd.xml" />
+        <option value="$PROJECT_DIR$/../../java/bld-checkstyle/config/pmd.xml" />
+        <option value="$PROJECT_DIR$/../../java/bld-testng/config/pmd.xml" />
       </list>
     </option>
     <option name="skipTestSources" value="false" />

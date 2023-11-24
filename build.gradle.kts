@@ -4,15 +4,15 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.49.0"
-    id("io.gitlab.arturbosch.detekt") version "1.23.1"
+    id("com.github.ben-manes.versions") version "0.50.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.3"
     id("java")
     id("maven-publish")
     id("org.jetbrains.dokka") version "1.9.10"
     id("org.jetbrains.kotlinx.kover") version "0.7.4"
     id("org.sonarqube") version "4.4.1.3373"
     id("signing")
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm") version "1.9.21"
 }
 
 group = "net.thauvin.erik"

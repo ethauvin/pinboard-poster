@@ -27,6 +27,7 @@ public class JavaExample {
         final Logger logger = poster.getLogger();
         logger.addHandler(consoleHandler);
         logger.setLevel(Level.FINE);
+        logger.setUseParentHandlers(false);
 
         // Add Pin
         if (poster.addPin(new PinConfig.Builder()
