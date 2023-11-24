@@ -32,14 +32,16 @@
 
 package net.thauvin.erik.pinboard
 
-import org.testng.Assert.*
-import org.testng.annotations.Test
+import org.junit.jupiter.api.assertThrows
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.time.ZonedDateTime
 import java.util.*
 import java.util.logging.Level
+import kotlin.test.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class PinboardPosterTest {
     private val url = "http://www.example.com/?random=" + (1000..10000).random()
@@ -110,23 +112,24 @@ class PinboardPosterTest {
         }
 
         var poster = PinboardPoster(props)
-        poster.logger.level = Level.FINE
+        if (!isCi) {
+            poster.logger.level = Level.FINE
+        }
 
         poster.apiEndPoint = ""
         assertFalse(poster.deletePin(url), "apiEndPoint: <blank>")
 
         poster = PinboardPoster(localProps, Constants.ENV_API_TOKEN)
-        if (!isCi) {
-            poster.logger.level = Level.FINE
-        }
+
         poster.apiEndPoint = Constants.API_ENDPOINT
+        assertTrue(poster.addPin(url, desc), "addPin()")
         assertTrue(poster.deletePin(url), "apiEndPoint: ${Constants.API_ENDPOINT}")
 
-        expectThrows(IOException::class.java) {
+        assertThrows<IOException> {
             poster.parseMethodResponse("post/delete", "<result code=\"item not found\"/>")
         }
 
-        expectThrows(IOException::class.java) {
+        assertThrows<IOException> {
             poster.parseMethodResponse("post/delete", "")
         }
 

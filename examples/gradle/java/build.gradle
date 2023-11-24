@@ -1,0 +1,23 @@
+plugins {
+    id 'com.github.ben-manes.versions' version '0.50.0'
+    id 'java'
+    id 'application'
+}
+
+defaultTasks 'run'
+
+mainClassName = 'net.thauvin.erik.pinboard.samples.JavaExample'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'net.thauvin.erik:pinboard-poster:1.1.1-SNAPSHOT'
+}

@@ -1,8 +1,11 @@
 # [Pinboard](https://pinboard.in) Poster for Kotlin, Java and Android
 
-[![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](https://opensource.org/licenses/BSD-3-Clause) [![Release](https://img.shields.io/github/release/ethauvin/pinboard-poster.svg)](https://github.com/ethauvin/pinboard-poster/releases/latest)
-[![Nexus Snapshot](https://img.shields.io/nexus/s/net.thauvin.erik/pinboard-poster?label=snapshot&server=https%3A%2F%2Foss.sonatype.org%2F)](https://oss.sonatype.org/content/repositories/snapshots/net/thauvin/erik/pinboard-poster/)
+[![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](https://opensource.org/licenses/BSD-3-Clause)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.9.21-7f52ff)](https://kotlinlang.org/)
+[![Release](https://img.shields.io/github/release/ethauvin/pinboard-poster.svg)](https://github.com/ethauvin/pinboard-poster/releases/latest)
 [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/pinboard-poster.svg?color=blue)](https://central.sonatype.com/artifact/net.thauvin.erik/pinboard-poster)
+[![Nexus Snapshot](https://img.shields.io/nexus/s/net.thauvin.erik/pinboard-poster?label=snapshot&server=https%3A%2F%2Foss.sonatype.org%2F)](https://oss.sonatype.org/content/repositories/snapshots/net/thauvin/erik/pinboard-poster/)
+
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_pinboard-poster&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_pinboard-poster)
 [![GitHub CI](https://github.com/ethauvin/pinboard-poster/actions/workflows/gradle.yml/badge.svg)](https://github.com/ethauvin/pinboard-poster/actions/workflows/gradle.yml)
@@ -24,7 +27,7 @@ poster.deletePin("https:///www.example.com/bar")
 
 ```
 
-[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/kotlin/src/main/kotlin/net/thauvin/erik/pinboard/samples/KotlinExample.kt)
+[View Examples](https://github.com/ethauvin/pinboard-poster/blob/master/examples)
 
 ### Java
 
@@ -41,13 +44,28 @@ poster.addPin(new PinConfig.Builder()
 poster.deletePin("https:///www.example.com/bar");
 ```
 
-[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/java/src/main/java/net/thauvin/erik/pinboard/samples/JavaExample.java)
+[View Examples](https://github.com/ethauvin/pinboard-poster/blob/master/examples)
 
 Your API authentication token is available on the [Pinboard settings page](https://pinboard.in/settings/password).
 
-## Usage with Gradle, Maven, etc.
 
-To install and run from Gradle, add the following to the build.gradle file:
+## bld
+
+To use with [bld](https://rife2.com/bld), include the following dependency in your [build](https://github.com/ethauvin/pinboard-poster/blob/master/examples/bld/src/bld/java/net/thauvin/erik/pinboard/samples/ExampleBuild.java) file:
+
+```java
+repositories = List.of(MAVEN_CENTRAL, SONATYPE_SNAPSHOTS_LEGACY);
+
+scope(compile)
+    .include(dependency("net.thauvin.erik:pinboard-poster:1.1.0"));
+```
+Be sure to use the [bld Kotlin extension](https://github.com/rife2/bld-kotlin) in your project.
+
+[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/examples/bld/)
+
+## Gradle, Maven, etc.
+
+To install and run from Gradle, add the following to the `build.gradle` file:
 
 ```gradle
 repositories {
@@ -59,8 +77,7 @@ dependencies {
 }
 ```
 
-[View Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/java/build.gradle)  
-[View Kotlin DSL Example](https://github.com/ethauvin/pinboard-poster/blob/master/samples/kotlin/build.gradle.kts)
+[View Examples](https://github.com/ethauvin/pinboard-poster/blob/master/examples/gradle/)  
 
 Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](https://central.sonatype.com/artifact/net.thauvin.erik/pinboard-poster).
 
