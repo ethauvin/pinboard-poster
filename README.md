@@ -124,6 +124,7 @@ The library used [`java.util.logging`](https://docs.oracle.com/javase/8/docs/api
 with(poster.logger) {
     addHandler(ConsoleHandler().apply { level = Level.FINE })
     level = Level.FINE
+    useParentHandlers = false
 }
 ```
 
@@ -135,6 +136,7 @@ consoleHandler.setLevel(Level.FINE);
 final Logger logger = poster.getLogger();
 logger.addHandler(consoleHandler);
 logger.setLevel(Level.FINE);
+logger.setUseParentHandlers(false);
 ```
 
 or using a logging properties file.

@@ -65,7 +65,7 @@ object Constants {
  *
  * @constructor Creates a new instance.
  *
- * @author [Erik C. Thauvin](https://erik.thauvin.net/)
+ * @author <a href="https://erik.thauvin.net/">Erik C. Thauvin</a>
  */
 open class PinboardPoster() {
     /**
@@ -135,9 +135,7 @@ open class PinboardPoster() {
     }
 
     /**
-     * Adds a bookmark to Pinboard
-     *
-     * This method supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_add).
+     * Adds a bookmark to Pinboard using a [PinConfig] builder.
      */
     fun addPin(config: PinConfig): Boolean {
         return addPin(
@@ -293,7 +291,10 @@ open class PinboardPoster() {
         return false
     }
 
-    private fun validate(): Boolean {
+    /**
+     * Ensures that the API token and end point are valid.
+     */
+    fun validate(): Boolean {
         var isValid = true
         if (!apiToken.contains(':')) {
             logger.severe("Please specify a valid API token. (eg. user:TOKEN)")

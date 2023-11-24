@@ -66,6 +66,8 @@ class PinboardPosterTest {
         if (!isCi) {
             poster.logger.level = Level.FINE
         }
+        assertTrue(poster.validate(), "validate()")
+
         assertTrue(poster.addPin(url, desc), "addPin($url, $desc)")
 
         assertTrue(poster.deletePin(url), "deletePin($url)")
@@ -77,6 +79,8 @@ class PinboardPosterTest {
         if (!isCi) {
             poster.logger.level = Level.FINE
         }
+
+        assertTrue(poster.validate(), "validate()")
 
         var config = PinConfig.Builder().url(url).description(desc).extended("extra")
 
@@ -119,6 +123,8 @@ class PinboardPosterTest {
         if (!isCi) {
             poster.logger.level = Level.FINE
         }
+
+        assertTrue(poster.validate(), "validate()")
 
         poster.apiEndPoint = ""
         assertFalse(poster.deletePin(url), "apiEndPoint: <blank>")

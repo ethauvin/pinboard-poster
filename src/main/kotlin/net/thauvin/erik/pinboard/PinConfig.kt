@@ -35,6 +35,8 @@ import java.time.ZonedDateTime
 
 /**
  * Provides a builder to add a pin.
+ *
+ * Supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_add).
  */
 class PinConfig private constructor(
     val url: String,

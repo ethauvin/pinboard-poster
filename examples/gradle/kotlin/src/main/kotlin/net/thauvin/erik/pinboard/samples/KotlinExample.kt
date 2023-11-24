@@ -20,15 +20,18 @@ fun main(args: Array<String>) {
     with(poster.logger) {
         addHandler(ConsoleHandler().apply { level = Level.FINE })
         level = Level.FINE
+        useParentHandlers = false
     }
 
-    // Add Pin
-    if (poster.addPin(url, "Testing", "Extended test", tags = arrayOf("test", "kotlin"))) {
-        println("Added: $url")
-    }
+    if (poster.validate()) {
+        // Add Pin
+        if (poster.addPin(url, "Testing", "Extended test", tags = arrayOf("test", "kotlin"))) {
+            println("Added: $url")
+        }
 
-    // Delete Pin
-    if (poster.deletePin(url)) {
-        println("Deleted: $url")
+        // Delete Pin
+        if (poster.deletePin(url)) {
+            println("Deleted: $url")
+        }
     }
 }

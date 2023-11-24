@@ -55,7 +55,7 @@ import static rife.bld.dependencies.Scope.test;
 
 public class PinboardPosterBuild extends Project {
     public PinboardPosterBuild() {
-        pkg = "net.thauvin.erik.pinboard";
+        pkg = "net.thauvin.erik";
         name = "pinboard-poster";
         version = version(1, 1, 1, "SNAPSHOT");
 
@@ -82,7 +82,7 @@ public class PinboardPosterBuild extends Project {
                         : repository(SONATYPE_RELEASES_LEGACY.location())
                         .withCredentials(property("sonatype.user"), property("sonatype.password")))
                 .info()
-                .groupId("net.thauvin.erik")
+                .groupId(pkg)
                 .artifactId(name)
                 .description("A small library for posting to Pinboard")
                 .url("https://github.com/ethauvin/" + name)
