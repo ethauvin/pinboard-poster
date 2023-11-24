@@ -8,7 +8,7 @@
 
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_pinboard-poster&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_pinboard-poster)
-[![GitHub CI](https://github.com/ethauvin/pinboard-poster/actions/workflows/gradle.yml/badge.svg)](https://github.com/ethauvin/pinboard-poster/actions/workflows/gradle.yml)
+[![GitHub CI](https://github.com/ethauvin/pinboard-poster/actions/workflows/bld.yml/badge.svg)](https://github.com/ethauvin/pinboard-poster/actions/workflows/bld.yml)
 [![CircleCI](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master.svg?style=shield)](https://circleci.com/gh/ethauvin/pinboard-poster/tree/master)
 
 A small library for posting to [Pinboard](https://pinboard.in).
