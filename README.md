@@ -57,7 +57,7 @@ To use with [bld](https://rife2.com/bld), include the following dependency in yo
 repositories = List.of(MAVEN_CENTRAL, SONATYPE_SNAPSHOTS_LEGACY);
 
 scope(compile)
-    .include(dependency("net.thauvin.erik:pinboard-poster:1.1.0"));
+    .include(dependency("net.thauvin.erik:pinboard-poster:1.1.1"));
 ```
 Be sure to use the [bld Kotlin extension](https://github.com/rife2/bld-kotlin) in your project.
 
@@ -73,7 +73,7 @@ repositories {
 }
 
 dependencies {
-    compile 'net.thauvin.erik:pinboard-poster:1.1.0'
+    compile 'net.thauvin.erik:pinboard-poster:1.1.1'
 }
 ```
 
