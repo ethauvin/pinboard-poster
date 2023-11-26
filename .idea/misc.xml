@@ -3,6 +3,9 @@
   <component name="EntryPointsManager">
     <pattern value="net.thauvin.erik.PinboardPosterBuild" method="jacoco" />
     <pattern value="net.thauvin.erik.pinboard.PinboardPosterBuild" method="jacoco" />
+    <pattern value="net.thauvin.erik.pinboard.PinboardPosterBuild" method="detekt" />
+    <pattern value="net.thauvin.erik.pinboard.PinboardPosterBuild" method="detektBaseline" />
+    <pattern value="net.thauvin.erik.pinboard.PinboardPosterBuild" />
   </component>
   <component name="PDMPlugin">
     <option name="customRuleSets">

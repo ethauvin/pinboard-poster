@@ -7,6 +7,5 @@
     <ID>NestedBlockDepth:PinboardPoster.kt$PinboardPoster$private fun executeMethod(method: String, params: Map&lt;String, String>): Boolean</ID>
     <ID>ThrowsCount:PinboardPoster.kt$PinboardPoster$@Throws(IOException::class) internal fun parseMethodResponse(method: String, response: String)</ID>
     <ID>TooManyFunctions:PinConfig.kt$PinConfig$Builder</ID>
-    <ID>WildcardImport:PinboardPosterTest.kt$import org.testng.Assert.*</ID>
   </CurrentIssues>
 </SmellBaseline>

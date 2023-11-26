@@ -34,6 +34,7 @@ package net.thauvin.erik.pinboard;
 import rife.bld.BuildCommand;
 import rife.bld.Project;
 import rife.bld.extension.CompileKotlinOperation;
+import rife.bld.extension.DetektOperation;
 import rife.bld.extension.JacocoReportOperation;
 import rife.bld.extension.dokka.DokkaOperation;
 import rife.bld.extension.dokka.LoggingLevel;
@@ -66,9 +67,13 @@ public class PinboardPosterBuild extends Project {
         autoDownloadPurge = true;
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
 
-        var okHttp = version(4, 12, 0);
+        final var okHttp = version(4, 12, 0);
+        final var kotlin = version(1, 9, 21);
         scope(compile)
-                .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", version(1, 9, 21)))
+                .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
+                .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-common", kotlin))
+                .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-jdk7", kotlin))
+                .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", kotlin))
                 .include(dependency("com.squareup.okhttp3", "okhttp", okHttp))
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp));
         scope(test)
@@ -119,6 +124,23 @@ public class PinboardPosterBuild extends Project {
     public void compile() throws IOException {
         new CompileKotlinOperation()
                 .fromProject(this)
+                .execute();
+    }
+
+    @BuildCommand(summary = "Checks source with Detekt")
+    public void detekt() throws ExitStatusException, IOException, InterruptedException {
+        new DetektOperation()
+                .fromProject(this)
+                .baseline("config/detekt/baseline.xml")
+                .execute();
+    }
+
+    @BuildCommand(value = "detekt-baseline", summary = "Creates the Detekt baseline")
+    public void detektBaseline() throws ExitStatusException, IOException, InterruptedException {
+        new DetektOperation()
+                .fromProject(this)
+                .baseline("config/detekt/baseline.xml")
+                .createBaseline(true)
                 .execute();
     }
 
