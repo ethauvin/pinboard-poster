@@ -66,6 +66,7 @@ class PinboardPosterTest {
         if (!isCi) {
             poster.logger.level = Level.FINE
         }
+
         assertTrue(poster.validate(), "validate()")
 
         assertTrue(poster.addPin(url, desc), "addPin($url, $desc)")
