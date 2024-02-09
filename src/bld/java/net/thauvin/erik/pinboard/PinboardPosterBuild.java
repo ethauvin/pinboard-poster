@@ -70,13 +70,17 @@ public class PinboardPosterBuild extends Project {
         final var okHttp = version(4, 12, 0);
         final var kotlin = version(1, 9, 22);
         scope(compile)
+                // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
+                .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-common", kotlin))
+                .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", kotlin))
+                // OkHttp
                 .include(dependency("com.squareup.okhttp3", "okhttp", okHttp))
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp));
         scope(test)
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
-                .include(dependency("org.junit.jupiter", "junit-jupiter", version(5, 10, 1)))
-                .include(dependency("org.junit.platform", "junit-platform-console-standalone", version(1, 10, 1)));
+                .include(dependency("org.junit.jupiter", "junit-jupiter", version(5, 10, 2)))
+                .include(dependency("org.junit.platform", "junit-platform-console-standalone", version(1, 10, 2)));
 
         publishOperation()
                 .repository(version.isSnapshot() ? repository(SONATYPE_SNAPSHOTS_LEGACY.location())
