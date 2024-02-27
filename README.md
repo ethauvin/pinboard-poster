@@ -2,7 +2,7 @@
 
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](https://opensource.org/licenses/BSD-3-Clause)
 [![Kotlin](https://img.shields.io/badge/kotlin-1.9.21-7f52ff)](https://kotlinlang.org/)
-[![bld](https://img.shields.io/badge/1.8.0-FA9052?label=bld&labelColor=2392FF)](https://rife2.com/bld)`
+[![bld](https://img.shields.io/badge/1.9.0-FA9052?label=bld&labelColor=2392FF)](https://rife2.com/bld)`
 [![Release](https://img.shields.io/github/release/ethauvin/pinboard-poster.svg)](https://github.com/ethauvin/pinboard-poster/releases/latest)
 [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/pinboard-poster.svg?color=blue)](https://central.sonatype.com/artifact/net.thauvin.erik/pinboard-poster)
 [![Nexus Snapshot](https://img.shields.io/nexus/s/net.thauvin.erik/pinboard-poster?label=snapshot&server=https%3A%2F%2Foss.sonatype.org%2F)](https://oss.sonatype.org/content/repositories/snapshots/net/thauvin/erik/pinboard-poster/)
@@ -48,7 +48,6 @@ poster.deletePin("https:///www.example.com/bar");
 [View Examples](https://github.com/ethauvin/pinboard-poster/blob/master/examples)
 
 Your API authentication token is available on the [Pinboard settings page](https://pinboard.in/settings/password).
-
 
 ## bld
 
@@ -217,5 +216,4 @@ cd pinboard-poster
 ./bld compile
 ```
 
-The project has an [IntelliJ IDEA](https://www.jetbrains.com/idea/) project structure. You can just open it after all
-the dependencies were downloaded and peruse the code.
+The project has an [IntelliJ IDEA](https://www.jetbrains.com/idea/) project structure. You can just open it after all the dependencies were downloaded and peruse the code.
