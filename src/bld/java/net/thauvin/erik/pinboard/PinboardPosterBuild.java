@@ -55,6 +55,8 @@ import static rife.bld.dependencies.Scope.compile;
 import static rife.bld.dependencies.Scope.test;
 
 public class PinboardPosterBuild extends Project {
+    final File srcMainKotlin = new File(srcMainDirectory(), "kotlin");
+
     public PinboardPosterBuild() {
         pkg = "net.thauvin.erik";
         name = "pinboard-poster";
@@ -68,7 +70,7 @@ public class PinboardPosterBuild extends Project {
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
 
         final var okHttp = version(4, 12, 0);
-        final var kotlin = version(1, 9, 22);
+        final var kotlin = version(1, 9, 24);
         scope(compile)
                 // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
@@ -113,7 +115,7 @@ public class PinboardPosterBuild extends Project {
                 .signKey(property("sign.key"))
                 .signPassphrase(property("sign.passphrase"));
 
-        jarSourcesOperation().sourceDirectories(new File(srcMainDirectory(), "kotlin"));
+        jarSourcesOperation().sourceDirectories(srcMainKotlin);
     }
 
     public static void main(final String[] args) {
@@ -149,6 +151,7 @@ public class PinboardPosterBuild extends Project {
     public void jacoco() throws IOException {
         new JacocoReportOperation()
                 .fromProject(this)
+                .sourceFiles(srcMainKotlin)
                 .execute();
     }
 
