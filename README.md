@@ -22,9 +22,9 @@ A small library for posting to [Pinboard](https://pinboard.in).
 
 val poster = PinboardPoster("user:TOKEN")
 
-poster.addPin("https://www.example.com/foo", "This is a test")
-poster.addPin("https://examples.com", "This is a test", tags = arrayOf("foo", "bar"))
-poster.deletePin("https:///www.example.com/bar")
+poster.addPin("https://example.com/foo", "This is a test")
+poster.addPin("https://example.com", "This is a test", tags = arrayOf("foo", "bar"))
+poster.deletePin("https://example.com/bar")
 
 ```
 
@@ -36,13 +36,11 @@ poster.deletePin("https:///www.example.com/bar")
 
 final PinboardPoster poster = new PinBboardPoster("user:TOKEN");
 
-poster.addPin("https://www.example.com/foo", "This is a test");
-poster.addPin(new PinConfig.Builder()
-                .url("https://example.com")
-                .description("This is a test")
+poster.addPin("https://example.com/foo", "This is a test");
+poster.addPin(new PinConfig.Builder("https://example.com", "This is a test")
                 .tags("foo", "bar")
                 .build());
-poster.deletePin("https:///www.example.com/bar");
+poster.deletePin("https://example.com/bar");
 ```
 
 [View Examples](https://github.com/ethauvin/pinboard-poster/blob/master/examples)

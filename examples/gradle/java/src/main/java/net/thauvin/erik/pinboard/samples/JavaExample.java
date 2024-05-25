@@ -31,9 +31,7 @@ public class JavaExample {
 
         if (poster.validate()) {
             // Add Pin
-            if (poster.addPin(new PinConfig.Builder()
-                    .url(url)
-                    .description("Testing")
+            if (poster.addPin(new PinConfig.Builder(url, "Testing")
                     .extended("Extra")
                     .tags("test", "java")
                     .build())) {

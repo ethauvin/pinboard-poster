@@ -44,10 +44,12 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class PinboardPosterTest {
-    private val url = "http://www.example.com/?random=" + (1000..10000).random()
+    private val url = randomUrl()
     private val desc = "This is a test."
     private val localProps = Paths.get("local.properties")
     private val isCi = "true" == System.getenv("CI")
+
+    private fun randomUrl(): String = "http://www.example.com/?random=" + (1000..10000).random()
 
     @Test
     fun testAddPin() {
@@ -83,7 +85,7 @@ class PinboardPosterTest {
 
         assertTrue(poster.validate(), "validate()")
 
-        var config = PinConfig.Builder().url(url).description(desc).extended("extra")
+        var config = PinConfig.Builder(url, desc).extended("extra")
 
         assertTrue(poster.addPin(config.build()), "apiToken: ${Constants.ENV_API_TOKEN}")
 
@@ -99,13 +101,17 @@ class PinboardPosterTest {
             assertTrue(e.message!!.contains("item already exists"))
         }
 
-        config = config.replace(true).toRead(true)
+        config = config.description("Yet another test.").replace(true).toRead(true)
         assertTrue(poster.addPin(config.build()), "toRead(true)")
 
         config = config.dt(ZonedDateTime.now())
         assertTrue(poster.addPin(config.build()), "dt(now)")
 
         assertTrue(poster.deletePin(url), "deletePin($url)")
+
+        config = config.url(randomUrl())
+        assertTrue(poster.addPin(config.build()), "add($url)")
+        assertTrue(poster.deletePin(config.url), "delete($url)")
     }
 
     @Test

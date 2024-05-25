@@ -1,10 +1,10 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" ?>
 <SmellBaseline>
-  <ManuallySuppressedIssues/>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
-    <ID>LongParameterList:PinConfig.kt$PinConfig$( val url: String, val description: String, val extended: String, val tags: Array&lt;out String>, val dt: ZonedDateTime, val replace: Boolean, val shared: Boolean, val toRead: Boolean )</ID>
+    <ID>LongParameterList:PinConfig.kt$PinConfig$( var url: String, var description: String, var extended: String = "", var tags: Array&lt;out String&gt; = emptyArray(), var dt: ZonedDateTime = ZonedDateTime.now(), var replace: Boolean = true, var shared: Boolean = true, var toRead: Boolean = false )</ID>
     <ID>LongParameterList:PinboardPoster.kt$PinboardPoster$( url: String, description: String, extended: String = "", vararg tags: String = emptyArray(), dt: ZonedDateTime = ZonedDateTime.now(), replace: Boolean = true, shared: Boolean = true, toRead: Boolean = false )</ID>
-    <ID>NestedBlockDepth:PinboardPoster.kt$PinboardPoster$private fun executeMethod(method: String, params: Map&lt;String, String>): Boolean</ID>
+    <ID>NestedBlockDepth:PinboardPoster.kt$PinboardPoster$private fun executeMethod(method: String, params: Map&lt;String, String&gt;): Boolean</ID>
     <ID>ThrowsCount:PinboardPoster.kt$PinboardPoster$@Throws(IOException::class) internal fun parseMethodResponse(method: String, response: String)</ID>
     <ID>TooManyFunctions:PinConfig.kt$PinConfig$Builder</ID>
   </CurrentIssues>

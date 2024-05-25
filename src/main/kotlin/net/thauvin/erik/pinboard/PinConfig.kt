@@ -37,49 +37,86 @@ import java.time.ZonedDateTime
  * Provides a builder to add a pin.
  *
  * Supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_add).
+ *
+ * @param url The URL of the bookmark.
+ * @param description The title of the bookmark.
  */
-class PinConfig private constructor(
-    val url: String,
-    val description: String,
-    val extended: String,
-    val tags: Array<out String>,
-    val dt: ZonedDateTime,
-    val replace: Boolean,
-    val shared: Boolean,
-    val toRead: Boolean
+class PinConfig @JvmOverloads constructor(
+    var url: String,
+    var description: String,
+    var extended: String = "",
+    var tags: Array<out String> = emptyArray(),
+    var dt: ZonedDateTime = ZonedDateTime.now(),
+    var replace: Boolean = true,
+    var shared: Boolean = true,
+    var toRead: Boolean = false
 ) {
+    constructor(builder: Builder) : this(builder.url, builder.description) {
+        extended = builder.extended
+        tags = builder.tags
+        dt = builder.dt
+        replace = builder.replace
+        shared = builder.shared
+        toRead = builder.toRead
+    }
     /**
      * Configures the parameters to add a pin.
+     *
+     * @param url The URL of the bookmark.
+     * @param description The title of the bookmark.
      */
-    data class Builder(
-        private var url: String = "",
-        private var description: String = "",
-        private var extended: String = "",
-        private var tags: Array<out String> = emptyArray(),
-        private var dt: ZonedDateTime = ZonedDateTime.now(),
-        private var replace: Boolean = true,
-        private var shared: Boolean = true,
-        private var toRead: Boolean = false
-    ) {
+    data class Builder(var url: String, var description: String) {
+        var extended: String = ""
+        var tags: Array<out String> = emptyArray()
+        var dt: ZonedDateTime = ZonedDateTime.now()
+        var replace: Boolean = true
+        var shared: Boolean = true
+        var toRead: Boolean = false
+
+        /**
+         * The URL of the bookmark.
+         */
         fun url(url: String) = apply { this.url = url }
+
+        /**
+         * The title of the bookmark.
+         */
         fun description(description: String) = apply { this.description = description }
+
+        /**
+         * The description of the bookmark.
+         */
         fun extended(extended: String) = apply { this.extended = extended }
+
+        /**
+         * A list of up to 100 tags.
+         */
         fun tags(vararg tag: String) = apply { this.tags = tag }
+
+        /**
+         * The creation time of the bookmark.
+         */
         fun dt(datetime: ZonedDateTime) = apply { this.dt = datetime }
+
+        /**
+         * Replace any existing bookmark with the specified URL. Default `true`.
+         */
         fun replace(replace: Boolean) = apply { this.replace = replace }
+
+        /**
+         * Make bookmark public. Default is `true`.
+         */
         fun shared(shared: Boolean) = apply { this.shared = shared }
+
+        /**
+         * Mark the bookmark as unread. Default is `false`.
+         */
         fun toRead(toRead: Boolean) = apply { this.toRead = toRead }
 
-        fun build() = PinConfig(
-            url,
-            description,
-            extended,
-            tags,
-            dt,
-            replace,
-            shared,
-            toRead
-        )
+        /**
+         * Builds a new comment configuration.
+         */
+        fun build() = PinConfig(this)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
