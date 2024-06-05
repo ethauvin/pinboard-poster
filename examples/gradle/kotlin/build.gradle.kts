@@ -26,8 +26,6 @@ application {
     mainClass.set("net.thauvin.erik.pinboard.samples.KotlinExampleKt")
 }
 
-tasks {
-    withType<KotlinCompile>().configureEach {
-        kotlinOptions.jvmTarget = java.targetCompatibility.toString()
-    }
+kotlin {
+    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
 }
