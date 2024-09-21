@@ -49,7 +49,7 @@ class PinboardPosterTest {
     private val localProps = Paths.get("local.properties")
     private val isCi = "true" == System.getenv("CI")
 
-    private fun randomUrl(): String = "http://www.example.com/?random=" + (1000..10000).random()
+    private fun randomUrl(): String = "https://www.example.com/?random=" + (1000..10000).random()
 
     @Test
     fun testAddPin() {

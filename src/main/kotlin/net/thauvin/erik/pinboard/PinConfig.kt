@@ -141,7 +141,5 @@ class PinConfig private constructor(builder: Builder) {
             return "Builder(url='$url', description='$description', extended='$extended'," +
                     "tags=${tags.contentToString()}, dt=$dt, replace=$replace, shared=$shared, toRead=$toRead)"
         }
-
-
     }
 }
