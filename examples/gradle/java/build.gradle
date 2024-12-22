@@ -6,7 +6,9 @@ plugins {
 
 defaultTasks 'run'
 
-mainClassName = 'net.thauvin.erik.pinboard.samples.JavaExample'
+application {
+    mainClass = 'net.thauvin.erik.pinboard.samples.JavaExample'
+}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11

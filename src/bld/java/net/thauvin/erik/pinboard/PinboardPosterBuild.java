@@ -70,7 +70,7 @@ public class PinboardPosterBuild extends Project {
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
 
         final var okHttp = version(4, 12, 0);
-        final var kotlin = version(2, 0, 20);
+        final var kotlin = version(2, 1, 0);
         scope(compile)
                 // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
@@ -81,8 +81,8 @@ public class PinboardPosterBuild extends Project {
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp));
         scope(test)
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
-                .include(dependency("org.junit.jupiter", "junit-jupiter", version(5, 11, 0)))
-                .include(dependency("org.junit.platform", "junit-platform-console-standalone", version(1, 11, 0)));
+                .include(dependency("org.junit.jupiter", "junit-jupiter", version(5, 11, 4)))
+                .include(dependency("org.junit.platform", "junit-platform-console-standalone", version(1, 11, 4)));
 
         publishOperation()
                 .repository(version.isSnapshot() ? repository(SONATYPE_SNAPSHOTS_LEGACY.location())
