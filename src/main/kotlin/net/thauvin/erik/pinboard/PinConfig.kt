@@ -1,7 +1,7 @@
 /*
  * PinConfig.kt
  *
- * Copyright (c) 2017-2024, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2017-2025, Erik C. Thauvin (erik@thauvin.net)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
