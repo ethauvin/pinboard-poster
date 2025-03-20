@@ -60,7 +60,7 @@ public class PinboardPosterBuild extends Project {
     public PinboardPosterBuild() {
         pkg = "net.thauvin.erik";
         name = "pinboard-poster";
-        version = version(1, 2, 0);
+        version = version(1, 2, 1, "SNAPSHOT");
 
         mainClass = pkg + ".PinboardPoster";
 
