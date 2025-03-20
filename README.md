@@ -1,7 +1,7 @@
 # [Pinboard](https://pinboard.in) Poster for Kotlin, Java and Android
 
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](https://opensource.org/licenses/BSD-3-Clause)
-[![Kotlin](https://img.shields.io/badge/kotlin-2.1.10-7f52ff)](https://kotlinlang.org/)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.1.20-7f52ff)](https://kotlinlang.org/)
 [![bld](https://img.shields.io/badge/2.2.1-FA9052?label=bld&labelColor=2392FF)](https://rife2.com/bld)
 [![Release](https://img.shields.io/github/release/ethauvin/pinboard-poster.svg)](https://github.com/ethauvin/pinboard-poster/releases/latest)
 [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/pinboard-poster.svg?color=blue)](https://central.sonatype.com/artifact/net.thauvin.erik/pinboard-poster)
