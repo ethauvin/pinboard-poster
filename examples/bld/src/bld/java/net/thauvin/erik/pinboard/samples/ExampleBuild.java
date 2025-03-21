@@ -3,6 +3,7 @@ package net.thauvin.erik.pinboard.samples;
 import rife.bld.BaseProject;
 import rife.bld.BuildCommand;
 import rife.bld.extension.CompileKotlinOperation;
+import rife.bld.extension.kotlin.CompileOptions;
 import rife.bld.operations.RunOperation;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class ExampleBuild extends BaseProject {
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, SONATYPE_SNAPSHOTS_LEGACY);
 
         scope(compile)
-                .include(dependency("net.thauvin.erik", "pinboard-poster", version(1, 2, 0)));
+                .include(dependency("net.thauvin.erik", "pinboard-poster", version(1, 2, 1, "SNAPSHOT")));
     }
 
     public static void main(String[] args) {
@@ -34,8 +35,10 @@ public class ExampleBuild extends BaseProject {
 
     @Override
     public void compile() throws Exception {
+        var options = new CompileOptions().jvmOptions("--enable-native-access=ALL-UNNAMED");
         new CompileKotlinOperation()
                 .fromProject(this)
+                .compileOptions(options)
                 .execute();
 
         // Also compile the Java source code
