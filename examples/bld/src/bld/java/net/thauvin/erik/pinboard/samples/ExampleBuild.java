@@ -35,10 +35,9 @@ public class ExampleBuild extends BaseProject {
 
     @Override
     public void compile() throws Exception {
-        var options = new CompileOptions().jvmOptions("--enable-native-access=ALL-UNNAMED");
         new CompileKotlinOperation()
                 .fromProject(this)
-                .compileOptions(options)
+                .compileOptions(new CompileOptions().verbose(true))
                 .execute();
 
         // Also compile the Java source code
