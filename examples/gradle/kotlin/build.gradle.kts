@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.thauvin.erik:pinboard-poster:1.2.0")
+    implementation("net.thauvin.erik:pinboard-poster:1.2.1-SNAPSHOT")
 }
 
 java {
