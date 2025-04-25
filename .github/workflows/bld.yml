@@ -33,21 +33,20 @@ jobs:
         working-directory: examples/bld
         run: ./bld download
 
-      - name: Compile and run [bld examples]
+      - name: Compile and run examples [bld example]
         working-directory: examples/bld
         run: |
-          ./bld compile run
+          ./bld compile
+          ./bld run
           ./bld run-java
 
       - name: Run example [gradle java example]
         working-directory: examples/gradle/java
-        if: matrix.java-version != '24'
         run: |
           ./gradlew run
 
       - name: Run example [gradle kotlin example]
         working-directory: examples/gradle/kotlin
-        if: matrix.java-version != '24'
         run: |
           ./gradlew run
 
