@@ -163,7 +163,7 @@ open class PinboardPoster() {
      * @param shared Make bookmark public. Default is `true`.
      * @param toRead Mark the bookmark as unread. Default is `false`.
      *
-     * @return `true` if bookmark was successfully added.
+     * @return `true` if the bookmark was successfully added.
      */
     @JvmOverloads
     fun addPin(
@@ -206,7 +206,7 @@ open class PinboardPoster() {
      *
      *  @param url The URL of the bookmark to delete.
      *
-     *  @return `true` if bookmark was successfully deleted.
+     *  @return `true` if the bookmark was successfully deleted.
      */
     fun deletePin(url: String): Boolean {
         if (validate()) {
@@ -251,8 +251,10 @@ open class PinboardPoster() {
         }
     }
 
-    private fun cleanEndPoint(method: String): String {
-        return if (apiEndPoint.last() == '/') {
+    internal fun cleanEndPoint(method: String): String {
+        return if (apiEndPoint.isBlank()) {
+            method
+        } else if (apiEndPoint.last() == '/') {
             "$apiEndPoint$method"
         } else {
             "$apiEndPoint/$method"
@@ -293,9 +295,9 @@ open class PinboardPoster() {
     /**
      * Ensures that the API token and end point are valid.
      */
-    fun validate(): Boolean {
+    internal fun validate(): Boolean {
         var isValid = true
-        if (!apiToken.contains(':')) {
+        if (!apiToken.matches("[A-Za-z0-9]+:[A-Za-z0-9]+".toRegex())) {
             logger.severe("Please specify a valid API token. (eg. user:TOKEN)")
             isValid = false
         } else if (!validateUrl(apiEndPoint)) {
