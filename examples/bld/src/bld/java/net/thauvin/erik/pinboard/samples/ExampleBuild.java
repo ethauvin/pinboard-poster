@@ -35,10 +35,9 @@ public class ExampleBuild extends BaseProject {
 
     @Override
     public void compile() throws Exception {
-        new CompileKotlinOperation()
-                .fromProject(this)
-                .compileOptions(new CompileOptions().verbose(true))
-                .execute();
+        var op = new CompileKotlinOperation().fromProject(this);
+        op.compileOptions().verbose(true);
+        op.execute();
 
         // Also compile the Java source code
         super.compile();
@@ -48,7 +47,7 @@ public class ExampleBuild extends BaseProject {
     public void runJava() throws Exception {
         new RunOperation()
                 .fromProject(this)
-                .mainClass(pkg + ".JavaExample")
+                .mainClass(pkg + ".JavaExample")x
                 .execute();
     }
 }
