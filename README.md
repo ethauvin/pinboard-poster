@@ -5,7 +5,7 @@
 [![bld](https://img.shields.io/badge/2.3.0-FA9052?label=bld&labelColor=2392FF)](https://rife2.com/bld)
 [![Release](https://img.shields.io/github/release/ethauvin/pinboard-poster.svg)](https://github.com/ethauvin/pinboard-poster/releases/latest)
 [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/pinboard-poster.svg?color=blue)](https://central.sonatype.com/artifact/net.thauvin.erik/pinboard-poster)
-[![Nexus Snapshot](https://img.shields.io/nexus/s/net.thauvin.erik/pinboard-poster?label=snapshot&server=https%3A%2F%2Foss.sonatype.org%2F)](https://oss.sonatype.org/content/repositories/snapshots/net/thauvin/erik/pinboard-poster/)
+[![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fnet%2Fthauvin%2Ferik%2Fpinboard-poster%2Fmaven-metadata.xml&label=snapshot)](https://github.com/ethauvin/pinboard-poster/packages/2260861/versions)
 
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_pinboard-poster&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_pinboard-poster)
@@ -52,7 +52,7 @@ Your API authentication token is available on the [Pinboard settings page](https
 To use with [bld](https://rife2.com/bld), include the following dependency in your [build](https://github.com/ethauvin/pinboard-poster/blob/master/examples/bld/src/bld/java/net/thauvin/erik/pinboard/samples/ExampleBuild.java) file:
 
 ```java
-repositories = List.of(MAVEN_CENTRAL, SONATYPE_SNAPSHOTS_LEGACY);
+repositories = List.of(MAVEN_CENTRAL, CENTRAL_SNAPSHOTS);
 
 scope(compile)
     .include(dependency("net.thauvin.erik:pinboard-poster:1.2.0"));

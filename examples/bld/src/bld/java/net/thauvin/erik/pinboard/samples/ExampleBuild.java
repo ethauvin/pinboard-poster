@@ -23,7 +23,7 @@ public class ExampleBuild extends BaseProject {
         downloadSources = true;
         autoDownloadPurge = true;
 
-        repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, SONATYPE_SNAPSHOTS_LEGACY);
+        repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, CENTRAL_SNAPSHOTS);
 
         scope(compile)
                 .include(dependency("net.thauvin.erik", "pinboard-poster", version(1, 2, 1, "SNAPSHOT")));
