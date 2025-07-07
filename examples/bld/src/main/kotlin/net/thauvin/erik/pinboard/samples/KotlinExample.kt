@@ -23,15 +23,13 @@ fun main(args: Array<String>) {
         useParentHandlers = false
     }
 
-    if (poster.validate()) {
-        // Add Pin
-        if (poster.addPin(url, "Testing", "Extended test", tags = arrayOf("test", "kotlin"))) {
-            println("Added: $url")
-        }
+    // Add Pin
+    if (poster.addPin(url, "Testing", "Extended test", tags = arrayOf("test", "kotlin"))) {
+        println("Added: $url")
+    }
 
-        // Delete Pin
-        if (poster.deletePin(url)) {
-            println("Deleted: $url")
-        }
+    // Delete Pin
+    if (poster.deletePin(url)) {
+        println("Deleted: $url")
     }
 }

@@ -29,19 +29,17 @@ public class JavaExample {
         logger.setLevel(Level.FINE);
         logger.setUseParentHandlers(false);
 
-        if (poster.validate()) {
-            // Add Pin
-            if (poster.addPin(new PinConfig.Builder(url, "Testing")
-                    .extended("Extra")
-                    .tags("test", "java")
-                    .build())) {
-                System.out.println("Added: " + url);
-            }
+        // Add Pin
+        if (poster.addPin(new PinConfig.Builder(url, "Testing")
+                .extended("Extra")
+                .tags("test", "java")
+                .build())) {
+            System.out.println("Added: " + url);
+        }
 
-            // Delete Pin
-            if (poster.deletePin(url)) {
-                System.out.println("Deleted: " + url);
-            }
+        // Delete Pin
+        if (poster.deletePin(url)) {
+            System.out.println("Deleted: " + url);
         }
     }
 }
