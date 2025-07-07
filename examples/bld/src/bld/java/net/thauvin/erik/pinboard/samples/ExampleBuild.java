@@ -47,7 +47,7 @@ public class ExampleBuild extends BaseProject {
     public void runJava() throws Exception {
         new RunOperation()
                 .fromProject(this)
-                .mainClass(pkg + ".JavaExample")x
+                .mainClass(pkg + ".JavaExample")
                 .execute();
     }
 }
