@@ -72,7 +72,7 @@ public class PinboardPosterBuild extends Project {
         downloadSources = true;
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
 
-        final var okHttp = version(4, 12, 0);
+        final var okHttp = version(5, 0, 0);
         final var kotlin = version(2, 2, 0);
         scope(compile)
                 // Kotlin
@@ -80,7 +80,7 @@ public class PinboardPosterBuild extends Project {
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-common", kotlin))
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", kotlin))
                 // OkHttp
-                .include(dependency("com.squareup.okhttp3", "okhttp", okHttp))
+                .include(dependency("com.squareup.okhttp3", "okhttp-jvm", okHttp))
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp));
         scope(test)
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
