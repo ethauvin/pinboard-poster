@@ -10,6 +10,7 @@
     <pattern value="net.thauvin.erik.pinboard.PinboardPosterBuild" method="detekt" />
     <pattern value="net.thauvin.erik.pinboard.PinboardPosterBuild" method="detektBaseline" />
     <pattern value="net.thauvin.erik.pinboard.PinboardPosterBuild" />
+    <pattern value="net.thauvin.erik.pinboard.PinboardPosterBuild" method="reporter" />
   </component>
   <component name="PDMPlugin">
     <option name="customRuleSets">
