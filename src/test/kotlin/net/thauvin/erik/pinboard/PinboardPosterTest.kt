@@ -36,6 +36,9 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EmptySource
+import org.junit.jupiter.params.provider.ValueSource
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -218,18 +221,20 @@ class PinboardPosterTest {
             )
         }
 
-        @Test
-        fun `Empty endpoint`() {
-            poster.apiEndPoint = ""
-            val result = poster.cleanEndPoint("")
-            assertEquals("", result, "Empty endpoint should be empty")
+        @ParameterizedTest
+        @EmptySource
+        fun `Empty endpoint`(input: String) {
+            poster.apiEndPoint = input
+            val result = poster.cleanEndPoint(input)
+            assertEquals(input, result, "Empty endpoint should be empty")
         }
 
-        @Test
-        fun `Blank endpoint`() {
+        @ParameterizedTest(name = "[{index}] ''{0}''")
+        @ValueSource(strings = ["", " ", "  "])
+        fun `Blank endpoint`(input: String) {
             poster.apiEndPoint = "  "
-            val result = poster.cleanEndPoint("  ")
-            assertEquals("  ", result, "Empty endpoint should be empty")
+            val result = poster.cleanEndPoint(input)
+            assertEquals(input, result, "Empty endpoint should be blank")
         }
 
         @Test
@@ -267,31 +272,21 @@ class PinboardPosterTest {
             assertFalse(poster.validate(), "Validation should fail if API token is missing a colon")
         }
 
-        @Test
-        fun `API token is empty`() {
-            poster.apiToken = "" // Empty token
-            poster.apiEndPoint = "https://api.example.com/v1/"
-            assertFalse(poster.validate(), "Validation should fail if API token is empty")
-        }
-
-        @Test
-        fun `API token is blank`() {
-            poster.apiToken = "   " // Blank token (contains no colon)
+        @ParameterizedTest(name = "[{index}] ''{0}''")
+        @EmptySource
+        @ValueSource(strings = [" ", "  "])
+        fun `API token is blank`(input: String) {
+            poster.apiToken = input // Blank token (contains no colon)
             poster.apiEndPoint = "https://api.example.com/v1/"
             assertFalse(poster.validate(), "Validation should fail if API token is blank")
         }
 
-        @Test
-        fun `API token is valid but endpoint is empty`() {
+        @ParameterizedTest(name = "[{index}] ''{0}''")
+        @EmptySource
+        @ValueSource(strings = [" ", "  "])
+        fun `API token is valid but endpoint is blank`(input: String) {
             poster.apiToken = "user:testtoken"
-            poster.apiEndPoint = "" // Empty endpoint
-            assertFalse(poster.validate(), "Validation should fail if endpoint is empty")
-        }
-
-        @Test
-        fun `API token is valid but endpoint is blank`() {
-            poster.apiToken = "user:testtoken"
-            poster.apiEndPoint = "   " // Blank endpoint
+            poster.apiEndPoint = input // Empty endpoint
             assertFalse(poster.validate(), "Validation should fail if endpoint is blank")
         }
 
