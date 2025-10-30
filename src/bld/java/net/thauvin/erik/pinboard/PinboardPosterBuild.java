@@ -75,6 +75,7 @@ public class PinboardPosterBuild extends Project {
 
         final var okHttp = version(5, 2, 1);
         final var kotlin = version(2, 2, 21);
+        var junit = version(6, 0, 0);
         scope(compile)
                 // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
@@ -85,9 +86,9 @@ public class PinboardPosterBuild extends Project {
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp));
         scope(test)
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
-                .include(dependency("org.junit.jupiter", "junit-jupiter", version(5, 13, 4)))
-                .include(dependency("org.junit.platform", "junit-platform-console-standalone", version(1, 13, 4)))
-                .include(dependency("org.junit.platform", "junit-platform-launcher", version(1, 13, 4)));
+                .include(dependency("org.junit.jupiter", "junit-jupiter", junit))
+                .include(dependency("org.junit.platform", "junit-platform-console-standalone", junit))
+                .include(dependency("org.junit.platform", "junit-platform-launcher", junit));
 
         publishOperation()
                 .repository(version.isSnapshot() ? repository(CENTRAL_SNAPSHOTS.location())
