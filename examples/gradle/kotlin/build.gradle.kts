@@ -18,15 +18,10 @@ dependencies {
     implementation("net.thauvin.erik:pinboard-poster:1.2.1-SNAPSHOT")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
 application {
     mainClass.set("net.thauvin.erik.pinboard.samples.KotlinExampleKt")
 }
 
 kotlin {
-    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+    jvmToolchain(17)
 }

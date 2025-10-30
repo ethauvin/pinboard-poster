@@ -19,7 +19,7 @@ public class ExampleBuild extends BaseProject {
 
         mainClass = pkg + ".KotlinExampleKt";
 
-        javaRelease = 11;
+        javaRelease = 17;
         downloadSources = true;
         autoDownloadPurge = true;
 

@@ -65,7 +65,7 @@ public class PinboardPosterBuild extends Project {
 
         mainClass = pkg + ".PinboardPoster";
 
-        javaRelease = 11;
+        javaRelease = 17;
 
         autoDownloadPurge = true;
         downloadSources = true;
