@@ -21,7 +21,3 @@ dependencies {
 application {
     mainClass.set("net.thauvin.erik.pinboard.samples.KotlinExampleKt")
 }
-
-kotlin {
-    jvmToolchain(17)
-}

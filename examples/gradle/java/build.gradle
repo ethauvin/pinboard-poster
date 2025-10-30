@@ -10,12 +10,6 @@ application {
     mainClass = 'net.thauvin.erik.pinboard.samples.JavaExample'
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
-
 repositories {
     mavenLocal()
     mavenCentral()
