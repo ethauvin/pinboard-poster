@@ -132,8 +132,7 @@ class PinConfig private constructor(builder: Builder) {
             result = 31 * result + dt.hashCode()
             result = 31 * result + replace.hashCode()
             result = 31 * result + shared.hashCode()
-            result = 31 * result + toRead.hashCode()
-            return result
+            return 31 * result + toRead.hashCode()
         }
 
         override fun toString(): String {

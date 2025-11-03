@@ -51,8 +51,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static rife.bld.dependencies.Repository.*;
-import static rife.bld.dependencies.Scope.compile;
-import static rife.bld.dependencies.Scope.test;
+import static rife.bld.dependencies.Scope.*;
 
 public class PinboardPosterBuild extends Project {
     static final String TEST_RESULTS_DIR = "build/test-results/test/";
@@ -82,6 +81,9 @@ public class PinboardPosterBuild extends Project {
                 // OkHttp
                 .include(dependency("com.squareup.okhttp3", "okhttp-jvm", okHttp))
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp));
+        scope(provided)
+                .include(dependency("com.github.spotbugs", "spotbugs-annotations",
+                        version(4, 9, 8)));
         scope(test)
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
                 .include(dependency("org.junit.jupiter", "junit-jupiter", junit))
