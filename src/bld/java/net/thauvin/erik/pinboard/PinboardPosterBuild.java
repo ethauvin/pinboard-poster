@@ -70,7 +70,7 @@ public class PinboardPosterBuild extends Project {
         downloadSources = true;
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
 
-        final var okHttp = version(5, 2, 1);
+        final var okHttp = version(5, 3, 0);
         final var kotlin = version(2, 2, 21);
         var junit = version(6, 0, 0);
         scope(compile)
