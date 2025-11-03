@@ -72,7 +72,7 @@ public class PinboardPosterBuild extends Project {
 
         final var okHttp = version(5, 3, 0);
         final var kotlin = version(2, 2, 21);
-        var junit = version(6, 0, 0);
+        var junit = version(6, 0, 1);
         scope(compile)
                 // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
