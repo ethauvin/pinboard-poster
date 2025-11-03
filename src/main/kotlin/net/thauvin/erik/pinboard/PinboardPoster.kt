@@ -66,7 +66,7 @@ object Constants {
  *
  * @author <a href="https://erik.thauvin.net/">Erik C. Thauvin</a>
  */
-open class PinboardPoster() {
+class PinboardPoster() {
     /**
      * Creates a new instance using an [API Token][apiToken].
      *
@@ -170,7 +170,7 @@ open class PinboardPoster() {
         url: String,
         description: String,
         extended: String = "",
-        vararg tags: String = emptyArray(),
+        tags: List<String> = emptyList(),
         dt: ZonedDateTime = ZonedDateTime.now(),
         replace: Boolean = true,
         shared: Boolean = true,

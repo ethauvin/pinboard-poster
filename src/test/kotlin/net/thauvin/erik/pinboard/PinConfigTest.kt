@@ -67,7 +67,7 @@ class PinConfigTest {
             .tags(*tags)
             .build()
 
-        assertTrue(tags contentEquals pinConfig.tags)
+        assertEquals(tags.toList(), pinConfig.tags)
     }
 
     @Test

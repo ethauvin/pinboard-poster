@@ -41,7 +41,8 @@ class PinConfig private constructor(builder: Builder) {
     val url: String = builder.url
     val description: String = builder.description
     val extended = builder.extended
-    val tags = builder.tags
+    val tags: List<String> = builder.tags.toList()
+        get() = field.toList() // Return a defensive copy
     val dt = builder.dt
     val replace = builder.replace
     val shared = builder.shared
@@ -54,8 +55,11 @@ class PinConfig private constructor(builder: Builder) {
      * @param description The title of the bookmark.
      */
     data class Builder(var url: String, var description: String) {
+        private var _tags: List<String> = emptyList()
+
         var extended: String = ""
-        var tags: Array<out String> = emptyArray()
+        val tags: List<String>
+            get() = _tags.toList()
         var dt: ZonedDateTime = ZonedDateTime.now()
         var replace: Boolean = true
         var shared: Boolean = true
@@ -79,7 +83,12 @@ class PinConfig private constructor(builder: Builder) {
         /**
          * A list of up to 100 tags.
          */
-        fun tags(vararg tag: String): Builder = apply { this.tags = tag }
+        fun tags(vararg tag: String): Builder = apply { _tags = tag.toList() }
+
+        /**
+         * A list of up to 100 tags.
+         */
+        fun tags(tags: List<String>): Builder = apply { _tags = tags.toList() }
 
         /**
          * The creation time of the bookmark.
@@ -115,7 +124,8 @@ class PinConfig private constructor(builder: Builder) {
             if (url != other.url) return false
             if (description != other.description) return false
             if (extended != other.extended) return false
-            if (!tags.contentEquals(other.tags)) return false
+            if (tags != other.tags) return false
+            @Suppress("IDENTITY_SENSITIVE_OPERATIONS_WITH_VALUE_TYPE")
             if (dt != other.dt) return false
             if (replace != other.replace) return false
             if (shared != other.shared) return false
@@ -128,7 +138,7 @@ class PinConfig private constructor(builder: Builder) {
             var result = url.hashCode()
             result = 31 * result + description.hashCode()
             result = 31 * result + extended.hashCode()
-            result = 31 * result + tags.contentHashCode()
+            result = 31 * result + tags.hashCode()
             result = 31 * result + dt.hashCode()
             result = 31 * result + replace.hashCode()
             result = 31 * result + shared.hashCode()
@@ -137,7 +147,7 @@ class PinConfig private constructor(builder: Builder) {
 
         override fun toString(): String {
             return "Builder(url='$url', description='$description', extended='$extended'," +
-                    "tags=${tags.contentToString()}, dt=$dt, replace=$replace, shared=$shared, toRead=$toRead)"
+                    "tags=$tags, dt=$dt, replace=$replace, shared=$shared, toRead=$toRead)"
         }
     }
 }
