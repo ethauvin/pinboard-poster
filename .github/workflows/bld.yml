@@ -4,9 +4,9 @@ on: [push, pull_request, workflow_dispatch]
 
 env:
   COVERAGE_JDK: "21"
-  COVERAGE_KOTLIN: "2.1.20"
+  COVERAGE_KOTLIN: "2.1.21"
   PINBOARD_API_TOKEN: ${{ secrets.PINBOARD_API_TOKEN }}
-  KOTLIN_VERSION: "2.2.20"
+  KOTLIN_VERSION: "2.2.21"
 
 jobs:
   build-bld-project:
