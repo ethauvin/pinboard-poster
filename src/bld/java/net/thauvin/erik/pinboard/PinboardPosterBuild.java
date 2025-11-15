@@ -68,7 +68,7 @@ public class PinboardPosterBuild extends Project {
 
         autoDownloadPurge = true;
         downloadSources = true;
-        repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
+        repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, RIFE2_RELEASES);
 
         final var okHttp = version(5, 3, 0);
         final var kotlin = version(2, 2, 21);
@@ -122,64 +122,12 @@ public class PinboardPosterBuild extends Project {
         jarSourcesOperation().sourceDirectories(srcMainKotlin);
     }
 
-    public static void main(final String[] args) {
-        // Enable detailed logging for the extensions
-        var level = Level.ALL;
-        var logger = Logger.getLogger("rife.bld.extension");
-        var consoleHandler = new ConsoleHandler();
-
-        consoleHandler.setLevel(level);
-        logger.addHandler(consoleHandler);
-        logger.setLevel(level);
-        logger.setUseParentHandlers(false);
-
-        new PinboardPosterBuild().start(args);
-    }
-
     @BuildCommand(summary = "Compiles the Kotlin project")
     @Override
     public void compile() throws Exception {
         var op = new CompileKotlinOperation().fromProject(this);
         op.compileOptions().languageVersion("1.9").verbose(true);
         op.execute();
-    }
-
-    @BuildCommand(summary = "Checks source with Detekt")
-    public void detekt() throws ExitStatusException, IOException, InterruptedException {
-        new DetektOperation()
-                .fromProject(this)
-                .baseline("config/detekt/baseline.xml")
-                .execute();
-    }
-
-    @BuildCommand(value = "detekt-baseline", summary = "Creates the Detekt baseline")
-    public void detektBaseline() throws ExitStatusException, IOException, InterruptedException {
-        new DetektOperation()
-                .fromProject(this)
-                .baseline("config/detekt/baseline.xml")
-                .createBaseline(true)
-                .execute();
-    }
-
-    @BuildCommand(summary = "Generates JaCoCo Reports")
-    public void jacoco() throws Exception {
-        var op = new JacocoReportOperation().fromProject(this);
-        op.testToolOptions("--reports-dir=" + TEST_RESULTS_DIR);
-        op.execute();
-    }
-
-    @BuildCommand(value = "pom-root", summary = "Generates the POM file in the root directory")
-    public void pomRoot() throws FileUtilsErrorException {
-        PomBuilder.generateInto(publishOperation().fromProject(this).info(), dependencies(),
-                new File(workDirectory, "pom.xml"));
-    }
-
-    @BuildCommand(summary = "Runs the JUnit reporter")
-    public void reporter() throws Exception {
-        new JUnitReporterOperation()
-                .fromProject(this)
-                .failOnSummary(true)
-                .execute();
     }
 
     @Override
@@ -211,5 +159,66 @@ public class PinboardPosterBuild extends Project {
     public void publishLocal() throws Exception {
         super.publishLocal();
         pomRoot();
+    }
+
+    @BuildCommand(value = "pom-root", summary = "Generates the POM file in the root directory")
+    public void pomRoot() throws FileUtilsErrorException {
+        PomBuilder.generateInto(publishOperation().fromProject(this).info(), dependencies(),
+                new File("pom.xml"));
+    }
+
+    public static void main(final String[] args) {
+        // Enable detailed logging for the extensions
+        var level = Level.ALL;
+        var logger = Logger.getLogger("rife.bld.extension");
+        var consoleHandler = new ConsoleHandler();
+
+        consoleHandler.setLevel(level);
+        logger.addHandler(consoleHandler);
+        logger.setLevel(level);
+        logger.setUseParentHandlers(false);
+
+        new PinboardPosterBuild().start(args);
+    }
+
+    @BuildCommand(summary = "Checks source with Detekt")
+    public void detekt() throws ExitStatusException, IOException, InterruptedException {
+        new DetektOperation()
+                .fromProject(this)
+                .baseline("config/detekt/baseline.xml")
+                .execute();
+    }
+
+    @BuildCommand(value = "detekt-baseline", summary = "Creates the Detekt baseline")
+    public void detektBaseline() throws ExitStatusException, IOException, InterruptedException {
+        new DetektOperation()
+                .fromProject(this)
+                .baseline("config/detekt/baseline.xml")
+                .createBaseline(true)
+                .execute();
+    }
+
+    @BuildCommand(summary = "Generates JaCoCo Reports")
+    public void jacoco() throws Exception {
+        var op = new JacocoReportOperation().fromProject(this);
+        op.testToolOptions("--reports-dir=" + TEST_RESULTS_DIR);
+        op.execute();
+    }
+
+    @BuildCommand(summary = "Runs the JUnit reporter")
+    public void reporter() throws Exception {
+        new JUnitReporterOperation()
+                .fromProject(this)
+                .failOnSummary(true)
+                .execute();
+    }
+
+    @BuildCommand(summary = "Runs SpotBugs on this project")
+    public void spotbugs() throws Exception {
+        new SpotBugsOperation()
+                .fromProject(this)
+                .home("/opt/spotbugs")
+                .sourcePath(srcMainKotlin)
+                .execute();
     }
 }

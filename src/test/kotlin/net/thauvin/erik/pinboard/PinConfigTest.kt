@@ -31,10 +31,10 @@
 
 package net.thauvin.erik.pinboard
 
+import java.time.ZonedDateTime
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import java.time.ZonedDateTime
 
 class PinConfigTest {
     @Test
