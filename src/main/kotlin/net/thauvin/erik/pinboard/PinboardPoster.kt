@@ -31,16 +31,17 @@
 
 package net.thauvin.erik.pinboard
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import org.xml.sax.InputSource
+import org.xml.sax.SAXException
 import java.io.File
 import java.io.IOException
 import java.io.StringReader
 import java.net.URI
-import java.net.URISyntaxException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.ZonedDateTime
@@ -48,7 +49,9 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
+import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
 
 /** Constants for this package. **/
 object Constants {
@@ -222,6 +225,10 @@ class PinboardPoster() {
 
     @Throws(IOException::class)
     internal fun parseMethodResponse(method: String, response: String) {
+        if (response.isEmpty()) {
+            throw IOException("Response for $method is empty.")
+        }
+
         val factory = DocumentBuilderFactory.newInstance().apply {
             isValidating = false
             isIgnoringElementContentWhitespace = true
@@ -230,13 +237,25 @@ class PinboardPoster() {
             isNamespaceAware = false
         }
 
-        if (response.isEmpty()) {
-            throw IOException("Response for $method is empty.")
+        try {
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false)
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false)
+            factory.isXIncludeAware = false // correct method call
+        } catch (e: ParserConfigurationException) {
+            logger.log(
+                Level.FINE,
+                "Could not set one or more secure parser features - parser may not support them",
+                e
+            )
         }
 
         try {
-            val document = factory.newDocumentBuilder().parse(InputSource(StringReader(response)))
+            val builder = factory.newDocumentBuilder()
+            builder.setEntityResolver { _, _ -> InputSource(StringReader("")) }
 
+            val document = builder.parse(InputSource(StringReader(response)))
             val code = document.getElementsByTagName("result")?.item(0)?.attributes?.getNamedItem("code")?.nodeValue
 
             if (!code.isNullOrBlank()) {
@@ -244,7 +263,7 @@ class PinboardPoster() {
             } else {
                 throw IOException("An error has occurred while executing $method.")
             }
-        } catch (e: org.xml.sax.SAXException) {
+        } catch (e: SAXException) {
             throw IOException("Could not parse $method response.", e)
         } catch (e: IllegalArgumentException) {
             throw IOException("Invalid input source for $method response", e)
@@ -261,6 +280,7 @@ class PinboardPoster() {
         }
     }
 
+    @SuppressFBWarnings("EXS_EXCEPTION_SOFTENING_RETURN_FALSE")
     private fun executeMethod(method: String, params: Map<String, String>): Boolean {
         try {
             val apiUrl = cleanEndPoint(method).toHttpUrlOrNull()
@@ -308,16 +328,15 @@ class PinboardPoster() {
     }
 
     private fun validateUrl(url: String): Boolean {
-        var isValid = url.isNotBlank()
-        if (isValid) {
-            try {
-                URI(url)
-            } catch (e: URISyntaxException) {
-                logger.log(Level.FINE, "Invalid URL: $url", e)
-                isValid = false
-            }
+        if (url.isBlank()) return false
+
+        return try {
+            URI.create(url)
+            true
+        } catch (e: IllegalArgumentException) {
+            logger.log(Level.FINE, "Invalid URL: $url", e)
+            false
         }
-        return isValid
     }
 
     private fun yesNo(bool: Boolean): String {
