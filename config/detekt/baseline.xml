@@ -3,7 +3,6 @@
   <ManuallySuppressedIssues/>
   <CurrentIssues>
     <ID>LongParameterList:PinboardPoster.kt$PinboardPoster$( url: String, description: String, extended: String = "", tags: List&lt;String&gt; = emptyList(), dt: ZonedDateTime = ZonedDateTime.now(), replace: Boolean = true, shared: Boolean = true, toRead: Boolean = false )</ID>
-    <ID>NestedBlockDepth:PinboardPoster.kt$PinboardPoster$private fun executeMethod(method: String, params: Map&lt;String, String&gt;): Boolean</ID>
     <ID>ThrowsCount:PinboardPoster.kt$PinboardPoster$@Throws(IOException::class) internal fun parseMethodResponse(method: String, response: String)</ID>
     <ID>TooManyFunctions:PinConfig.kt$PinConfig$Builder</ID>
   </CurrentIssues>

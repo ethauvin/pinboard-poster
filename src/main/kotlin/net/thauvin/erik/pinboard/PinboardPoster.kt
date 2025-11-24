@@ -31,7 +31,6 @@
 
 package net.thauvin.erik.pinboard
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -280,36 +279,38 @@ class PinboardPoster() {
         }
     }
 
-    @SuppressFBWarnings("EXS_EXCEPTION_SOFTENING_RETURN_FALSE")
     private fun executeMethod(method: String, params: Map<String, String>): Boolean {
-        try {
-            val apiUrl = cleanEndPoint(method).toHttpUrlOrNull()
-            if (apiUrl != null) {
-                val httpUrl = apiUrl.newBuilder().apply {
-                    params.forEach {
-                        addQueryParameter(it.key, it.value)
-                    }
-                    addQueryParameter("auth_token", apiToken)
-                }.build()
-
-                val request = Request.Builder().url(httpUrl).build()
-                client.newCall(request).execute().use { result ->
-                    result.body.string().let { response ->
-                        if (response.contains("done")) {
-                            return true
-                        } else {
-                            parseMethodResponse(method, response)
-                        }
-                    }
-                }
-            } else {
-                logger.severe("Invalid API end point: $apiEndPoint")
-            }
-        } catch (e: IOException) {
-            logger.log(Level.SEVERE, e.message, e)
+        val apiUrl = cleanEndPoint(method).toHttpUrlOrNull()
+        if (apiUrl == null) {
+            logger.severe("Invalid API end point: $apiEndPoint")
+            return false
         }
 
-        return false
+        val httpUrl = apiUrl.newBuilder().apply {
+            params.forEach { (k, v) -> addQueryParameter(k, v) }
+            addQueryParameter("auth_token", apiToken)
+        }.build()
+
+        val request = Request.Builder().url(httpUrl).build()
+
+        return try {
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) {
+                    logger.warning("HTTP request failed: ${response.code} ${response.message}")
+                }
+
+                val body = response.body.string()
+                if (body.contains("done")) {
+                    true
+                } else {
+                    parseMethodResponse(method, body)
+                    false
+                }
+            }
+        } catch (e: IOException) {
+            logger.log(Level.SEVERE, "Request failed: ${e.message}", e)
+            false
+        }
     }
 
     /**
