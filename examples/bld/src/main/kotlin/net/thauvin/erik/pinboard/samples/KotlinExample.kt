@@ -24,7 +24,7 @@ fun main(args: Array<String>) {
     }
 
     // Add Pin
-    if (poster.addPin(url, "Testing", "Extended test", tags = arrayOf("test", "kotlin"))) {
+    if (poster.addPin(url, "Testing", "Extended test", tags = listOf("test", "kotlin"))) {
         println("Added: $url")
     }
 

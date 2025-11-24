@@ -17,5 +17,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.thauvin.erik:pinboard-poster:1.2.1-SNAPSHOT'
+    implementation 'net.thauvin.erik:pinboard-poster:1.3.0-SNAPSHOT'
 }

@@ -26,7 +26,7 @@ public class ExampleBuild extends BaseProject {
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, CENTRAL_SNAPSHOTS);
 
         scope(compile)
-                .include(dependency("net.thauvin.erik", "pinboard-poster", version(1, 2, 1, "SNAPSHOT")));
+                .include(dependency("net.thauvin.erik", "pinboard-poster", version(1, 3, 0, "SNAPSHOT")));
     }
 
     public static void main(String[] args) {
