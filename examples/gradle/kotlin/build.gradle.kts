@@ -19,19 +19,6 @@ dependencies {
     implementation("net.thauvin.erik:pinboard-poster:1.3.0-SNAPSHOT")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
-    }
-}
-
-
 application {
     mainClass.set("net.thauvin.erik.pinboard.samples.KotlinExampleKt")
 }
