@@ -229,7 +229,7 @@ class PinboardPosterTest {
             assertEquals(input, result, "Empty endpoint should be empty")
         }
 
-        @ParameterizedTest(name = "[{index}] ''{0}''")
+        @ParameterizedTest
         @ValueSource(strings = ["", " ", "  "])
         fun `Blank endpoint`(input: String) {
             poster.apiEndPoint = "  "
@@ -272,7 +272,7 @@ class PinboardPosterTest {
             assertFalse(poster.validate(), "Validation should fail if API token is missing a colon")
         }
 
-        @ParameterizedTest(name = "[{index}] ''{0}''")
+        @ParameterizedTest
         @EmptySource
         @ValueSource(strings = [" ", "  "])
         fun `API token is blank`(input: String) {
@@ -281,7 +281,7 @@ class PinboardPosterTest {
             assertFalse(poster.validate(), "Validation should fail if API token is blank")
         }
 
-        @ParameterizedTest(name = "[{index}] ''{0}''")
+        @ParameterizedTest
         @EmptySource
         @ValueSource(strings = [" ", "  "])
         fun `API token is valid but endpoint is blank`(input: String) {
