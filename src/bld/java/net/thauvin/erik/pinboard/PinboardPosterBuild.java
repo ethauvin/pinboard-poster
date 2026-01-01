@@ -1,7 +1,7 @@
 /*
  * PinboardPosterBuild.java
  *
- * Copyright (c) 2017-2025, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2017-2026, Erik C. Thauvin (erik@thauvin.net)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -122,6 +122,20 @@ public class PinboardPosterBuild extends Project {
         jarSourcesOperation().sourceDirectories(srcMainKotlin);
     }
 
+    public static void main(final String[] args) {
+        // Enable detailed logging for the extensions
+        var level = Level.ALL;
+        var logger = Logger.getLogger("rife.bld.extension");
+        var consoleHandler = new ConsoleHandler();
+
+        consoleHandler.setLevel(level);
+        logger.addHandler(consoleHandler);
+        logger.setLevel(level);
+        logger.setUseParentHandlers(false);
+
+        new PinboardPosterBuild().start(args);
+    }
+
     @BuildCommand(summary = "Compiles the Kotlin project")
     @Override
     public void compile() throws Exception {
@@ -165,20 +179,6 @@ public class PinboardPosterBuild extends Project {
     public void pomRoot() throws FileUtilsErrorException {
         PomBuilder.generateInto(publishOperation().fromProject(this).info(), dependencies(),
                 new File("pom.xml"));
-    }
-
-    public static void main(final String[] args) {
-        // Enable detailed logging for the extensions
-        var level = Level.ALL;
-        var logger = Logger.getLogger("rife.bld.extension");
-        var consoleHandler = new ConsoleHandler();
-
-        consoleHandler.setLevel(level);
-        logger.addHandler(consoleHandler);
-        logger.setLevel(level);
-        logger.setUseParentHandlers(false);
-
-        new PinboardPosterBuild().start(args);
     }
 
     @BuildCommand(summary = "Checks source with Detekt")
