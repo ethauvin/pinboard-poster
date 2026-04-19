@@ -73,7 +73,7 @@ public class PinboardPosterBuild extends Project {
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, RIFE2_RELEASES);
 
         final var okHttp = version(5, 3, 2);
-        final var kotlin = version(2, 3, 10);
+        final var kotlin = version(2, 3, 20);
         var junit = version(6, 0, 3);
         scope(compile)
                 // Kotlin
@@ -128,7 +128,7 @@ public class PinboardPosterBuild extends Project {
     @Override
     public void compile() throws Exception {
         var op = new CompileKotlinOperation().fromProject(this);
-        op.compileOptions().languageVersion("1.9").verbose(true);
+        op.compileOptions().languageVersion("2.1").verbose(true);
         op.execute();
     }
 
