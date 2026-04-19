@@ -34,13 +34,18 @@ poster.deletePin("https://example.com/bar")
 
 ```java
 
-final PinboardPoster poster = new PinBboardPoster("user:TOKEN");
+var poster = new PinboardClient("user:TOKEN");
 
 poster.addPin("https://example.com/foo", "This is a test");
-poster.addPin(new PinConfig.Builder("https://example.com", "This is a test")
-                .tags("foo", "bar")
-                .build());
+
+poster.addPin(
+    new PinConfig.Builder("https://example.com", "This is a test")
+        .tags("foo", "bar")
+        .build()
+);
+
 poster.deletePin("https://example.com/bar");
+
 ```
 
 [View Examples](https://github.com/ethauvin/pinboard-poster/blob/master/examples)

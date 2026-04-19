@@ -1,7 +1,7 @@
 package net.thauvin.erik.pinboard.samples;
 
 import net.thauvin.erik.pinboard.PinConfig;
-import net.thauvin.erik.pinboard.PinboardPoster;
+import net.thauvin.erik.pinboard.PinboardClient;
 
 import java.nio.file.Paths;
 import java.util.logging.ConsoleHandler;
@@ -9,16 +9,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class JavaExample {
+
     public static void main(String[] args) {
         final String url = "https://example.com/pinboard";
-        final PinboardPoster poster;
+        final PinboardClient poster;
 
         if (args.length == 1) {
             // API Token is an argument
-            poster = new PinboardPoster(args[0]);
+            poster = new PinboardClient(args[0]);
         } else {
             // API Token is in local.properties or PINBOARD_API_TOKEN environment variable
-            poster = new PinboardPoster(Paths.get("local.properties"));
+            poster = PinboardClient.of(Paths.get("local.properties"));
         }
 
         // Set logging levels
