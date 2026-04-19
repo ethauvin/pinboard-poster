@@ -35,12 +35,9 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
-import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 import java.io.File
 import java.io.IOException
-import java.io.StringReader
-import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.ZonedDateTime
@@ -48,41 +45,42 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.logging.Level
 import java.util.logging.Logger
-import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
 
-/** Constants for this package. **/
+/** Constants for this package. */
 object Constants {
-    /** The Pinboard API endpoint URL. **/
+    /** The default Pinboard API endpoint URL. */
     const val API_ENDPOINT = "https://api.pinboard.in/v1/"
 
-    /** The API token environment variable. **/
+    /** The environment variable name containing the API token. */
     const val ENV_API_TOKEN = "PINBOARD_API_TOKEN"
 }
 
 /**
- * A small Kotlin/Java library for posting to [Pinboard](https://pinboard.in/).
+ * A lightweight Kotlin/Java client for posting bookmarks to
+ * [Pinboard](https://pinboard.in/).
  *
- * @constructor Creates a new instance.
- *
- * @author <a href="https://erik.thauvin.net/">Erik C. Thauvin</a>
+ * Instances may be created directly with an API token, or by loading values
+ * from a `Properties` object or properties file. All network operations are
+ * performed using OkHttp.
  */
 class PinboardPoster() {
+
     /**
-     * Creates a new instance using an [API Token][apiToken].
+     * Creates a new instance with the given API token.
      *
-     * @param apiToken The API token.
+     * @param apiToken The Pinboard API token in the form `user:TOKEN`.
      */
     constructor(apiToken: String) : this() {
         this.apiToken = apiToken
     }
 
     /**
-     * Creates a new instance using a [Properties][properties] and [Property Key][key].
+     * Creates a new instance using values from a [Properties] object.
      *
-     * @param properties The properties.
-     * @param key The property key.
+     * @param properties The properties containing the API token.
+     * @param key The property name holding the API token. Defaults to
+     * [Constants.ENV_API_TOKEN].
      */
     @JvmOverloads
     constructor(properties: Properties, key: String = Constants.ENV_API_TOKEN) : this() {
@@ -90,42 +88,43 @@ class PinboardPoster() {
     }
 
     /**
-     * Creates a new instance using a [Properties File Path][propertiesFilePath] and [Property Key][key].
+     * Creates a new instance using a properties file located at the given [Path].
      *
-     * @param propertiesFilePath The properties file path.
-     * @param key The property key.
+     * @param propertiesFilePath The path to the properties file.
+     * @param key The property name holding the API token. Defaults to
+     * [Constants.ENV_API_TOKEN].
      */
     @JvmOverloads
     constructor(propertiesFilePath: Path, key: String = Constants.ENV_API_TOKEN) : this() {
         if (Files.exists(propertiesFilePath)) {
             apiToken = Properties().apply {
-                Files.newInputStream(propertiesFilePath).use { nis ->
-                    load(nis)
-                }
+                Files.newInputStream(propertiesFilePath).use { load(it) }
             }.getProperty(key, apiToken)
         }
     }
 
     /**
-     * Creates a new instance using a [Properties File][propertiesFile] and [Property Key][key].
+     * Creates a new instance using a properties file.
      *
      * @param propertiesFile The properties file.
-     * @param key The property key.
+     * @param key The property name holding the API token. Defaults to
+     * [Constants.ENV_API_TOKEN].
      */
-    @Suppress("unused")
     @JvmOverloads
-    constructor(propertiesFile: File, key: String = Constants.ENV_API_TOKEN) : this(propertiesFile.toPath(), key)
+    constructor(propertiesFile: File, key: String = Constants.ENV_API_TOKEN) :
+            this(propertiesFile.toPath(), key)
 
-    /** The API token. **/
+    /** The API token used for authentication. */
     var apiToken: String = System.getenv(Constants.ENV_API_TOKEN) ?: ""
 
-    /** The API end point. **/
+    /** The API endpoint URL. */
     var apiEndPoint: String = Constants.API_ENDPOINT
 
-    /** The logger instance. **/
+    /** Logger instance for this class. */
     val logger: Logger by lazy { Logger.getLogger(PinboardPoster::class.java.simpleName) }
 
-    private val client by lazy {
+    /** Shared OkHttp client instance. */
+    private val client: OkHttpClient by lazy {
         OkHttpClient.Builder().apply {
             if (logger.isLoggable(Level.FINE)) {
                 addInterceptor(HttpLoggingInterceptor().apply {
@@ -136,7 +135,9 @@ class PinboardPoster() {
     }
 
     /**
-     * Adds a bookmark to Pinboard using a [PinConfig] builder.
+     * Adds a bookmark using a [PinConfig] instance.
+     *
+     * @return `true` if the bookmark was successfully added.
      */
     fun addPin(config: PinConfig): Boolean {
         return addPin(
@@ -154,16 +155,17 @@ class PinboardPoster() {
     /**
      * Adds a bookmark to Pinboard.
      *
-     * This method supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_add).
+     * This method supports all parameters described in the
+     * [Pinboard API documentation](https://pinboard.in/api/#posts_add).
      *
      * @param url The URL of the bookmark.
      * @param description The title of the bookmark.
-     * @param extended The description of the bookmark.
-     * @param tags A list of up to 100 tags.
+     * @param extended Optional extended description.
+     * @param tags A list of tags (up to 100).
      * @param dt The creation time of the bookmark.
-     * @param replace Replace any existing bookmark with the specified URL. Default `true`.
-     * @param shared Make bookmark public. Default is `true`.
-     * @param toRead Mark the bookmark as unread. Default is `false`.
+     * @param replace Whether to replace an existing bookmark with the same URL.
+     * @param shared Whether the bookmark should be public.
+     * @param toRead Whether the bookmark should be marked as unread.
      *
      * @return `true` if the bookmark was successfully added.
      */
@@ -197,18 +199,14 @@ class PinboardPoster() {
                 return executeMethod("posts/add", params)
             }
         }
-
         return false
     }
 
     /**
-     *  Deletes a bookmark on Pinboard.
+     * Deletes a bookmark from Pinboard.
      *
-     *  This method supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_delete).
-     *
-     *  @param url The URL of the bookmark to delete.
-     *
-     *  @return `true` if the bookmark was successfully deleted.
+     * @param url The URL of the bookmark to delete.
+     * @return `true` if the bookmark was successfully deleted.
      */
     fun deletePin(url: String): Boolean {
         if (validate()) {
@@ -218,64 +216,72 @@ class PinboardPoster() {
                 return executeMethod("posts/delete", mapOf("url" to url))
             }
         }
-
         return false
     }
 
+    /**
+     * Parses a Pinboard API XML response.
+     *
+     * The response must contain a `<result>` element with a `code` attribute.
+     * A `code` value of `"done"` indicates success. Any other value results in
+     * an [IOException].
+     *
+     * @param method The API method being processed.
+     * @param xml The raw XML response.
+     *
+     * @return `true` if the response indicates success.
+     * @throws IOException If the XML is malformed, missing required elements,
+     * or indicates an error.
+     */
     @Throws(IOException::class)
-    internal fun parseMethodResponse(method: String, response: String) {
-        if (response.isEmpty()) {
-            throw IOException("Response for $method is empty.")
+    internal fun parseMethodResponse(method: String, xml: String): Boolean {
+        if (xml.isBlank()) {
+            throw IOException("Empty XML response for method: $method")
         }
 
         val factory = DocumentBuilderFactory.newInstance().apply {
-            isValidating = false
-            isIgnoringElementContentWhitespace = true
-            isIgnoringComments = true
-            isCoalescing = false
             isNamespaceAware = false
+            isIgnoringComments = true
+            isIgnoringElementContentWhitespace = true
+            setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)
         }
 
-        try {
-            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
-            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)
-            factory.setFeature("http://xml.org/sax/features/external-general-entities", false)
-            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false)
-            factory.isXIncludeAware = false // correct method call
-        } catch (e: ParserConfigurationException) {
-            logger.log(
-                Level.FINE,
-                "Could not set one or more secure parser features - parser may not support them",
-                e
-            )
-        }
-
-        try {
-            val builder = factory.newDocumentBuilder()
-            builder.setEntityResolver { _, _ -> InputSource(StringReader("")) }
-
-            val document = builder.parse(InputSource(StringReader(response)))
-            val code = document.getElementsByTagName("result")?.item(0)?.attributes?.getNamedItem("code")?.nodeValue
-
-            if (!code.isNullOrBlank()) {
-                throw IOException("An error has occurred while executing $method: $code")
-            } else {
-                throw IOException("An error has occurred while executing $method.")
-            }
+        val document = try {
+            factory.newDocumentBuilder().parse(xml.byteInputStream())
         } catch (e: SAXException) {
-            throw IOException("Could not parse $method response.", e)
-        } catch (e: IllegalArgumentException) {
-            throw IOException("Invalid input source for $method response", e)
+            throw IOException("Malformed XML for method: $method", e)
+        }
+
+        val root = document.documentElement
+            ?: throw IOException("Missing root element in XML for method: $method")
+
+        if (root.nodeName != "result") {
+            throw IOException("Unexpected root element <${root.nodeName}> for method: $method")
+        }
+
+        val code = root.getAttribute("code").trim()
+        if (code.isEmpty()) {
+            throw IOException("Missing 'code' attribute in <result> for method: $method")
+        }
+
+        return when (code) {
+            "done" -> true
+            "item not found" -> throw IOException("Item not found for method: $method")
+            else -> throw IOException("Unexpected result code '$code' for method: $method")
         }
     }
 
+    /**
+     * Normalizes the API endpoint and appends the given method name.
+     *
+     * @param method The API method path.
+     * @return The fully qualified endpoint URL.
+     */
     internal fun cleanEndPoint(method: String): String {
         return if (apiEndPoint.isBlank()) {
             method
-        } else if (apiEndPoint.last() == '/') {
-            "$apiEndPoint$method"
         } else {
-            "$apiEndPoint/$method"
+            apiEndPoint.trimEnd('/') + "/" + method
         }
     }
 
@@ -314,7 +320,9 @@ class PinboardPoster() {
     }
 
     /**
-     * Ensures that the API token and end point are valid.
+     * Validates the API token and endpoint.
+     *
+     * @return `true` if both the token and endpoint are valid.
      */
     internal fun validate(): Boolean {
         var isValid = true
@@ -328,23 +336,17 @@ class PinboardPoster() {
         return isValid
     }
 
+    /**
+     * Checks whether the given string is a valid HTTP or HTTPS URL.
+     */
     private fun validateUrl(url: String): Boolean {
         if (url.isBlank()) return false
-
-        return try {
-            URI.create(url)
-            true
-        } catch (e: IllegalArgumentException) {
-            logger.log(Level.FINE, "Invalid URL: $url", e)
-            false
-        }
+        val parsed = url.toHttpUrlOrNull() ?: return false
+        return parsed.scheme == "http" || parsed.scheme == "https"
     }
 
-    private fun yesNo(bool: Boolean): String {
-        return if (bool) {
-            "yes"
-        } else {
-            "no"
-        }
-    }
+    /**
+     * Converts a boolean value to `"yes"` or `"no"` for API parameters.
+     */
+    private fun yesNo(bool: Boolean): String = if (bool) "yes" else "no"
 }

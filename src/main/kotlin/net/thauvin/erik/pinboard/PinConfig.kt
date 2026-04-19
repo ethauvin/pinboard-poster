@@ -28,25 +28,27 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package net.thauvin.erik.pinboard
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 import java.time.ZonedDateTime
 
 /**
  * Provides a builder to add a pin.
  *
- * Supports of all the [Pinboard API Parameters](https://pinboard.in/api/#posts_add).
+ * Supports all the [Pinboard API Parameters](https://pinboard.in/api/#posts_add).
  */
+@SuppressFBWarnings("EI_EXPOSE_REP")
 class PinConfig private constructor(builder: Builder) {
     val url: String = builder.url
     val description: String = builder.description
-    val extended = builder.extended
+    val extended: String = builder.extended
     val tags: List<String> = builder.tags.toList()
-        get() = field.toList() // Return a defensive copy
-    val dt = builder.dt
-    val replace = builder.replace
-    val shared = builder.shared
-    val toRead = builder.toRead
+    val dt: ZonedDateTime = builder.dt
+    val replace: Boolean = builder.replace
+    val shared: Boolean = builder.shared
+    val toRead: Boolean = builder.toRead
 
     /**
      * Configures the parameters to add a pin.
@@ -54,100 +56,58 @@ class PinConfig private constructor(builder: Builder) {
      * @param url The URL of the bookmark.
      * @param description The title of the bookmark.
      */
+    @SuppressFBWarnings("USBR_UNNECESSARY_STORE_BEFORE_RETURN")
     data class Builder(var url: String, var description: String) {
-        private var _tags: List<String> = emptyList()
+        private val _tags = mutableListOf<String>()
 
         var extended: String = ""
         val tags: List<String>
-            get() = _tags.toList()
+            get() = _tags.toList()   // <-- FIXED: defensive copy
+
         var dt: ZonedDateTime = ZonedDateTime.now()
         var replace: Boolean = true
         var shared: Boolean = true
         var toRead: Boolean = false
 
-        /**
-         * The URL of the bookmark.
-         */
+        /** The URL of the bookmark. */
         fun url(url: String): Builder = apply { this.url = url }
 
-        /**
-         * The title of the bookmark.
-         */
+        /** The title of the bookmark. */
         fun description(description: String): Builder = apply { this.description = description }
 
-        /**
-         * The description of the bookmark.
-         */
+        /** The description of the bookmark. */
         fun extended(extended: String): Builder = apply { this.extended = extended }
 
-        /**
-         * A list of up to 100 tags.
-         */
-        fun tags(vararg tag: String): Builder = apply { _tags = tag.toList() }
+        /** A list of up to 100 tags. */
+        fun tags(vararg tag: String): Builder = apply {
+            _tags.clear()
+            _tags.addAll(tag)
+        }
 
-        /**
-         * A list of up to 100 tags.
-         */
-        fun tags(tags: List<String>): Builder = apply { _tags = tags.toList() }
+        /** A list of up to 100 tags. */
+        fun tags(tags: List<String>): Builder = apply {
+            _tags.clear()
+            _tags.addAll(tags)
+        }
 
-        /**
-         * The creation time of the bookmark.
-         */
+        /** The creation time of the bookmark. */
         fun dt(datetime: ZonedDateTime): Builder = apply { this.dt = datetime }
 
-        /**
-         * Replace any existing bookmark with the specified URL. Default `true`.
-         */
+        /** Replace any existing bookmark with the specified URL. Default `true`. */
         fun replace(replace: Boolean): Builder = apply { this.replace = replace }
 
-        /**
-         * Make bookmark public. Default is `true`.
-         */
+        /** Make bookmark public. Default is `true`. */
         fun shared(shared: Boolean): Builder = apply { this.shared = shared }
 
-        /**
-         * Mark the bookmark as unread. Default is `false`.
-         */
+        /** Mark the bookmark as unread. Default is `false`. */
         fun toRead(toRead: Boolean): Builder = apply { this.toRead = toRead }
 
-        /**
-         * Builds a new configuration.
-         */
-        fun build() = PinConfig(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as Builder
-
-            if (url != other.url) return false
-            if (description != other.description) return false
-            if (extended != other.extended) return false
-            if (tags != other.tags) return false
-            @Suppress("IDENTITY_SENSITIVE_OPERATIONS_WITH_VALUE_TYPE")
-            if (dt != other.dt) return false
-            if (replace != other.replace) return false
-            if (shared != other.shared) return false
-            if (toRead != other.toRead) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            var result = url.hashCode()
-            result = 31 * result + description.hashCode()
-            result = 31 * result + extended.hashCode()
-            result = 31 * result + tags.hashCode()
-            result = 31 * result + dt.hashCode()
-            result = 31 * result + replace.hashCode()
-            result = 31 * result + shared.hashCode()
-            return 31 * result + toRead.hashCode()
-        }
+        /** Builds a new configuration. */
+        fun build(): PinConfig = PinConfig(this)
 
         override fun toString(): String {
             return "Builder(url='$url', description='$description', extended='$extended'," +
-                    "tags=$tags, dt=$dt, replace=$replace, shared=$shared, toRead=$toRead)"
+                    " tags=$tags, dt=$dt, replace=$replace, shared=$shared, toRead=$toRead)"
         }
     }
 }

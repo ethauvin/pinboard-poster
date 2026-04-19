@@ -31,6 +31,7 @@
 
 package net.thauvin.erik.pinboard
 
+import net.thauvin.erik.pinboard.TestUtils.getLocalProperties
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -40,10 +41,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EmptySource
 import org.junit.jupiter.params.provider.ValueSource
 import java.io.IOException
-import java.nio.file.Files
-import java.nio.file.Paths
 import java.time.ZonedDateTime
-import java.util.*
 import java.util.logging.Level
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -52,16 +50,7 @@ import kotlin.test.assertTrue
 
 class PinboardPosterTest {
     private val desc = "This is a test."
-    private val localProperties = Paths.get("local.properties")
     private val loggerLevel = Level.FINE
-
-    private fun getLocalProperties(): Properties {
-        return if (Files.exists(localProperties)) {
-            Properties().apply { Files.newInputStream(localProperties).use { nis -> load(nis) } }
-        } else {
-            Properties().apply { setProperty(Constants.ENV_API_TOKEN, System.getenv(Constants.ENV_API_TOKEN)) }
-        }
-    }
 
     private fun newPinboardPoster(): PinboardPoster = PinboardPoster().apply { logger.level = loggerLevel }
 
@@ -260,14 +249,14 @@ class PinboardPosterTest {
 
         @Test
         fun `API token and endpoint are valid`() {
-            poster.apiToken = "user:testtoken"
+            poster.apiToken = "user:token"
             poster.apiEndPoint = "https://api.example.com/v1/"
             assertTrue(poster.validate(), "Validation should pass with valid token and endpoint")
         }
 
         @Test
         fun `API token is missing colon`() {
-            poster.apiToken = "usertesttoken" // Missing colon
+            poster.apiToken = "usertoken" // Missing colon
             poster.apiEndPoint = "https://api.example.com/v1/" // Endpoint is valid but should not be checked
             assertFalse(poster.validate(), "Validation should fail if API token is missing a colon")
         }
@@ -285,16 +274,15 @@ class PinboardPosterTest {
         @EmptySource
         @ValueSource(strings = [" ", "  "])
         fun `API token is valid but endpoint is blank`(input: String) {
-            poster.apiToken = "user:testtoken"
+            poster.apiToken = "user:token"
             poster.apiEndPoint = input // Empty endpoint
             assertFalse(poster.validate(), "Validation should fail if endpoint is blank")
         }
 
         @Test
         fun `API token is valid but endpoint is malformed`() {
-            poster.apiToken = "user:testtoken"
-            // This URL will cause a URISyntaxException because of the unescaped space
-            poster.apiEndPoint = "https://api.example.com/v1/ with space"
+            poster.apiToken = "user:token"
+            poster.apiEndPoint = "api.example.com/v1/"
             assertFalse(
                 poster.validate(),
                 "Validation should fail if endpoint is malformed causing URISyntaxException"
@@ -303,7 +291,7 @@ class PinboardPosterTest {
 
         @Test
         fun `API token is valid but endpoint is malformed (with invalid char)`() {
-            poster.apiToken = "user:testtoken"
+            poster.apiToken = "user:token"
             poster.apiEndPoint = "https://["
             assertFalse(
                 poster.validate(),
@@ -313,7 +301,7 @@ class PinboardPosterTest {
 
         @Test
         fun `API token is valid and endpoint is default constant`() {
-            poster.apiToken = "user:testtoken"
+            poster.apiToken = "user:token"
             poster.apiEndPoint = Constants.API_ENDPOINT // Default valid endpoint
             assertTrue(
                 poster.validate(),
@@ -330,7 +318,7 @@ class PinboardPosterTest {
 
         @Test
         fun `API token has only colon at start`() {
-            poster.apiToken = ":testtoken"
+            poster.apiToken = ":token"
             poster.apiEndPoint = "https://api.example.com/v1/"
             assertFalse(poster.validate(), "Validation should fail if API token starts with a colon")
         }
@@ -347,6 +335,78 @@ class PinboardPosterTest {
             poster.apiToken = ":"
             poster.apiEndPoint = "https://api.example.com/v1/"
             assertFalse(poster.validate(), "Validation should fail if API token is just a colon")
+        }
+
+        @Nested
+        @DisplayName("XML Parser Tests")
+        inner class XmlParserTests {
+            private lateinit var poster: PinboardPoster
+
+            @BeforeEach
+            fun beforeEach() {
+                poster = newPinboardPoster("user:token")
+            }
+
+            @Test
+            fun `Valid XML with done code`() {
+                val xml = "<result code=\"done\"/>"
+                val result = poster.parseMethodResponse("posts/add", xml)
+                assertTrue(result, "Expected parseMethodResponse to return true for code=done")
+            }
+
+            @Test
+            fun `Valid XML with item not found`() {
+                val xml = "<result code=\"item not found\"/>"
+                assertThrows<IOException> {
+                    poster.parseMethodResponse("posts/delete", xml)
+                }
+            }
+
+            @Test
+            fun `XML with unexpected code`() {
+                val xml = "<result code=\"weird\"/>"
+                assertThrows<IOException> {
+                    poster.parseMethodResponse("posts/add", xml)
+                }
+            }
+
+            @Test
+            fun `XML missing code attribute`() {
+                val xml = "<result/>"
+                assertThrows<IOException> {
+                    poster.parseMethodResponse("posts/add", xml)
+                }
+            }
+
+            @Test
+            fun `XML with wrong root element`() {
+                val xml = "<foo code=\"done\"/>"
+                assertThrows<IOException> {
+                    poster.parseMethodResponse("posts/add", xml)
+                }
+            }
+
+            @Test
+            fun `Malformed XML`() {
+                val xml = "<result code=\"done\">"
+                assertThrows<IOException> {
+                    poster.parseMethodResponse("posts/add", xml)
+                }
+            }
+
+            @Test
+            fun `Empty XML`() {
+                assertThrows<IOException> {
+                    poster.parseMethodResponse("posts/add", "")
+                }
+            }
+
+            @Test
+            fun `Whitespace XML`() {
+                assertThrows<IOException> {
+                    poster.parseMethodResponse("posts/add", "   ")
+                }
+            }
         }
     }
 }

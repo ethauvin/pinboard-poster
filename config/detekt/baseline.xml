@@ -2,8 +2,10 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
+    <ID>LongParameterList:PinboardClient.kt$PinboardClient$( url: String, description: String, extended: String?, tags: List&lt;String&gt;?, dt: ZonedDateTime?, replace: Boolean, shared: Boolean, toRead: Boolean )</ID>
     <ID>LongParameterList:PinboardPoster.kt$PinboardPoster$( url: String, description: String, extended: String = "", tags: List&lt;String&gt; = emptyList(), dt: ZonedDateTime = ZonedDateTime.now(), replace: Boolean = true, shared: Boolean = true, toRead: Boolean = false )</ID>
-    <ID>ThrowsCount:PinboardPoster.kt$PinboardPoster$@Throws(IOException::class) internal fun parseMethodResponse(method: String, response: String)</ID>
+    <ID>ReturnCount:PinboardPoster.kt$PinboardPoster$private fun validateUrl(url: String): Boolean</ID>
+    <ID>ThrowsCount:PinboardPoster.kt$PinboardPoster$@Throws(IOException::class) internal fun parseMethodResponse(method: String, xml: String): Boolean</ID>
     <ID>TooManyFunctions:PinConfig.kt$PinConfig$Builder</ID>
   </CurrentIssues>
 </SmellBaseline>
