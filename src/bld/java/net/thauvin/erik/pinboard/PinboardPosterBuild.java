@@ -73,8 +73,8 @@ public class PinboardPosterBuild extends Project {
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, RIFE2_RELEASES);
 
         final var okHttp = version(5, 3, 2);
-        final var kotlin = version(2, 3, 20);
         var junit = version(6, 0, 3);
+        final var kotlin = version(2, 4, 10);
         scope(compile)
                 // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
