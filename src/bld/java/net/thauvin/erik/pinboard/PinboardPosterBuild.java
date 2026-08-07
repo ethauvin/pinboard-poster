@@ -74,7 +74,7 @@ public class PinboardPosterBuild extends Project {
 
         final var okHttp = version(5, 4, 0);
         final var kotlin = version(2, 4, 10);
-        var junit = version(6, 1, 2);
+        var junit = version(6, 1, 3);
         scope(compile)
                 // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
@@ -85,7 +85,7 @@ public class PinboardPosterBuild extends Project {
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp));
         scope(provided)
                 .include(dependency("com.github.spotbugs", "spotbugs-annotations",
-                        version(4, 9, 8)));
+                        version(4, 10, 3)));
         scope(test)
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
                 .include(dependency("org.junit.jupiter", "junit-jupiter", junit))
