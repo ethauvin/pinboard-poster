@@ -85,7 +85,7 @@ public class PinboardPosterBuild extends Project {
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp));
         scope(provided)
                 .include(dependency("com.github.spotbugs", "spotbugs-annotations",
-                        version(4, 10, 3)));
+                        version(4, 10, 4)));
         scope(test)
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
                 .include(dependency("org.junit.jupiter", "junit-jupiter", junit))
